@@ -1,0 +1,39 @@
+/*entry*/
+
+.lul-entry {
+  display: inline-block;
+  overflow: hidden;
+  margin-right: 8px;
+}
+.lul-entry>* {
+  height: 50px;
+}
+.lul-entry-area {
+  display: inline-block;
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+  margin-right: 4px;
+  padding: 0px 0px 0px;
+}
+.lul-entry:hover .lul-entry-area, .lul-entry[always-open] .lul-entry-area {
+  padding: 0 15px 0;
+  transition-duration: .4s;
+  transition-delay: .2s;
+}
+
+.lul-entry-content {
+    width: auto;
+    max-width: 0px;
+    transition-duration: .4s;
+    transition-timing-function: ease;
+    height: 100%;
+    display: flex;
+    align-items: center;
+}
+.lul-entry:hover .lul-entry-content, .lul-entry[always-open] .lul-entry-content
+ {max-width: 500px;}
+
+.lul-entry-content input {
+  margin: 0 4px 0 8px;
+}

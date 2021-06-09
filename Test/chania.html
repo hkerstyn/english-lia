@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+/*general code*/
+* {
+  box-sizing: border-box;
+  font-family: Arial;
+  padding: 0px;
+  margin: 0px;
+  transition-duration: 0.1s;
+  transition-timing-function: ease;
+}
+div {display: flex;}
+ul {list-style-type: none;}
+
+/*header stuff*/
+.header {
+  width: 100%
+  align-items: center;
+  display:flex;
+}
+.header p {
+  text-align: center;
+  color: white;
+  padding: 20px;
+  background-color: lightblue;
+  font-size: 10vw;
+  width: 100%;
+}
+.header p:hover {
+  font-size: 13vw;
+}
+
+.body {margin: 15px 14px 15px 5px;}
+
+/*navbar*/
+.navbar {
+  flex: 1 0 27%;
+}
+.navbar li {
+  padding: 5px;
+  margin: 3px;
+  font-size: 20px;
+  background-color: lightgrey;
+}
+.navbar li:hover {
+  color: white;
+  background-color: lightblue;
+}
+.navbar li.active {
+  color: white;
+  background-color: grey;
+}
+
+
+/*main*/
+.main {
+  flex-direction: column;
+  margin: 10px;
+}
+
+
+/*about*/
+.about {
+  flex-direction: column;
+
+
+  background-color: lightblue;
+}
+.about div {
+  flex-direction: column;
+  padding: 15px;
+  color: white;
+  text-align: center;
+}
+.about div:hover h2 {font-size: 35px;}
+.about div:hover {background-color: lightgrey;}
+.footer {
+  margin: 5px;
+  flex-direction: row;
+  align-items: space-around;
+  background-color: lightgrey;
+}
+.footer p {
+  text-align: center;
+  width: 100%;
+  padding: 10px;
+}
+@media screen and (max-width: 600px) {
+.body {flex-direction: column;}}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@media screen and (max-width: 450px) {
+.left {flex-direction: column}}
+
+</style>
+
+
+
+</head>
+<body>
+
+<div class="header">
+<p>
+Chania
+</p>
+</div>
+
+<div class="body">
+<div class="left">
+  <ul class="navbar">
+  <li>The Flight</li>
+  <li class = "active">The City</li>
+  <li>The Island</li>
+  <li>The Food</li>
+  </ul>
+
+  <div class="main">
+  <h1>The City</h1>
+  <p> Chania is the capital of the Chania region on the island of Crete. The city can be divided in two parts, the old town and the modern city.</p>
+  </div>
+</div>
+
+<div class="about">
+  <div>
+    <h2>
+    What?
+    </h2>
+  <p>Chania is a city on the island of Crete.</p>
+  </div>
+
+  <div>
+    <h2>
+    Where?
+    </h2>
+  <p>Crete is a Greek island in the Mediterranean Sea.</p>
+  </div>
+
+  <div>
+    <h2>
+    How?
+    </h2>
+  <p>You can reach Chania airport from all over Europe.</p>
+  </div>
+</div>
+</div>
+
+<div class="footer">
+<p> Resize the browser window to see how the content respond to the resizing. </p>
+</div>
+
+</body>
+</html>

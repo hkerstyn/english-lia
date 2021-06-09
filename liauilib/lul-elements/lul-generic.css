@@ -1,0 +1,33 @@
+:root {
+  --color-dark: 57,145,147;
+  --color-light: 235.2, 244, 244.2;
+}
+
+
+
+.lul-dark, .lul-medium, .lul-light {
+  border: 1px solid rgb(var(--color-dark));
+  border-radius: 0px;
+  transition: color .1s ease;
+  transition: background-color .1s ease;
+}
+
+.lul-dark, .lul-dark-hover:hover{
+  background-color: rgb(var(--color-dark));
+  color: white;
+}
+.lul-dark:not(.lul-dark:last-of-type) {
+  border-right-color: white;
+}
+.lul-medium {
+  background-color: rgb(var(--color-light));
+  color: black;
+}
+.lul-medium-hover:hover {
+  background-color: rgb(var(--color-light));
+  color: rgb(var(--color-dark));
+}
+.lul-light, .lul-light-hover:hover {
+  background-color: white;
+  color: black;
+}

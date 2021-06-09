@@ -1,0 +1,29 @@
+.lul-collapsible-width {
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+  transition: width 0.3s ease;
+  width: auto;
+  height: auto;
+}
+.lul-collapsible-height {
+  overflow: hidden;
+  transition: height 0.3s ease;
+  height: auto;
+  width: auto;
+}
+
+.lul-overflow-parent {
+  position: static;
+  overflow: visible;
+
+}
+
+.lul-overflow {
+  display: flex;
+  flex-direction: row;
+  position: 'static';
+  /*z-index: 1;*/
+}
+.lul-overflow>* {
+}
