@@ -33,7 +33,3 @@
 }
 .lul-entry:hover .lul-entry-content, .lul-entry[always-open] .lul-entry-content
  {max-width: 500px;}
-
-.lul-entry-content input {
-  margin: 0 4px 0 8px;
-}

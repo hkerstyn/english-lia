@@ -12,7 +12,7 @@ online-link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
 
 script: http://localhost:3000/home/english-lia/lul.js
 link: http://localhost:3000/home/english-lia/lul.css
-script: http://localhost:3000/home/english-lia/liauilib/lul-base.js
+script: http://localhost:3000/home/english-lia/lul/lul-base.js
 script: http://localhost:3000/home/english-lia/liauilib-demonstration/index.js
 
 

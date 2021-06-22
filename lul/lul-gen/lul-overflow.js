@@ -1,16 +1,9 @@
-export var genModules = [
-  {
-    type: "overflow",
-    genFunction: genOverflow
-  }
-];
+import {store}
+  from '../lul-insert.js';
 
-function genOverflow(arg) {
+export function genOverflow(arg) {
   let parent = gen('div', 'lul-overflow-parent');
   let box = gen('div', 'lul-overflow');
-  box.id = arg.innerId;
-  if(arg.content != undefined)
-  appendChildren(box, arg.content);
   if(arg.direction == 'column')
   box.style.flexDirection = 'column';
 
@@ -20,7 +13,8 @@ function genOverflow(arg) {
     parent.style.height = window.getComputedStyle(parent).height;
     parent.style.width = window.getComputedStyle(parent).width;
     box.style.position = 'absolute'
-  })
+  });
+  store(box, arg.innerId);
   return parent;
 
 }

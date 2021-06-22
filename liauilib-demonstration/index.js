@@ -1,40 +1,24 @@
 
 function insertUI() {
-  genContainer({
-    direction: "column",
-    insert: {target: 'frame'},
-    content: [
-      {
-        id: "leftBox",
-        style: "width: 50%"
-      },
-      {
-        direction: "row",
-        content : [
-          {id: "upperBox"},
-          {
-            direction: "column",
-            content: [{id: "firstBox"}, {id: " secondBox"}, {id: "thirdBox"}]
-          }
-          ]
-        }
-    ]
+  let input = genEnter({
+    name: 'test',
   });
-  genContainer({
+  let button = genButton({
+    onclick: function () {
+      console.log(test);
+    },
+    text: 'button',
+  });
+  let overflow = genOverflow({
     direction: 'column',
-    content: [{id:'upperPart'},{id: 'lowerPart'}],
-    insert: {target: 'leftBox'}
+    innerId: 'overflow'
   });
-  set('lowerPart', {type: 'overflow', innerId:'overflow', direction: 'column'})
-
-  let button = genButton({text: "Click me!", id: 'button', className:'lul-dark lul-medium-hover'});
-  console.log(button);
   let collapsible = genCollapsible({
     direction: 'column',
-    collapsed: 'false',
-    children: genText("Hello this is some<br> text to be hidden!")
+    innerId: 'collapsible',
+    hover: 'overflow'
   });
-  set('overflow', [collapsible, button]);
-
-
+  set('collapsible', input);
+  set('overflow', collapsible, button);
+  set('frame', overflow);
 }

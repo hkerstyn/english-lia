@@ -1,3 +1,7 @@
+import {store, get}
+  from '../lul-insert.js';
+
+
 var directionSizeAttributeMap = {
   row: 'width',
   column: 'height'
@@ -14,24 +18,14 @@ var classNameMap = {
 
 
 
-export var genModules = [
-  {
-    type: "collapsible",
-    genFunction: genCollapsible
-  },
-  {
-    type: "toggle"
-  },
-  {
-    type: "hover"
-  }
-];
 
-function genCollapsible(arg) {
+export function genCollapsible(arg) {
   let sizeAttribute = arg.sizeAttribute;
   if(sizeAttribute == undefined)
   sizeAttribute = directionSizeAttributeMap[arg.direction];
-  let className = classNameMap[sizeAttribute] + " lul-light";
+  if(sizeAttribute == undefined)
+  sizeAttribute = 'width';
+  let className = classNameMap[sizeAttribute] + ' lul-light';
   let collapsible = gen("div", className);
   collapsible.setAttribute('sizeAttribute', sizeAttribute);
 
@@ -41,23 +35,25 @@ function genCollapsible(arg) {
   if(arg.collapsed == 'true')
     collapsible.style[sizeAttribute] = 0;
 
-  if(arg.toggle != undefined)
-    arg.toggle.forEach((toggleItem) => {
-      toggleItem.addEventListener('click', function () {
-        toggleElement(collapsible);
-      })
+  let toggle = get(arg.toggle);
+  if(toggle != undefined)
+    toggle.addEventListener('click', function () {
+      toggleElement(collapsible);
     });
 
-  if(arg.hover != undefined)
-    arg.hover.forEach((hoverItem) => {
-      hoverItem.addEventListener('mouseenter', function () {
-        expandElement(collapsible);
-      })
-      hoverItem.addEventListener('mouseleave', function () {
-        collapseElement(collapsible);
-      })
+  let hover = get(arg.hover);
+  if(hover != undefined) {
+    hover.addEventListener('mouseenter', function () {
+      expandElement(collapsible);
     });
+    hover.addEventListener('mouseleave', function () {
+      collapseElement(collapsible);
+    });}
 
+  let child = gen('div', 'lul-padding');
+  collapsible.appendChild(child);
+  store(child, arg.innerId);
+  child.style.display = 'inline-block';
   return collapsible;
 }
 

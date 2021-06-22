@@ -1,5 +1,5 @@
 export default [{
-  input: 'liauilib/lul-all.js',
+  input: 'lul/lul-all.js',
   output: {
     file: 'lul.js',
     format: 'es'

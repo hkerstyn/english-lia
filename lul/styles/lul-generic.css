@@ -12,6 +12,10 @@
   transition: background-color .1s ease;
 }
 
+.lul-padding {
+  padding: 10px;
+}
+
 .lul-dark, .lul-dark-hover:hover{
   background-color: rgb(var(--color-dark));
   color: white;
@@ -30,4 +34,9 @@
 .lul-light, .lul-light-hover:hover {
   background-color: white;
   color: black;
+}
+
+
+.lia-radio {
+  margin: 0 4px 0 8px;
 }
