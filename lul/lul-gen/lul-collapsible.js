@@ -1,12 +1,39 @@
+/*
+  genCollapsible({innerId, direction, toggle, hover, functions})
+
+  genCollapsible(arg): generates a box
+      that can be expanded and collapsed
+      at your arbitrary whim
+    arg.innerId:
+      use this as key for inserting other elements into
+      the collapsible
+    arg.direction:
+      'row' or 'column', defines
+      whether the box should change its
+      width or height
+    arg.toggle:
+      an html-element whose onclick-event
+      is to expand or collapse our collapsible
+    arg.hover:
+      an html-elment whose onmouseleave and
+      onmouseenter events are set to collapse and expand
+    arg.functions:
+      an object that gets assigned the properties
+      'expandFunction', 'collapseFunction' and 'toggleFunction'
+      with functions controlling the newly created collapsible.
+
+*/
+
 import {store, get}
   from '../lul-insert.js';
+import {genBox}
+  from './lul-box.js';
 
-
+//dictionaries for equating values of different properties
 var directionSizeAttributeMap = {
   row: 'width',
   column: 'height'
 }
-
 var scrollSizeAttributeMap = {
   width: 'scrollWidth',
   height: 'scrollHeight'
@@ -16,25 +43,29 @@ var classNameMap = {
   height: 'lul-collapsible-height'
 }
 
-
+const HOVER_COLLAPSE_DELAY = '0.45s';
 
 
 export function genCollapsible(arg) {
-  let sizeAttribute = arg.sizeAttribute;
-  if(sizeAttribute == undefined)
+  //determine sizeAttribute from arg.direction
   sizeAttribute = directionSizeAttributeMap[arg.direction];
   if(sizeAttribute == undefined)
   sizeAttribute = 'width';
-  let className = classNameMap[sizeAttribute] + ' lul-light';
+
+  //set the css class
+  let className = classNameMap[sizeAttribute] + '';
   let collapsible = gen("div", className);
+
   collapsible.setAttribute('sizeAttribute', sizeAttribute);
 
+  //initializes the collapsed-state
   if(arg.collapsed == undefined)
   arg.collapsed = 'true';
   collapsible.setAttribute('collapsed', arg.collapsed);
   if(arg.collapsed == 'true')
     collapsible.style[sizeAttribute] = 0;
 
+  //sets toggle, hover and functions (if present)
   let toggle = get(arg.toggle);
   if(toggle != undefined)
     toggle.addEventListener('click', function () {
@@ -47,16 +78,31 @@ export function genCollapsible(arg) {
       expandElement(collapsible);
     });
     hover.addEventListener('mouseleave', function () {
-      collapseElement(collapsible);
+      collapseElement(collapsible, HOVER_COLLAPSE_DELAY);
     });}
 
-  let child = gen('div', 'lul-padding');
+  if(arg.functions != undefined) {
+    arg.functions['toggleFunction'] = function () {
+      toggleElement(collapsible);
+    };
+    arg.functions['collapseFunction'] = function () {
+      collapseElement(collapsible);
+    };
+    arg.functions['expandFunction'] = function () {
+      expandElement(collapsible);
+    };
+  }
+
+  //generates a dummy child for padding
+  let child = genBox(arg);
   collapsible.appendChild(child);
   store(child, arg.innerId);
-  child.style.display = 'inline-block';
+
   return collapsible;
 }
 
+//calls collapseElement or expandElement depending on
+//the collapsible's collapsed-state
 function toggleElement(collapsible) {
   let collapsed = collapsible.getAttribute('collapsed');
   if(collapsed == 'true') expandElement(collapsible);
@@ -65,19 +111,23 @@ function toggleElement(collapsible) {
 
 
 
-function collapseElement(collapsible) {
-  let sizeAttribute = collapsible.getAttribute('sizeAttribute');
+function collapseElement(collapsible, delay) {
 
+  let sizeAttribute = collapsible.getAttribute('sizeAttribute');
   let scrollSizeAttribute = scrollSizeAttributeMap[sizeAttribute];
   let scrollSize = collapsible[scrollSizeAttribute];
 
-  let collapsibleTransition = collapsible.style.transition;
-  collapsible.style.transition = '';
+  let currentSize = window.getComputedStyle(collapsible)
+  .getPropertyValue(sizeAttribute)
+  .slice(0, -2);
+
+  if(currentSize == scrollSize)
+  collapsible.style.transitionDelay = delay;
+
 
   requestAnimationFrame(function() {
     //from auto to fixed
     collapsible.style[sizeAttribute] = scrollSize + 'px';
-    collapsible.style.transition = collapsibleTransition;
 
     requestAnimationFrame(function() {
       //from fixed to zero
@@ -89,9 +139,10 @@ function collapseElement(collapsible) {
 }
 
 function expandElement(collapsible) {
+  collapsible.style.transitionDelay = '0s';
+
+
   let sizeAttribute = collapsible.getAttribute('sizeAttribute');
-
-
   let scrollSizeAttribute = scrollSizeAttributeMap[sizeAttribute];
   let scrollSize = collapsible[scrollSizeAttribute];
 

@@ -8,28 +8,29 @@
 .lul-dark, .lul-medium, .lul-light {
   border: 1px solid rgb(var(--color-dark));
   border-radius: 0px;
-  transition: color .1s ease;
-  transition: background-color .1s ease;
+  transition: color .3s ease;
+  transition: background-color .3s ease;
 }
 
 .lul-padding {
   padding: 10px;
 }
 
-.lul-dark, .lul-dark-hover:hover{
+.lul-dark, .lul-dark-hover:hover {
   background-color: rgb(var(--color-dark));
   color: white;
 }
-.lul-dark:not(.lul-dark:last-of-type) {
-  border-right-color: white;
+.lul-dark{
+  font-weight: bold;
 }
-.lul-medium {
-  background-color: rgb(var(--color-light));
-  color: black;
-}
-.lul-medium-hover:hover {
+
+
+.lul-medium, .lul-medium-hover:hover {
   background-color: rgb(var(--color-light));
   color: rgb(var(--color-dark));
+}
+.lul-medium {
+  font-weight: bold;
 }
 .lul-light, .lul-light-hover:hover {
   background-color: white;
@@ -38,5 +39,5 @@
 
 
 .lia-radio {
-  margin: 0 4px 0 8px;
+  margin: 3px 4px 3px 8px;
 }

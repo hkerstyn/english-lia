@@ -1,48 +1,34 @@
+/*
+  genButton({text, onclick})
+  genEnter({name, oninput, minWidth})
+  genRange({name, oninput, minWidth, min, max, step})
+  genCheck({name, oninput})
+
+  The above functions generate input elements which store
+  the selected value in a global variable named 'name'.
+  'minWidth' can be used to alter the width of the elements 
+
+
+*/
+export function genButton(arg) {
+  let button;
+  button = gen("button", "lul-dark lul-medium-hover");
+
+  if(arg.onclick != undefined)
+  button.addEventListener("click", arg.onclick);
+
+  let text = genText(arg.text);
+  button.appendChild(text);
+  return button;
+}
+
 const MIN_WIDTH_DICT = {
+  ['lia-radio']: 0,
   ['lia-checkbox']: 0,
   ['lia-range']: 225,
   ['lia-input']: 225
 }
 
-export function genRadio(arg) {
-
-  //cast diverse options into uniform optionArray
-  if(arg.options == undefined)
-  console.warn("Arg of Radio %s has no options", arg.name);
-  let optionArray = genOptionArray(arg.options);
-
-
-  let span = genRaw("span");
-  for (var i = 0; i < optionArray[0].length; i++) {
-    let radio = genInput(arg, "radio", "lia-radio");
-
-    radio.value = optionArray[1][i];
-    span.appendChild(radio);
-
-    span.appendChild(genText(optionArray[0][i]));
-  }
-
-  return span;
-}
-
-function genOptionArray(options)
-{
-  //assume objects, textFunction and valueFunction are provided
-  if(options.texts == undefined) {
-    let optionArray = [[], []];
-    options.objects.forEach((object) => {
-      optionArray[0].push(options.textFunction(object));
-      optionArray[1].push(options.valueFunction(object));
-    });
-    return optionArray;
-  }
-  //assume texts and values are provided
-  if(options.values != undefined) {
-    return [options.texts, options.values];
-  }
-  //assume only texts are provided
-  return [options.texts, options.texts];
-}
 
 
 export function genEnter(arg) {
@@ -64,20 +50,8 @@ export function genCheck(arg) {
   return check;
 }
 
-export function genButton(arg) {
-  let button;
-  button = gen("button", "lul-dark");
 
-  if(arg.onclick != undefined)
-  button.addEventListener("click", arg.onclick);
-
-  let text = genText(arg.text);
-  button.appendChild(text);
-  return button;
-}
-
-
-function genInput(arg, type, className) {
+export function genInput(arg, type, className) {
   let input = gen("input", className);
   input.type = type;
   input.name = arg.name;

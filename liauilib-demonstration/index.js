@@ -1,24 +1,20 @@
 
 function insertUI() {
-  let input = genEnter({
-    name: 'test',
-  });
   let button = genButton({
     onclick: function () {
-      console.log(test);
+      console.log(window['test']);
     },
-    text: 'button',
+    text: 'Select Favourite',
   });
-  let overflow = genOverflow({
-    direction: 'column',
-    innerId: 'overflow'
+  let selection = genSelection({
+    name: 'test',
+    type: 'btn',
+    options: {
+      texts: ["Hello,", "this", "is", "some", "nifty", "text", "!"]
+    },
+    button: [button]
   });
-  let collapsible = genCollapsible({
-    direction: 'column',
-    innerId: 'collapsible',
-    hover: 'overflow'
-  });
-  set('collapsible', input);
-  set('overflow', collapsible, button);
-  set('frame', overflow);
+
+  set('frame', selection);
+  add('frame', genFullTable(5,7));
 }

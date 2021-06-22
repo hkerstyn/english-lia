@@ -1,8 +1,59 @@
 /*
-   Provides gen() and genRaw() as shorthands for document.createElement()
+  gen(name, className)
+  genText(content)
+  uid()
+  truetypeof(value)
 
-   Provides get() as shorthand for document.getElementById()
+  This script provides a handful of utility functions
+  used by many different scripts of the lul.
+  None of its functions are being imported via rollup.
+  Therefore, this script needs to be sourced
+  just like lul.js
+
+  gen(name, className): Creates an HTML-Element with
+    a given type (name) and
+    optionally a css class attribute
+
+  genText(content): generates an HTML-span where
+    'content' is a string representing its innerHTML
+
+  uid(): returns a different string on each invocation
+
+  truetypeof(value): determines a string
+    based on the object type of value.
+    The possible return values are:
+      'object'
+      'array'
+      'html'
+      'string'
+      undefined
 */
+
+
+function gen(name, className) {
+  let obj = document.createElement(name);
+
+  if(className != undefined)
+  obj.className = className;
+
+  return obj;
+}
+
+
+function genText(content) {
+  let text = gen("span");
+  text.innerHTML = content;
+
+  return text;
+}
+
+
+var idCount = 0;
+function uid() {
+  idCount++;
+  return 'uid' + idCount;
+}
+
 
 function truetypeof(value) {
   let deepType = Object.prototype.toString.call(value);
@@ -14,33 +65,4 @@ function truetypeof(value) {
   console.warn("No valid type identified.");
   console.warn("value: ", value);
   console.warn("deepType: ", deepType);
-}
-
-//creates element named name
-function genRaw(name) {return document.createElement(name);}
-
-//creates an element and sets its css-class
-function gen(name, className) {
-  let obj = genRaw(name);
-  obj.className = className;
-  return obj;
-}
-function genText(content) {
-  let text = genRaw("span");
-  text.innerHTML = content;
-  return text;
-}
-
-// //appends multiple children at once
-// function appendChildren(element, children) {
-//   if(children == undefined) return;
-//   children.forEach((child) => {
-//     element.appendChild(child);
-//   });
-//
-// }
-var idCount = 0;
-function uid() {
-  idCount++;
-  return 'uid' + idCount;
 }
