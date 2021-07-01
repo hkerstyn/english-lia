@@ -24,7 +24,7 @@ import {initializeContainers}
 
 //called by an inline script
 export function initalizeUI() {
-  initializeContainers();
+  get('frame').style.display = 'inline-block';
   let idEnter = genEnter({
     name: 'enteredId'
   });
@@ -37,7 +37,7 @@ export function initalizeUI() {
     button: [ idButton ],
     direction: 'row'
   });
-  set('idEnter', idEntry);
+  set('idEnterDummy', idEntry);
 }
 
 
@@ -50,9 +50,11 @@ async function setVideo(enteredString) {
 
   let newId = castToId(enteredString);
 
+  let playerWidth = get('player.container').size[0] - 5;
+  let playerHeight = get('player.container').size[1] - 5;
+  await setPlayerVideo('playerDummy', newId, playerWidth, playerHeight);
+  playerDummy = get('playerDummy');
 
-  await setPlayerVideo(playerDummyID, newId, WIDTH, HEIGHT);
-  playerDummy = document.getElementById(playerDummyID);
 
   //sets Interval to frequently call highlightText()
   dispatchHighlightText();
@@ -101,6 +103,5 @@ async function setLanguageSelection() {
     button: [languageSelectButton],
     type: 'radio',
   });
-  get('languageSelect.container').moveTo('left', 'idEnter.container');
-  set('languageSelect', languageSelectRadio);
+  set('languageSelectDummy', languageSelectRadio);
 }

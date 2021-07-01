@@ -21,9 +21,11 @@ export function genOverflow(arg) {
   parent.appendChild(box);
 
   requestAnimationFrame(function () {
-    parent.style.height = window.getComputedStyle(box).height;
-    parent.style.width = window.getComputedStyle(box).width;
-    box.style.position = 'absolute';
+    setTimeout(function () {
+      parent.style.height = window.getComputedStyle(box).height;
+      parent.style.width = window.getComputedStyle(box).width;
+      box.style.position = 'absolute';
+    }, 10);
   });
   store(box, arg.innerId);
   return parent;

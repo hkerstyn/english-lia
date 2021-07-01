@@ -9,12 +9,9 @@ import {transcript, setTranscript, wordGroups, wordInstances, sortWordGroups,
 import {jumpInVideo, currentPosition} from './youtube.js';
 
 export function clearTextRemainders() {
-  sortSelectDummy = document.getElementById('sortSelectDummy');
-  sortSelectDummy.innerHTML = '';
-  textDummy = document.getElementById('textDummy');
-  textDummy.innerHTML = '';
-  statsTableDummy = document.getElementById('statsTableDummy');
-  statsTableDummy.innerHTML = '';
+  get('sortSelectDummy').innerHTML = '';
+  get('textDummy').innerHTML = '';
+  get('statsTableDummy').innerHTML = '';
   setTranscript(undefined);
 }
 
@@ -49,7 +46,8 @@ export function setText() {
       console.log(e);
       jumpInVideo(transcriptEntry.start);
     });
-    textDummy.appendChild(span);
+
+    add('textDummy', span);
     transcriptSpans.push(span);
   }
 }
@@ -71,8 +69,7 @@ export function setSortSelection() {
     } ,
     button: [selectedSortButton]
   });
-  get('sortSelect.container').moveTo('left', 'languageSelect.container');
-  set('sortSelect', selectedSortRadio);
+  set('sortSelectDummy', selectedSortRadio);
 
 
   getFullText();
@@ -89,6 +86,7 @@ export function setSortSelection() {
 
 
 function setStatsTable(comparator) {
+  statsTableDummy = get('statsTableDummy');
   sortWordGroups(comparator);
   statsTableDummy.innerHTML = '';
   statsTableDummy.appendChild(genStatsTable());

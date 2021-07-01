@@ -67,6 +67,7 @@ export class Container extends Sizeable {
       cell.appendChild(genText(this.id));
       row.appendChild(cell);
       table.appendChild(row);
+      store(cell, this.id);
     }
     this.internalElement = table;
     if(oldElement != undefined) {
@@ -102,7 +103,7 @@ export class Container extends Sizeable {
     if(root == undefined)
       return;
 
-    root.setSize(root.minSize);
+    root.setSize(root.getMinSize());
   }
   setSize(size) {
     super.setSize(size);

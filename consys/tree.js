@@ -47,13 +47,13 @@ export class TreeItem extends Item {
   }
 
   commonParent(...treeItems) {
-    return TreeItem.commonParent(...treeItems);
+    return TreeItem.commonParent(this, ...treeItems);
   }
   static commonParent(...treeItems) {
     if (treeItems.length == 1) {
       return treeItems[0]; 
     }
-    return getCommonParent(this, ...treeItems);
+    return getCommonParent(...treeItems);
   }
 
 

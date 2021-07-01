@@ -67,20 +67,22 @@ export function genCollapsible(arg) {
     collapsible.style[sizeAttribute] = 0;
 
   //sets toggle, hover and functions (if present)
-  let toggle = get(arg.toggle);
-  if(toggle != undefined)
-    toggle.addEventListener('click', function () {
-      toggleElement(collapsible);
-    });
+  setTimeout(function () {
+    let toggle = get(arg.toggle);
+    if(toggle != undefined)
+      toggle.addEventListener('click', function () {
+        toggleElement(collapsible);
+      });
 
-  let hover = get(arg.hover);
-  if(hover != undefined) {
-    hover.addEventListener('mouseenter', function () {
-      expandElement(collapsible);
-    });
-    hover.addEventListener('mouseleave', function () {
-      collapseElement(collapsible, HOVER_COLLAPSE_DELAY);
-    });}
+    let hover = get(arg.hover);
+    if(hover != undefined) {
+      hover.addEventListener('mouseenter', function () {
+        expandElement(collapsible);
+      });
+      hover.addEventListener('mouseleave', function () {
+        collapseElement(collapsible, HOVER_COLLAPSE_DELAY);
+      });}
+  }, 80);
 
   if(arg.functions != undefined) {
     arg.functions['toggleFunction'] = function () {

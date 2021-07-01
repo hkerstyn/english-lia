@@ -37,6 +37,8 @@ export class Sizeable extends Orientable {
       ( changeableLength + lengthToGain )
       / changeableLength
     );
+    if(changeLengthFactor < 1)
+      console.error('Too small factor');
 
     this.children.forEach((child) => {
       let childSize = [0, 0];

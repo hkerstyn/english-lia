@@ -103,13 +103,13 @@ class TreeItem extends Item {
   }
 
   commonParent(...treeItems) {
-    return TreeItem.commonParent(...treeItems);
+    return TreeItem.commonParent(this, ...treeItems);
   }
   static commonParent(...treeItems) {
     if (treeItems.length == 1) {
       return treeItems[0]; 
     }
-    return getCommonParent(this, ...treeItems);
+    return getCommonParent(...treeItems);
   }
 
 
@@ -298,6 +298,8 @@ class Sizeable extends Orientable {
       ( changeableLength + lengthToGain )
       / changeableLength
     );
+    if(changeLengthFactor < 1)
+      console.error('Too small factor');
 
     this.children.forEach((child) => {
       let childSize = [0, 0];
@@ -407,6 +409,7 @@ class Container extends Sizeable {
       cell.appendChild(genText(this.id));
       row.appendChild(cell);
       table.appendChild(row);
+      store(cell, this.id);
     }
     this.internalElement = table;
     if(oldElement != undefined) {
@@ -442,7 +445,7 @@ class Container extends Sizeable {
     if(root == undefined)
       return;
 
-    root.setSize(root.minSize);
+    root.setSize(root.getMinSize());
   }
   setSize(size) {
     super.setSize(size);

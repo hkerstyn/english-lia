@@ -1,3 +1,8 @@
+td.consys-container {
+  overflow: hidden;
+  text-overflow: clip;
+  white-space: nowrap;
+}
 .consys-container {
   box-sizing: border-box;
   border-collapse: separate;

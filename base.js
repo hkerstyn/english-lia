@@ -114,8 +114,7 @@ var STORED_ELEMENTS = {};
 
 function store(element, id) {
   if(STORED_ELEMENTS[id] != undefined) {
-    console.warn('store: id', id, 'is already taken by', STORED_ELEMENTS[id], 'element:', element);
-    id = undefined;
+    console.warn('store: id', id, 'is already taken by', STORED_ELEMENTS[id], 'element:', element, 'Overriding...');
   }
   if(id == undefined) {
     id = uid();
@@ -129,13 +128,15 @@ function store(element, id) {
 function get(key) {
   if(key == undefined) return undefined;
 
+
   let trueType = truetypeof(key);
-  if(trueType == 'html') return key;
+  if(trueType != 'string') return key;
 
   if(STORED_ELEMENTS[key] != undefined)
     return STORED_ELEMENTS[key];
 
-  return document.getElementById(key);
+  let result =  document.getElementById(key);
+  return result;
 }
 
 

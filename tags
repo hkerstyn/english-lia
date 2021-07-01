@@ -53,12 +53,15 @@ AnonymousFunction56094f210200	grabber/youtube.js	/^  await new Promise(function(
 AnonymousFunction56094f210300	grabber/youtube.js	/^        onStateChange: function(e) {ret.onPlayerStateChange(e);}$/;"	f	function:createYTPlayer.AnonymousFunction56094f210200
 AnonymousFunction56094f210400	grabber/youtube.js	/^  return new Promise(function(resolve, reject) {$/;"	f	function:loadTranscript
 AnonymousFunction56094f210500	grabber/youtube.js	/^  return new Promise(function(resolve, reject) {$/;"	f	function:getLanguageList
-AnonymousFunction6b0a7cd60100	lul/collapsible.js	/^    toggle.addEventListener('click', function () {$/;"	f	function:genCollapsible
-AnonymousFunction6b0a7cd60200	lul/collapsible.js	/^    hover.addEventListener('mouseenter', function () {$/;"	f
-AnonymousFunction6b0a7cd60300	lul/collapsible.js	/^    hover.addEventListener('mouseleave', function () {$/;"	f
-AnonymousFunction6b0a7cd60400	lul/collapsible.js	/^  requestAnimationFrame(function() {$/;"	f	function:collapseElement
-AnonymousFunction6b0a7cd60500	lul/collapsible.js	/^    requestAnimationFrame(function() {$/;"	f	function:collapseElement.AnonymousFunction6b0a7cd60400
+AnonymousFunction6afda1d70100	grabber/container.js	/^    oninput: function () {$/;"	f	function:redDragon
+AnonymousFunction6b0a7cd60100	lul/collapsible.js	/^  setTimeout(function () {$/;"	f	function:genCollapsible
+AnonymousFunction6b0a7cd60200	lul/collapsible.js	/^      toggle.addEventListener('click', function () {$/;"	f	function:genCollapsible.AnonymousFunction6b0a7cd60100
+AnonymousFunction6b0a7cd60300	lul/collapsible.js	/^      hover.addEventListener('mouseenter', function () {$/;"	f
+AnonymousFunction6b0a7cd60400	lul/collapsible.js	/^      hover.addEventListener('mouseleave', function () {$/;"	f
+AnonymousFunction6b0a7cd60500	lul/collapsible.js	/^  requestAnimationFrame(function() {$/;"	f	function:collapseElement
+AnonymousFunction6b0a7cd60600	lul/collapsible.js	/^    requestAnimationFrame(function() {$/;"	f	function:collapseElement.AnonymousFunction6b0a7cd60500
 AnonymousFunction929ee7400100	lul/overflow.js	/^  requestAnimationFrame(function () {$/;"	f	function:genOverflow
+AnonymousFunction929ee7400200	lul/overflow.js	/^    setTimeout(function () {$/;"	f	function:genOverflow.AnonymousFunction929ee7400100
 AnonymousFunction95b83e320100	lul/selection.js	/^    buttonRadio.addEventListener('click', function () {$/;"	f
 AnonymousFunctionb7966ab90100	YTGrabber/index.js	/^            setInterval(function() {$/;"	f	function:setVideo
 AnonymousFunctionb7966ab90200	YTGrabber/index.js	/^    return new Promise(function(resolve, reject) {$/;"	f	function:getLanguageList
@@ -78,6 +81,7 @@ CELL_CLASSNAME	lul/table.js	/^const CELL_CLASSNAME = 'lul-light lul-medium-hover
 CELL_NAME	lul/table.js	/^const CELL_NAME = 'Zelle ';$/;"	C
 COMPARE_FUNKTIONS	YTGrabber/index.js	/^const COMPARE_FUNKTIONS = {}$/;"	C
 COMPARE_FUNKTIONS	grabber/wordHandler.js	/^const COMPARE_FUNKTIONS = {};$/;"	C
+Cherry	grabber/grabber.md	/^## Cherry$/;"	s	chapter:Youtube Script Grabber
 ConSys - Container System	consys/manifest.md	/^# ConSys - Container System$/;"	c
 Container	consys/container.js	/^export class Container extends Sizeable {$/;"	c
 ContainerTab	consys/container.js	/^class ContainerTab extends Tab {$/;"	c
@@ -98,11 +102,12 @@ MAX_SELECTION_WIDTH	lul/selection.js	/^const MAX_SELECTION_WIDTH = 500;$/;"	C
 MIN_WIDTH_DICT	lul/input.js	/^const MIN_WIDTH_DICT = {$/;"	c
 MyPlayer	YTGrabber/index.html	/^                <td><div id = "MyPlayer"><\/div><\/td>$/;"	I
 NAME_DICT	consys/orientation.js	/^const NAME_DICT = [$/;"	C
-New version (unfinished)	grabber/grabber.md	/^## New version (unfinished)$/;"	s	chapter:Youtube Script Grabber
+Nakamoto	grabber/grabber.md	/^## Nakamoto$/;"	s	chapter:Youtube Script Grabber
 Objekte	consys/manifest.md	/^## Objekte$/;"	s	chapter:ConSys - Container System
 Orientable	consys/orientable.js	/^export class Orientable extends TreeItem {$/;"	c
 Orientation	consys/orientation.js	/^export class Orientation {$/;"	c
 PlatzhalterfuerTextBox	YTGrabber/index.html	/^                        <p id="PlatzhalterfuerTextBox"><\/p>$/;"	I
+Red Dragon	grabber/grabber.md	/^## Red Dragon$/;"	s	chapter:Youtube Script Grabber
 SELECTED_BUTTON_RADIO_CLASSNAME	lul/selection.js	/^const SELECTED_BUTTON_RADIO_CLASSNAME = 'lul-dark';$/;"	C
 STATREPLACECHARACTERS	YTGrabber/index.js	/^const STATREPLACECHARACTERS = \/[%,.;?!\/"“”„\/\\\\\/\\n-0123456789–¿…]\/g$/;"	C
 STATREPLACECHARACTERS	grabber/wordHandler.js	/^const STATREPLACECHARACTERS = \/[%,.;?!\/"“”„\/\\\\\/\\n-0123456789–¿…]\/g;$/;"	C
@@ -113,6 +118,7 @@ Tab	consys/tab.js	/^export class Tab extends Item {$/;"	c
 TabGroup	consys/tab.js	/^class TabGroup extends Group {$/;"	c
 Test	Test/test.md	/^# Test$/;"	c
 Test-Kurs zum Ausprobieren	YTGrabber/grabber.md	/^# Test-Kurs zum Ausprobieren$/;"	c
+Texas	grabber/grabber.md	/^## Texas$/;"	s	chapter:Youtube Script Grabber
 TreeGroup	consys/tree.js	/^export class TreeGroup extends Group {$/;"	c
 TreeItem	consys/tree.js	/^export class TreeItem extends Item {$/;"	c
 UNSELECTED_BUTTON_RADIO_CLASSNAME	lul/selection.js	/^const UNSELECTED_BUTTON_RADIO_CLASSNAME = 'lul-light lul-medium-hover';$/;"	C
@@ -150,6 +156,7 @@ calculateElementSize	lul/overflow.js	/^function calculateElementSize (element) {
 castToId	grabber/interface.js	/^function castToId(enteredString) {$/;"	f
 changeYTVideo	YTGrabber/YTAPIScript.js	/^async function changeYTVideo(YTPlayer, newVideo) {$/;"	f
 changeYTVideo	grabber/youtube.js	/^async function changeYTVideo() {$/;"	f
+cherry	grabber/container.js	/^export function cherry () {$/;"	f
 children	consys/tree.js	/^  get children() {$/;"	G	class:TreeItem
 chrome	consys/.babelrc.json	/^          "chrome": "67",$/;"	s	object:presets.0.1.targets
 cicada	Test/test.js	/^let cicada = new Container('Cicada', [30, 30]);$/;"	v
@@ -159,6 +166,7 @@ collapseElement	lul/collapsible.js	/^function collapseElement(collapsible, delay
 column	lul/collapsible.js	/^  column: 'height'$/;"	p	class:directionSizeAttributeMap
 commonParent	consys/tree.js	/^  commonParent(...treeItems) {$/;"	m	class:TreeItem
 commonParent	consys/tree.js	/^  static commonParent(...treeItems) {$/;"	m	class:TreeItem
+constrainDummy	grabber/container.js	/^function constrainDummy(dummy, containerName) {$/;"	f
 constructor	consys/container.js	/^  constructor(container, tabGroupName) {$/;"	m	class:ContainerTab
 constructor	consys/container.js	/^  constructor(id, size, allowLengthChange) {$/;"	m	class:Container
 constructor	consys/item.js	/^  constructor() {$/;"	m	class:Group
@@ -181,6 +189,7 @@ dragonfly	Test/test.js	/^let dragonfly = new Container('Dragonfly', [100, 70]);$
 edge	consys/.babelrc.json	/^          "edge": "17",$/;"	s	object:presets.0.1.targets
 element	consys/container.js	/^  get element() {$/;"	G	class:Container
 expandElement	lul/collapsible.js	/^function expandElement(collapsible) {$/;"	f
+fillContainers	grabber/container.js	/^function fillContainers () {$/;"	f
 firefox	consys/.babelrc.json	/^          "firefox": "60",$/;"	s	object:presets.0.1.targets
 fullText	grabber/wordHandler.js	/^export var fullText;$/;"	v
 functions	lul/collapsible.js	/^    arg.functions['toggleFunction'] = function () {$/;"	f	function:arg
@@ -191,6 +200,7 @@ genButtonRadioArray	lul/selection.js	/^export function genButtonRadioArray(arg) 
 genCells	lul/table.js	/^function genCells(rowCount, columnCount) {return genElements(rowCount, columnCount, CELL_NAME);}$/;"	f
 genCheck	lul/input.js	/^export function genCheck(arg) {$/;"	f
 genCollapsible	lul/collapsible.js	/^export function genCollapsible(arg) {$/;"	f
+genDummy	grabber/container.js	/^function genDummy(dummyName) {$/;"	f
 genElements	lul/table.js	/^function genElements(rowCount, columnCount, name)$/;"	f
 genEnter	lul/input.js	/^export function genEnter(arg) {$/;"	f
 genEntry	lul/entry.js	/^export function genEntry(arg) {$/;"	f
@@ -227,7 +237,6 @@ hightlightWord	YTGrabber/index.js	/^function hightlightWord(suchword) {$/;"	f
 idCount	base/misc.js	/^var idCount = 0;$/;"	v
 idEnterDummy	grabber/compatibility/grabber.html	/^    <span id="idEnterDummy"><\/span>$/;"	I
 initalizeUI	grabber/interface.js	/^export function initalizeUI() {$/;"	f
-initializeContainers	grabber/container.js	/^export function initializeContainers () {$/;"	f
 insert	base/insert.js	/^export function insert(mode, parentKey, ...elementKeys) {$/;"	f
 isActiveTab	consys/tab.js	/^  get isActiveTab() {$/;"	G	class:Tab
 jumpInVideo	YTGrabber/YTAPIScript.js	/^async function jumpInVideo(YTPlayer, position) {$/;"	f
@@ -245,6 +254,7 @@ loadYTAPI	grabber/youtube.js	/^export async function loadYTAPI() {$/;"	f
 make	base/insert.js	/^export function make(parentKey, ...elementKeys) {$/;"	f
 moveTo	consys/container.js	/^  moveTo(orientationName, ...targetKeys) {$/;"	m	class:Container
 myTextfield	YTGrabber/index.html	/^                    <input type="text" id = "myTextfield">$/;"	I
+nakamoto	grabber/container.js	/^export function nakamoto () {$/;"	f
 name	consys/orientation.js	/^  get name() {$/;"	G	class:Orientation
 next	consys/item.js	/^  get next() {$/;"	G	class:Item
 ofName	consys/orientation.js	/^  static ofName(name) {$/;"	m	class:Orientation
@@ -284,11 +294,13 @@ presets	consys/.babelrc.json	/^  "presets": [$/;"	a
 previous	consys/item.js	/^  get previous() {$/;"	G	class:Item
 recalculateIndices	consys/item.js	/^  recalculateIndices() {$/;"	m	class:Group
 recalculateOverflowIndices	lul/overflow.js	/^export function recalculateOverflowIndices () {$/;"	f
+redDragon	grabber/container.js	/^export function redDragon () {$/;"	f
 removeFromGroup	consys/container.js	/^  removeFromGroup() {$/;"	m	class:Container
 removeFromGroup	consys/item.js	/^  removeFromGroup() {$/;"	m	class:Item
 removeFromGroup	consys/tab.js	/^  removeFromGroup() {$/;"	m	class:Tab
 render	consys/container.js	/^  render() {$/;"	m	class:Container
 renderText	YTGrabber/index.js	/^function renderText() {$/;"	f
+result	base/insert.js	/^  let result =  document.getElementById(key);$/;"	v
 row	lul/collapsible.js	/^  row: 'width',$/;"	p	class:directionSizeAttributeMap
 safari	consys/.babelrc.json	/^          "safari": "11.1"$/;"	s	object:presets.0.1.targets
 scrollSizeAttributeMap	lul/collapsible.js	/^var scrollSizeAttributeMap = {$/;"	c
@@ -333,6 +345,7 @@ tabTo	consys/tab.js	/^  tabTo() {$/;"	m	class:Tab
 tabToNext	consys/tab.js	/^  tabToNext() {$/;"	m	class:Tab
 tabToPrevious	consys/tab.js	/^  tabToPrevious() {$/;"	m	class:Tab
 targets	consys/.babelrc.json	/^        "targets": {$/;"	o	object:presets.0.1
+texas	grabber/container.js	/^export function texas () {$/;"	f
 textDummy	grabber/compatibility/grabber.html	/^    <p id="textDummy"><\/p>$/;"	I
 textDummy	grabber/wordRenderer.js	/^var textDummy;$/;"	v
 texthaufen	YTGrabber/index.js	/^let texthaufen = undefined;$/;"	v

@@ -8,14 +8,15 @@ language: en
 narrator: US English Female
 
 
+online-link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
+offline-link: http://localhost:3000/home/english-lia/
 
-
-script: http://localhost:3000/home/english-lia/base.js
-script: http://localhost:3000/home/english-lia/consys.js
-script: http://localhost:3000/home/english-lia/grabber.js
-script: http://localhost:3000/home/english-lia/lul.js
-link: http://localhost:3000/home/english-lia/lul.css
-link: http://localhost:3000/home/english-lia/consys.css
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/base.js
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/consys.js
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/grabber.js
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/lul.js
+link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/lul.css
+link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/consys.css
 
 
 
@@ -25,6 +26,15 @@ link: http://localhost:3000/home/english-lia/consys.css
 
 # Youtube Script Grabber
 
+Below several layout options.
+
+If something does not work, consider:
+* pressing F5
+* selecting another language
+* reopening the website
+
+
+<div style="display:none">
 To Do immediatly:
 
 Bugs to fix:
@@ -63,25 +73,29 @@ To maybe Do at some point:
 8TUK-M41hGI
 document.getElementById('myTextfield').value
 
-
-
-
-## New version (unfinished)
-<script input="hidden" defer> loadYTAPI(); initalizeUI();</script>
-
-Please enter a Youtube ID
-
-
-<div id='frame'></div>
-
-<span id="sortSelectDummy"></span>
-<span id="languageSelectDummy"></span>
-<span id="idEnterDummy"></span>
-<br>
-
-<div id = "playerDummy"></div>
-<div style="height:600px; overflow:auto;">
-<p id="textDummy"></p>
 </div>
 
-<div id="statsTableDummy"></div>
+
+
+## Texas
+
+<script input="hidden" defer> loadYTAPI(); texas(); initalizeUI();</script>
+<div id='frame'></div>
+
+## Cherry
+
+<script input="hidden" defer> loadYTAPI(); cherry(); initalizeUI();</script>
+<div id='frame'></div>
+
+## Nakamoto
+
+<script input="hidden" defer> loadYTAPI(); nakamoto(); initalizeUI();</script>
+<div id='frame'></div>
+
+
+## Red Dragon
+
+<script input="hidden" defer> loadYTAPI(); redDragon(); initalizeUI();</script>
+<div id='frame'></div>
+
+
