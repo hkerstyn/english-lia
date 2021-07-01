@@ -16,6 +16,7 @@
 .lul-overflow-parent {
   position: static;
   overflow: visible;
+  display: inline-block;
 
 }
 
@@ -23,7 +24,5 @@
   display: flex;
   flex-direction: row;
   position: 'static';
-  /*z-index: 1;*/
-}
-.lul-overflow>* {
+  z-index: 1;
 }

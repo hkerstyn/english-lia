@@ -30,18 +30,16 @@
 */
 
 
-function gen(name, className) {
+export function gen(name, className) {
   let obj = document.createElement(name);
 
   if(className != undefined)
-  obj.className = className;
+    obj.className = className;
 
   return obj;
 }
-
-
-function genText(content) {
-  let text = gen("span");
+export function genText(content) {
+  let text = gen('span');
   text.innerHTML = content;
 
   return text;
@@ -49,20 +47,20 @@ function genText(content) {
 
 
 var idCount = 0;
-function uid() {
+export function uid() {
   idCount++;
   return 'uid' + idCount;
 }
 
 
-function truetypeof(value) {
+export function truetypeof(value) {
   let deepType = Object.prototype.toString.call(value);
   if(deepType == '[object Object]') return 'object';
   if(deepType == '[object Array]') return 'array';
   if(deepType.includes('HTML')) return 'html';
   if(deepType == '[object String]') return 'string';
 
-  console.warn("No valid type identified.");
-  console.warn("value: ", value);
-  console.warn("deepType: ", deepType);
+  console.warn('No valid type identified.');
+  console.warn('value: ', value);
+  console.warn('deepType: ', deepType);
 }

@@ -24,43 +24,44 @@
 
 */
 
-import {store, get}
-  from '../lul-insert.js';
+import {recalculateOverflowIndices}
+  from './overflow.js';
 import {genBox}
-  from './lul-box.js';
+  from './box.js';
 
 //dictionaries for equating values of different properties
 var directionSizeAttributeMap = {
   row: 'width',
   column: 'height'
-}
+};
 var scrollSizeAttributeMap = {
   width: 'scrollWidth',
   height: 'scrollHeight'
-}
+};
 var classNameMap = {
   width: 'lul-collapsible-width',
   height: 'lul-collapsible-height'
-}
+};
 
 const HOVER_COLLAPSE_DELAY = '0.45s';
 
 
 export function genCollapsible(arg) {
+  recalculateOverflowIndices();
   //determine sizeAttribute from arg.direction
   sizeAttribute = directionSizeAttributeMap[arg.direction];
   if(sizeAttribute == undefined)
-  sizeAttribute = 'width';
+    sizeAttribute = 'width';
 
   //set the css class
   let className = classNameMap[sizeAttribute] + '';
-  let collapsible = gen("div", className);
+  let collapsible = gen('div', className);
 
   collapsible.setAttribute('sizeAttribute', sizeAttribute);
 
   //initializes the collapsed-state
   if(arg.collapsed == undefined)
-  arg.collapsed = 'true';
+    arg.collapsed = 'true';
   collapsible.setAttribute('collapsed', arg.collapsed);
   if(arg.collapsed == 'true')
     collapsible.style[sizeAttribute] = 0;
@@ -118,11 +119,11 @@ function collapseElement(collapsible, delay) {
   let scrollSize = collapsible[scrollSizeAttribute];
 
   let currentSize = window.getComputedStyle(collapsible)
-  .getPropertyValue(sizeAttribute)
-  .slice(0, -2);
+    .getPropertyValue(sizeAttribute)
+    .slice(0, -2);
 
   if(currentSize == scrollSize)
-  collapsible.style.transitionDelay = delay;
+    collapsible.style.transitionDelay = delay;
 
 
   requestAnimationFrame(function() {
@@ -139,6 +140,7 @@ function collapseElement(collapsible, delay) {
 }
 
 function expandElement(collapsible) {
+  recalculateOverflowIndices();
   collapsible.style.transitionDelay = '0s';
 
 

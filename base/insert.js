@@ -5,7 +5,6 @@
   set(parentKey, ...elementKeys)
   make(parentKey, ...elementKeys)
   add(parentKey, ...elementKeys)
-
   
   This script is responsible for placing (and returning)
   HTML-Elements in the document or the STORED_ELEMENTS object
@@ -43,19 +42,19 @@
   add(parentKey, ...elementKeys):
     shorthands for insert()
 */
-
+import {truetypeof, uid}
+  from './misc.js';
 
 var STORED_ELEMENTS = {};
 
-
 export function store(element, id) {
   if(STORED_ELEMENTS[id] != undefined) {
-    console.warn("store: id", id, "is already taken by", STORED_ELEMENTS[id], "element:", element);
+    console.warn('store: id', id, 'is already taken by', STORED_ELEMENTS[id], 'element:', element);
     id = undefined;
   }
   if(id == undefined) {
     id = uid();
-    console.warn("Defaulting to uid:", id, element);
+    console.warn('Defaulting to uid:', id, element);
   }
 
   STORED_ELEMENTS[id] = element;
@@ -69,7 +68,7 @@ export function get(key) {
   if(trueType == 'html') return key;
 
   if(STORED_ELEMENTS[key] != undefined)
-  return STORED_ELEMENTS[key];
+    return STORED_ELEMENTS[key];
 
   return document.getElementById(key);
 }
@@ -90,10 +89,12 @@ export function make(parentKey, ...elementKeys) {
 
 export function insert(mode, parentKey, ...elementKeys) {
   let parent = get(parentKey);
-  if(mode == undefined) mode = "set";
+  if(mode == undefined) mode = 'set';
 
-  if(mode == "make" && parent.childNodes.length > 0) return;
-  if(mode == "set") parent.childNodes = [];
+  if(mode == 'make' && parent.childNodes.length > 0) return;
+  if(mode == 'set') parent.childNodes
+    .forEach((child) => {child.remove();});
+
   elementKeys.forEach((elementKey) => {
     parent.appendChild(get(elementKey));
   });

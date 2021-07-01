@@ -1,105 +1,4 @@
 /*
-  store(element, id)
-  get(key)
-  insert(mode, parentKey, ...elementKeys)
-  set(parentKey, ...elementKeys)
-  make(parentKey, ...elementKeys)
-  add(parentKey, ...elementKeys)
-
-  
-  This script is responsible for placing (and returning)
-  HTML-Elements in the document or the STORED_ELEMENTS object
-
-  store(element, id): stores the element under 'id'
-    inside STORED_ELEMENTS
-    if no id is given, a unique new one is used
-    and returned
-
-  get(key): if 'key' is
-    an HTML-Element:
-      returns 'key'
-    a string:
-      returns (if present) the element stored under 'key'
-      inside STORED_ELEMENTS
-      otherwise, searches the HTML-DOM for an element
-      with id 'key'
-
-  insert(mode, parentKey, ...elementKeys):
-    'parentKey' and 'elementKeys' are references
-      to some HTML-Elements (see get())
-    sets the elements as children of the parent
-    if 'mode' is equal to
-    "set":
-      the parent is being cleared of previous children
-    "make":
-      the process gets aborted
-      if parent already has children
-    "add":
-      the new children are simply added to the existing ones
-
-
-  set(parentKey, ...elementKeys)
-  make(parentKey, ...elementKeys)
-  add(parentKey, ...elementKeys):
-    shorthands for insert()
-*/
-
-
-var STORED_ELEMENTS = {};
-
-
-function store(element, id) {
-  if(STORED_ELEMENTS[id] != undefined) {
-    console.warn("store: id", id, "is already taken by", STORED_ELEMENTS[id], "element:", element);
-    id = undefined;
-  }
-  if(id == undefined) {
-    id = uid();
-    console.warn("Defaulting to uid:", id, element);
-  }
-
-  STORED_ELEMENTS[id] = element;
-  return id;
-}
-
-function get(key) {
-  if(key == undefined) return undefined;
-
-  let trueType = truetypeof(key);
-  if(trueType == 'html') return key;
-
-  if(STORED_ELEMENTS[key] != undefined)
-  return STORED_ELEMENTS[key];
-
-  return document.getElementById(key);
-}
-
-
-
-function set(parentKey, ...elementKeys) {
-  insert('set', parentKey, ...elementKeys);
-}
-function add(parentKey, ...elementKeys) {
-  insert('add', parentKey, ...elementKeys);
-}
-function make(parentKey, ...elementKeys) {
-  insert('make', parentKey, ...elementKeys);
-}
-
-
-
-function insert(mode, parentKey, ...elementKeys) {
-  let parent = get(parentKey);
-  if(mode == undefined) mode = "set";
-
-  if(mode == "make" && parent.childNodes.length > 0) return;
-  if(mode == "set") parent.childNodes = [];
-  elementKeys.forEach((elementKey) => {
-    parent.appendChild(get(elementKey));
-  });
-}
-
-/*
     genFullTable(rowCount, columnCount, containsHeads) generates a table of given
     size with or without table heads, where the cells are filled with text elements
     (see CELL_NAME, HEAD_NAME)
@@ -113,11 +12,11 @@ function insert(mode, parentKey, ...elementKeys) {
 
 
 //names of elements in full Table
-const CELL_NAME = "Zelle ";
-const HEAD_NAME = "Kopf ";
+const CELL_NAME = 'Zelle ';
+const HEAD_NAME = 'Kopf ';
 
-const CELL_CLASSNAME = "lul-light lul-medium-hover lul-padding";
-const HEAD_CLASSNAME = "lul-dark lul-medium-hover lul-padding";
+const CELL_CLASSNAME = 'lul-light lul-medium-hover lul-padding';
+const HEAD_CLASSNAME = 'lul-dark lul-medium-hover lul-padding';
 
 /*table functions*/
 
@@ -131,13 +30,13 @@ function genFullTable(rowCount, columnCount, containsHeads) {
 
 function genTable(cells, heads)
 {
-  let table = gen("table", "lul-table");
+  let table = gen('table', 'lul-table');
 
   if(heads != null && heads != undefined && heads.length > 0)
-  addCells(table, heads, "TH", HEAD_CLASSNAME);
+    addCells(table, heads, 'TH', HEAD_CLASSNAME);
 
   if(cells != null && cells != undefined && cells.length > 0)
-  addCells(table , cells, "TD", CELL_CLASSNAME);
+    addCells(table , cells, 'TD', CELL_CLASSNAME);
 
   return table;
 }
@@ -149,14 +48,14 @@ function addCells(table, cells, type, className)
 {
 
   for(let i = 0; i < cells.length; i++) { //loop through rows
-      let row = gen("TR");
-      for(let j = 0; j < cells[i].length; j++) { //loop through columns
-          let cellContainer = gen(type, className);
-          cellContainer.appendChild(cells[i][j]);
-          row.appendChild(cellContainer);
-      }
-      table.appendChild(row);
+    let row = gen('TR');
+    for(let j = 0; j < cells[i].length; j++) { //loop through columns
+      let cellContainer = gen(type, className);
+      cellContainer.appendChild(cells[i][j]);
+      row.appendChild(cellContainer);
     }
+    table.appendChild(row);
+  }
 }
 
 //generates Nodes that can be put into a table
@@ -165,14 +64,14 @@ function genHeads(columnCount) {return genElements(1, columnCount, HEAD_NAME);}
 function genCells(rowCount, columnCount) {return genElements(rowCount, columnCount, CELL_NAME);}
 function genElements(rowCount, columnCount, name)
 {
-   let cells = [];
-   for (var i = 0; i < rowCount; i++) {
-     let row = [];
-     for (var j = 0; j < columnCount; j++)
-     row.push(document.createTextNode(name + (j + i*columnCount)));
-     cells.push(row);
-   }
-   return cells;
+  let cells = [];
+  for (var i = 0; i < rowCount; i++) {
+    let row = [];
+    for (var j = 0; j < columnCount; j++)
+      row.push(document.createTextNode(name + (j + i*columnCount)));
+    cells.push(row);
+  }
+  return cells;
 }
 
 /*
@@ -189,10 +88,10 @@ function genElements(rowCount, columnCount, name)
 */
 function genButton(arg) {
   let button;
-  button = gen("button", "lul-dark lul-medium-hover");
+  button = gen('button', 'lul-dark lul-medium-hover');
 
   if(arg.onclick != undefined)
-  button.addEventListener("click", arg.onclick);
+    button.addEventListener('click', arg.onclick);
 
   let text = genText(arg.text);
   button.appendChild(text);
@@ -209,32 +108,32 @@ const MIN_WIDTH_DICT = {
 
 
 function genEnter(arg) {
-  return genInput(arg, "text", "lia-input");
+  return genInput(arg, 'text', 'lia-input');
 }
 
 function genRange(arg) {
-   let range = genInput(arg, "range", "lia-range");
-   range.min = arg.min;
-   range.max = arg.max;
-   range.step = arg.step;
-   range.value = arg.min;
-   return range;
+  let range = genInput(arg, 'range', 'lia-range');
+  range.min = arg.min;
+  range.max = arg.max;
+  range.step = arg.step;
+  range.value = arg.min;
+  return range;
 }
 
 function genCheck(arg) {
-  let check = genInput(arg, "checkbox", "lia-checkbox");
-  check.addEventListener("input", function() {window[this.name] = this.checked;});
+  let check = genInput(arg, 'checkbox', 'lia-checkbox');
+  check.addEventListener('input', function() {window[this.name] = this.checked;});
   return check;
 }
 
 
 function genInput(arg, type, className) {
-  let input = gen("input", className);
+  let input = gen('input', className);
   input.type = type;
   input.name = arg.name;
-  input.addEventListener("input", function() {window[this.name] = this.value;});
+  input.addEventListener('input', function() {window[this.name] = this.value;});
   if(arg.oninput != undefined)
-  input.addEventListener("input", arg.oninput);
+    input.addEventListener('input', arg.oninput);
   if(arg.minWidth == undefined) arg.minWidth = MIN_WIDTH_DICT[className];
   input.style.minWidth = arg.minWidth + 'px';
   return input;
@@ -253,22 +152,78 @@ function genInput(arg, type, className) {
       the direction the overflow's child nodes are positioned
 */
 
+
 function genOverflow(arg) {
   let parent = gen('div', 'lul-overflow-parent');
-  let box = gen('div', 'lul-overflow lul-light');
+  let box = gen('div', 'lul-overflow');
   if(arg.direction == 'column')
-  box.style.flexDirection = 'column';
+    box.style.flexDirection = 'column';
 
   parent.appendChild(box);
 
   requestAnimationFrame(function () {
-    parent.style.height = window.getComputedStyle(parent).height;
-    parent.style.width = window.getComputedStyle(parent).width;
+    parent.style.height = window.getComputedStyle(box).height;
+    parent.style.width = window.getComputedStyle(box).width;
     box.style.position = 'absolute';
   });
   store(box, arg.innerId);
   return parent;
 
+}
+
+function recalculateOverflowIndices () {
+  let overflows = document.getElementsByClassName('lul-overflow'); 
+  let overflowArray = [];
+  for (let overflow of overflows) {
+    overflowArray.push(overflow);
+  }
+
+  //  console.log(overflow);
+  //  console.log(calculateElementPosition(overflow));
+  //  console.log([overflow.scrollHeight, overflow.scrollWidth]);
+  overflowArray.sort(overlapTest);
+  let i = 1;
+  overflowArray.forEach((overflow) => {
+    overflow.style.zIndex = i;
+    i++;
+  });
+}
+
+// returns a positive value if overflow1 should overlap overflow2
+function overlapTest (overflow1, overflow2) {
+ 
+  //Calculate positions and sizes
+  let position1 = calculateElementPosition(overflow1);
+  let position2 = calculateElementPosition(overflow2);
+  let size1 = calculateElementSize(overflow1);
+  calculateElementSize(overflow2);
+
+  if(position2.top > position1.top + size1.height - 5 ||
+  position2.left > position1.left + size1.width - 5 ) {
+    return 1;
+  }
+  return 0;
+} 
+
+function calculateElementSize (element) {
+  return {
+    height: parseFloat(window.getComputedStyle(element.parentNode).height.slice(0, -2)),
+    width: parseFloat(window.getComputedStyle(element.parentNode).width.slice(0, -2))
+  }; 
+}
+
+function calculateElementPosition(element) {
+  var top = 0, left = 0;
+  do {
+    top += element.offsetTop  || 0;
+    left += element.offsetLeft || 0;
+    element = element.offsetParent;
+  } while(element);
+
+  return {
+    top: top,
+    left: left
+  };
 }
 
 /*
@@ -278,12 +233,12 @@ function genOverflow(arg) {
 function genBox(arg) {
   let box = gen('div', 'lul-padding lul-light');
   if(arg.visible == 'false')
-  box.className = '';
+    box.className = '';
 
   box.style.display = 'inline-flex';
   box.style.flexDirection = arg.direction;
   if(arg.direction == 'column')
-  box.style.width = '100%';
+    box.style.width = '100%';
   else box.style.height = '100%';
 
   return box;
@@ -333,20 +288,21 @@ const HOVER_COLLAPSE_DELAY = '0.45s';
 
 
 function genCollapsible(arg) {
+  recalculateOverflowIndices();
   //determine sizeAttribute from arg.direction
   sizeAttribute = directionSizeAttributeMap[arg.direction];
   if(sizeAttribute == undefined)
-  sizeAttribute = 'width';
+    sizeAttribute = 'width';
 
   //set the css class
   let className = classNameMap[sizeAttribute] + '';
-  let collapsible = gen("div", className);
+  let collapsible = gen('div', className);
 
   collapsible.setAttribute('sizeAttribute', sizeAttribute);
 
   //initializes the collapsed-state
   if(arg.collapsed == undefined)
-  arg.collapsed = 'true';
+    arg.collapsed = 'true';
   collapsible.setAttribute('collapsed', arg.collapsed);
   if(arg.collapsed == 'true')
     collapsible.style[sizeAttribute] = 0;
@@ -404,11 +360,11 @@ function collapseElement(collapsible, delay) {
   let scrollSize = collapsible[scrollSizeAttribute];
 
   let currentSize = window.getComputedStyle(collapsible)
-  .getPropertyValue(sizeAttribute)
-  .slice(0, -2);
+    .getPropertyValue(sizeAttribute)
+    .slice(0, -2);
 
   if(currentSize == scrollSize)
-  collapsible.style.transitionDelay = delay;
+    collapsible.style.transitionDelay = delay;
 
 
   requestAnimationFrame(function() {
@@ -425,6 +381,7 @@ function collapseElement(collapsible, delay) {
 }
 
 function expandElement(collapsible) {
+  recalculateOverflowIndices();
   collapsible.style.transitionDelay = '0s';
 
 
@@ -526,9 +483,9 @@ function genEntry(arg) {
 
 
 */
-const SELECTED_BUTTON_RADIO_CLASSNAME = "lul-dark";
-const UNSELECTED_BUTTON_RADIO_CLASSNAME = "lul-light lul-medium-hover";
-const MAX_SELECTION_WIDTH = 300;
+const SELECTED_BUTTON_RADIO_CLASSNAME = 'lul-dark';
+const UNSELECTED_BUTTON_RADIO_CLASSNAME = 'lul-light lul-medium-hover';
+const MAX_SELECTION_WIDTH = 500;
 
 
 function genSelection(arg) {
@@ -579,14 +536,14 @@ function genSelection(arg) {
 function genRadioArray(arg) {
 
   if(arg.options == undefined)
-  console.warn("Arg of Radio %s has no options", arg.name);
+    console.warn('Arg of Radio %s has no options', arg.name);
   let [texts, values] = genOptionArray(arg.options);
 
 
   let radioArray = [];
   for (var i = 0; i < texts.length; i++) {
     let couple = gen('span');
-    let radio = genInput(arg, "radio", "lia-radio");
+    let radio = genInput(arg, 'radio', 'lia-radio');
 
     radio.value = values[i];
     couple.appendChild(radio);
@@ -604,7 +561,7 @@ function genRadioArray(arg) {
 function genButtonRadioArray(arg) {
 
   if(arg.options == undefined)
-  console.warn("Arg of ButtonRadio %s has no options", arg.name);
+    console.warn('Arg of ButtonRadio %s has no options', arg.name);
   let [texts, values] = genOptionArray(arg.options);
 
   //creating an array of radioButtons
@@ -658,9 +615,8 @@ function genOptionArray(options)
 
 //tell rollup that all of these functions are in fact necessary
 console.log(
-  get, store, set, add, make, insert,
   genButton, genEnter, genRange, genCheck,
   genRadioArray, genButtonRadioArray, genSelection,
   genCollapsible, genOverflow, genEntry, genBox,
-  genTable, genFullTable
+  genTable, genFullTable, 
 );

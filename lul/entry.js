@@ -14,12 +14,10 @@
       inside the overflow, after the collapsible
 */
 
-import {set}
-  from '../lul-insert.js';
 import {genOverflow}
-  from './lul-overflow.js';
+  from './overflow.js';
 import {genCollapsible}
-  from './lul-collapsible.js';
+  from './collapsible.js';
 
 
 export function genEntry(arg) {

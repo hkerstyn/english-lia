@@ -1,28 +1,26 @@
 //imports all lul-functions. gets bundled by rollup into lul.js
-import {get, store, set, add, make, insert}
-  from './lul-insert.js';
+
 import {genTable, genFullTable}
-from './lul-gen/lul-table.js'
+  from './table.js';
 import {genButton, genEnter, genRange, genCheck}
-  from './lul-gen/lul-input.js';
+  from './input.js';
 import {genRadioArray, genButtonRadioArray, genSelection}
-  from './lul-gen/lul-selection.js';
+  from './selection.js';
 import {genCollapsible}
-  from './lul-gen/lul-collapsible.js';
+  from './collapsible.js';
 import {genOverflow}
-  from './lul-gen/lul-overflow.js';
+  from './overflow.js';
 import {genEntry}
-  from './lul-gen/lul-entry.js';
+  from './entry.js';
 import {genBox}
-  from './lul-gen/lul-box.js';
+  from './box.js';
 
 
 
 //tell rollup that all of these functions are in fact necessary
 console.log(
-  get, store, set, add, make, insert,
   genButton, genEnter, genRange, genCheck,
   genRadioArray, genButtonRadioArray, genSelection,
   genCollapsible, genOverflow, genEntry, genBox,
-  genTable, genFullTable
+  genTable, genFullTable, 
 );

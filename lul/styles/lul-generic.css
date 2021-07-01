@@ -36,7 +36,10 @@
   background-color: white;
   color: black;
 }
-
+.lul-box {
+  height: 100%;
+  width: 100% ;
+}
 
 .lia-radio {
   margin: 3px 4px 3px 8px;

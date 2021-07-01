@@ -50,15 +50,15 @@
 
 
 */
-const SELECTED_BUTTON_RADIO_CLASSNAME = "lul-dark";
-const UNSELECTED_BUTTON_RADIO_CLASSNAME = "lul-light lul-medium-hover";
-const MAX_SELECTION_WIDTH = 300;
+const SELECTED_BUTTON_RADIO_CLASSNAME = 'lul-dark';
+const UNSELECTED_BUTTON_RADIO_CLASSNAME = 'lul-light lul-medium-hover';
+const MAX_SELECTION_WIDTH = 500;
 
 
 import {genInput, genButton}
-  from './lul-input.js';
+  from './input.js';
 import {genEntry}
-  from './lul-entry.js';
+  from './entry.js';
 
 
 export function genSelection(arg) {
@@ -82,7 +82,7 @@ export function genSelection(arg) {
   dummy.style.visibility = 'hidden';
   document.body.appendChild(dummy);
   array.forEach((option) => {
-    dummy.appendChild(option)
+    dummy.appendChild(option);
   });
   let width = dummy.scrollWidth;
   dummy.remove();
@@ -109,14 +109,14 @@ export function genSelection(arg) {
 export function genRadioArray(arg) {
 
   if(arg.options == undefined)
-  console.warn("Arg of Radio %s has no options", arg.name);
+    console.warn('Arg of Radio %s has no options', arg.name);
   let [texts, values] = genOptionArray(arg.options);
 
 
   let radioArray = [];
   for (var i = 0; i < texts.length; i++) {
     let couple = gen('span');
-    let radio = genInput(arg, "radio", "lia-radio");
+    let radio = genInput(arg, 'radio', 'lia-radio');
 
     radio.value = values[i];
     couple.appendChild(radio);
@@ -134,7 +134,7 @@ export function genRadioArray(arg) {
 export function genButtonRadioArray(arg) {
 
   if(arg.options == undefined)
-  console.warn("Arg of ButtonRadio %s has no options", arg.name);
+    console.warn('Arg of ButtonRadio %s has no options', arg.name);
   let [texts, values] = genOptionArray(arg.options);
 
   //creating an array of radioButtons

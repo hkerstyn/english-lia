@@ -12,10 +12,10 @@
 */
 export function genButton(arg) {
   let button;
-  button = gen("button", "lul-dark lul-medium-hover");
+  button = gen('button', 'lul-dark lul-medium-hover');
 
   if(arg.onclick != undefined)
-  button.addEventListener("click", arg.onclick);
+    button.addEventListener('click', arg.onclick);
 
   let text = genText(arg.text);
   button.appendChild(text);
@@ -27,37 +27,37 @@ const MIN_WIDTH_DICT = {
   ['lia-checkbox']: 0,
   ['lia-range']: 225,
   ['lia-input']: 225
-}
+};
 
 
 
 export function genEnter(arg) {
-  return genInput(arg, "text", "lia-input");
+  return genInput(arg, 'text', 'lia-input');
 }
 
 export function genRange(arg) {
-   let range = genInput(arg, "range", "lia-range");
-   range.min = arg.min;
-   range.max = arg.max;
-   range.step = arg.step;
-   range.value = arg.min;
-   return range;
+  let range = genInput(arg, 'range', 'lia-range');
+  range.min = arg.min;
+  range.max = arg.max;
+  range.step = arg.step;
+  range.value = arg.min;
+  return range;
 }
 
 export function genCheck(arg) {
-  let check = genInput(arg, "checkbox", "lia-checkbox");
-  check.addEventListener("input", function() {window[this.name] = this.checked});
+  let check = genInput(arg, 'checkbox', 'lia-checkbox');
+  check.addEventListener('input', function() {window[this.name] = this.checked;});
   return check;
 }
 
 
 export function genInput(arg, type, className) {
-  let input = gen("input", className);
+  let input = gen('input', className);
   input.type = type;
   input.name = arg.name;
-  input.addEventListener("input", function() {window[this.name] = this.value});
+  input.addEventListener('input', function() {window[this.name] = this.value;});
   if(arg.oninput != undefined)
-  input.addEventListener("input", arg.oninput);
+    input.addEventListener('input', arg.oninput);
   if(arg.minWidth == undefined) arg.minWidth = MIN_WIDTH_DICT[className];
   input.style.minWidth = arg.minWidth + 'px';
   return input;
