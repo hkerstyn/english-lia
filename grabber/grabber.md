@@ -7,12 +7,12 @@ narrator: US English Female
 online-link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
 offline-link: http://localhost:3000/home/english-lia/
 
-script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
-script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
-script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
-script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
-link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
-link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/base.js
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/consys.js
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/grabber.js
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/lul.js
+link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/lul.css
+link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/consys.css
 
 -->
 
