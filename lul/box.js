@@ -3,7 +3,7 @@
 */
 
 export function genBox(arg) {
-  let box = gen('div', 'lul-padding lul-light');
+  let box = gen('div', lul.BOX_CLASS);
   if(arg.visible == 'false')
     box.className = '';
 

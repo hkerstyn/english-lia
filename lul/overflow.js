@@ -13,8 +13,8 @@
 
 
 export function genOverflow(arg) {
-  let parent = gen('div', 'lul-overflow-parent');
-  let box = gen('div', 'lul-overflow');
+  let parent = gen('div', lul.DEFAULT_OVERFLOW_PARENT_CLASS);
+  let box = gen('div', lul.DEFAULT_OVERFLOW_CLASS);
   if(arg.direction == 'column')
     box.style.flexDirection = 'column';
 

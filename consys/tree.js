@@ -1,21 +1,15 @@
-import {Group, Item}
-  from './item.js';
+export class TreeNode {
 
-export class TreeGroup extends Group {
-  constructor(parent) {
-    super();
-    this.parent = parent;
-  }
-}
-
-export class TreeItem extends Item {
   constructor(name) {
-    super(name);
-    this.childGroup = new TreeGroup(this);
+    this.name = name;
+    store(this, name);
+    this.children = [];
   }
 
-  get children() {
-    return this.childGroup.items;
+  recalculateIndices() {
+    this.children.forEach((child, i) => {
+      child.index = i;
+    });
   }
 
   *[Symbol.iterator]() {
@@ -25,56 +19,66 @@ export class TreeItem extends Item {
   }
 
 
+  setParent(parent, index) {
+    if(this.parent != undefined) {
+      this.parent.children.splice(this.index, 1);
+      this.parent.recalculateIndices();
+    }
 
-  get parent() {
-    if(this.group == undefined)
-      return undefined;
-    return this.group.parent;
-  }
-  set parent(newParent) {
-    this.setParent(newParent);
-  }
-  setParent(newParent, index) {
-    this.addToGroup(newParent.childGroup, index);
+    if(index == undefined)
+      parent.children.push(this);
+    else
+      parent.children.splice(index, 0, this);
+
+    this.parent = parent;
+    parent.recalculateIndices();
   }
 
-  get parents() {return [...this.parentGenerator()];}
+  addAsSiblingOf(sibling, index) {
+    this.setParent(sibling.parent, index);
+  }
+  addAfter(sibling) {
+    this.addAsSiblingOf(sibling, sibling.index + 1);
+  }
+  addBefore(sibling) {
+    this.addAsSiblingOf(sibling, sibling.index);
+  }
 
-  *parentGenerator() {
+  get ancestors() {return [...this.ancestorGenerator()];}
+
+  *ancestorGenerator() {
     yield this;
     if(this.parent != undefined)
-      yield* this.parent.parentGenerator();
+      yield* this.parent.ancestorGenerator();
   }
 
-  commonParent(...treeItems) {
-    return TreeItem.commonParent(this, ...treeItems);
+  commonAncestor(...treeNodes) {
+    return TreeNode.commonAncestor(this, ...treeNodes);
   }
-  static commonParent(...treeItems) {
-    if (treeItems.length == 1) {
-      return treeItems[0]; 
+  static commonAncestor(...treeNodes) {
+    if (treeNodes.length == 1) {
+      return treeNodes[0]; 
     }
-    return getCommonParent(...treeItems);
+    return getCommonAncestor(...treeNodes);
   }
-
-
 
 }
 
 
-//returns the smallest common Parent of a number of treeItems
+//returns the smallest common Parent of a number of treeNodes
 
-function getCommonParent(...treeItems) {
-  if(treeItems.length > 2)
-    return getCommonParent(treeItems[0],
-      getCommonParent(...treeItems.slice(1)));
+function getCommonAncestor(...treeNodes) {
+  if(treeNodes.length > 2)
+    return getCommonAncestor(treeNodes[0],
+      getCommonAncestor(...treeNodes.slice(1)));
 
-  let comparatorGenerator = treeItems[1].parentGenerator();
+  let comparatorGenerator = treeNodes[1].ancestorGenerator();
 
-  for(let comparatorItem of comparatorGenerator) {
-    let referenceGenerator = treeItems[0].parentGenerator();
-    for(let referenceItem of referenceGenerator) {
-      if(referenceItem == comparatorItem)
-        return referenceItem;
+  for(let comparatorNode of comparatorGenerator) {
+    let referenceGenerator = treeNodes[0].ancestorGenerator();
+    for(let referenceNode of referenceGenerator) {
+      if(referenceNode == comparatorNode)
+        return referenceNode;
     }
   }
   return undefined;

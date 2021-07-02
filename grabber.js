@@ -1,3 +1,42 @@
+class Grabber {
+
+  constructor() {
+    this.ID_ENTER_TEXT = 'Select YTid';
+    this.ID_ENTER_ENTRY_DIRECTION = 'row';
+
+    this.DEFAULT_ID = '8TUK-M41hGI';
+
+    this.LANGUAGE_SELECT_TEXT = 'Select language';
+    this.LANGUAGE_SELECT_ENTRY_DIRECTION = 'column';
+    this.LANGUAGE_SELECT_RADIO_TYPE = 'radio';
+
+    this.SORT_SELECT_BUTTON_CLASS = 'lul-dark lul-norm-height';
+    this.SORT_SELECT_TEXT = 'Sort criterium';
+    this.SORT_SELECT_OPTION_TEXTS = ['By frequency', 'By length', 'Alphabetically'];
+    this.SORT_SELECT_ENTRY_DIRECTION = 'column';
+    this.SORT_SELECT_RADIO_TYPE = 'radio';
+
+    this.DEFAULT_SPAN_CLASS = 'lul-text';
+    this.HIGHLIGHT_SPAN_CLASS = 'lul-highlight-text';
+    this.HIGHLIGHT_TEXT_INTERVAL = 500;
+
+    this.TABLE_COLUMN_WIDTH = 130;
+    this.TABLE_CLASS = 'lul-full-width';
+    this.TABLE_ROW_CLASS = 'lul-light lul-medium-hover';
+    this.TABLE_CELL_CLASS = ' lul-text lul-highlight-text-hover';
+    this.TABLE_TEXT_CLASS = '';
+
+
+
+
+
+
+  }
+
+
+
+}
+
 const YTAPI = 'https://www.youtube.com/iframe_api';
 var videoId;
 var player;
@@ -134,8 +173,6 @@ var wordGroups;
 var wordInstances;
 
 function setTranscript(newTranscript) {transcript = newTranscript;}
-
-const STATREPLACECHARACTERS = /[%,.;?!/"“”„/\\/\n-0123456789–¿…]/g;
 const COMPARE_FUNKTIONS = {};
 COMPARE_FUNKTIONS.sortAmountUp = function(a,b) {
   return a.amount - b.amount;
@@ -161,32 +198,38 @@ COMPARE_FUNKTIONS.alphabetZtoA = function(a,b) {
 function getFullText() {
   fullText = '';
   for(let transcriptEntry of transcript) {
+
+    let textArea = document.createElement('textarea');
+    textArea.innerHTML = transcriptEntry.text;
+    transcriptEntry.text = textArea.value;
+    textArea.remove();
     fullText += transcriptEntry.text + ' ';
   }
   //html zeug entfernen
-  let textArea = document.createElement('textarea');
-  textArea.innerHTML = fullText;
-  fullText = textArea.value;
 }
 
-function getWordGroups() {
+function splitByWords(text) {
   //seperates string 'fullText' into array of strings 'wordInstances'
-  fullText = fullText.replaceAll(STATREPLACECHARACTERS, ' ').toLowerCase();
-  wordInstances = fullText.split(' ');
-  for(let i = 0; i < wordInstances.length; i++){
-    if(wordInstances[i] === '') {
-      wordInstances.splice(i, 1);
-      i--;
-    }
-  }
+  text = text.replaceAll(/\d/g, ' ');
+  text = text.replaceAll(/'/g, '0');
+  text = text.replaceAll(/\W/g, ' ');
+  text = text.replaceAll(/0+/g, "'");
+  
+  return text.trim().split(/ +/g);
+}
+function getWordGroups() {
+  
+  wordInstances = splitByWords(fullText);
   //groups wordInstances into wordGroups
   wordGroups = [];
   for(wordInstance of wordInstances) {
 
     let matchingWordGroupFound = false;
     for(existingWordGroup of wordGroups) {
-      if(existingWordGroup.name === wordInstance){
+      if(existingWordGroup.name.toLowerCase() === wordInstance.toLowerCase()){
         existingWordGroup.amount++;
+        if(wordInstance == wordInstance.toLowerCase())
+          existingWordGroup.name = wordInstance;
         matchingWordGroupFound = true;
         break;
       }
@@ -199,8 +242,6 @@ function sortWordGroups(comparator) {
   wordGroups.sort(COMPARE_FUNKTIONS[comparator]);
 }
 
-var statsTableDummy;
-
 var transcriptSpans;
 
 function clearTextRemainders() {
@@ -212,20 +253,29 @@ function clearTextRemainders() {
 
 
 
-
+var previousIndex = -1;
 function highlightText() {
-  if(transcript === undefined) {
+  if(transcript === undefined) 
     return;
-  }
+
+  let newIndex;
   for(let i = 0; i < transcript.length; i++) {
     let tsmp = transcript[i];
     let currentpos = currentPosition();
+
     if(tsmp.start < currentpos && tsmp.start + tsmp.duration > currentpos){
-      transcriptSpans[i].style = 'background-color:#CC9CDF';
+      newIndex = i;
+      break;
     }
-    else {
-      transcriptSpans[i].style = 'background-color:none';
-    }
+  }
+  if(newIndex == undefined)
+    newIndex = 0;
+  if(newIndex != previousIndex) {
+    if(previousIndex != -1)
+      transcriptSpans[previousIndex].className = grabber.DEFAULT_SPAN_CLASS;
+
+    transcriptSpans[newIndex].className = grabber.HIGHLIGHT_SPAN_CLASS;
+    previousIndex = newIndex;
   }
 }
 
@@ -233,10 +283,8 @@ function setText() {
   transcriptSpans = [];
 
   for(let transcriptEntry of transcript) {
-    let span = gen('span');
+    let span = genText(transcriptEntry.text + ' ');
 
-    span.innerHTML = transcriptEntry.text;
-    span.innerHTML += ' ';
     span.addEventListener('click', async function(e) {
       console.log(e);
       jumpInVideo(transcriptEntry.start);
@@ -249,9 +297,9 @@ function setText() {
 
 function setSortSelection() {
   let selectedSortButton = genButton({
-    text: 'Sort criterium'
+    text: grabber.SORT_SELECT_TEXT
   });
-  selectedSortButton.className = 'lul-medium';
+  selectedSortButton.className = grabber.SORT_SELECT_BUTTON_CLASS; 
 
   let selectedSortRadio = genSelection({
     name: 'selectedSort',
@@ -259,10 +307,12 @@ function setSortSelection() {
       setStatsTable(window['selectedSort']);
     },
     options: {
-      texts: ['By frequency', 'By length', 'Alphabetically'],
+      texts: grabber.SORT_SELECT_OPTION_TEXTS,
       values: ['sortAmountDown', 'sortLengthDown', 'alphabetAtoZ']
-    } ,
-    button: [selectedSortButton]
+    },
+    button: [selectedSortButton],
+    direction: grabber.SORT_SELECT_ENTRY_DIRECTION,
+    type: grabber.SORT_SELECT_RADIO_TYPE
   });
   set('sortSelectDummy', selectedSortRadio);
 
@@ -281,78 +331,64 @@ function setSortSelection() {
 
 
 function setStatsTable(comparator) {
-  statsTableDummy = get('statsTableDummy');
+
   sortWordGroups(comparator);
-  statsTableDummy.innerHTML = '';
-  statsTableDummy.appendChild(genStatsTable());
-}
+  let wordGroupIndex = 0;
 
+  let columnCount = Math.floor( get('statsTable.container').size[0] / grabber.TABLE_COLUMN_WIDTH);
+  console.log(columnCount);
+  let rowCount = Math.ceil(wordGroups.length / columnCount);
 
-function genStatsTable() {
-  let array = wordGroups;
-  let spaltn = 4;
-  let zeilen = undefined;
-  if(array%4==0){
-    zeilen = Math.floor(array.length/4);
-  }
-  else {
-    zeilen = Math.floor(array.length/4) + 1;
-  }
-  //console.log(zeilen);
-  let displayArray = [];
-  for(let entry of array) { // eintraege in die Tab. generieren...
-    let block = document.createElement('table');
-    block.style='width:100%';
-    let blockItem = document.createElement('TR');
-    let word = document.createElement('TD');
-    word.style='width:50%';
-    let amount = document.createElement('TD');
-    amount.style='width:50%';
-    word.appendChild(document.createTextNode(entry.name));
-    amount.appendChild(document.createTextNode(entry.amount));
-    blockItem.appendChild(word);
-    blockItem.appendChild(amount);
-    block.appendChild(blockItem);
-    //console.log(amount, word);
-    displayArray.push(block);
-
-    block.onclick = function() {
-      //console.log(entry.word);
-      highlightWord(entry.name);
-    };
-
-  }
-  //console.log(displayArray);
-  let table = document.createElement('table');
-  table.style='width:100%; border:2px solid black;';
-  for(let zeile = 0; zeile < zeilen; zeile++) {
-    let zeileItem = document.createElement('TR');
-    for(let spalte = 0; spalte < spaltn; spalte++) {
-      let spalteItem = document.createElement('TD');
-      spalteItem.style='border:2px solid black;';
-      //console.log(spalte + zeile * spaltn);
-      if(displayArray[spalte + zeile * spaltn] === undefined){
+  let table = gen('table', grabber.TABLE_CLASS);
+  for(let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+    let row = gen('tr', grabber.TABLE_ROW_CLASS);
+    for(let columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+      if(wordGroupIndex >= wordGroups.length)
         break;
-      }
-      spalteItem.appendChild(displayArray[spalte + zeile * spaltn]);
-      zeileItem.appendChild(spalteItem);
+      let wordGroup = wordGroups[wordGroupIndex];
+      wordGroupIndex++;
+
+      let text = gen('a', grabber.TABLE_TEXT_CLASS);
+      text.innerHTML = wordGroup.name;
+
+      let cell = gen('td', grabber.TABLE_CELL_CLASS);
+      cell.style.textAlign = 'center';
+      cell.addEventListener('click', function () {
+        highlightWord(wordGroup.name);
+      });
+      cell.appendChild(text);
+      row.appendChild(cell);
     }
-    table.appendChild(zeileItem);
+    table.appendChild(row);
   }
-  //console.log(table);
-  return table;
+  set('statsTableDummy', table);
 }
 
 function highlightWord(suchword) {
   for(let i = 0; i < transcript.length; i++) {
     let textToCheck = transcript[i].text;
-    let res = textToCheck.split(' ');
+    let words = textToCheck.split(/[ \n]/g);
     transcriptSpans[i].innerHTML = '';
-    for(let word of res) {
-      let wordSpan = document.createElement('SPAN');
+    for(let word of words) {
+      console.log('word: ', word);
+      let wordSpan = gen('span');
       wordSpan.innerHTML = word + ' ';
-      if(word.toLowerCase().includes(suchword)){
-        wordSpan.style = 'background-color:#33d7ff';
+
+      let match = false;
+      let wordNames = splitByWords(word);
+      for (let wordName of wordNames) {
+        console.log('wordName: ', wordName);
+        if(wordName.toLowerCase() != suchword.toLowerCase()) 
+          continue;
+
+        match = true;
+        break;
+      }
+
+      if(match){
+        wordSpan.className = grabber.HIGHLIGHT_SPAN_CLASS;
+      } else {
+        wordSpan.className = grabber.DEFAULT_SPAN_CLASS;
       }
       transcriptSpans[i].appendChild(wordSpan);
     }
@@ -360,109 +396,28 @@ function highlightWord(suchword) {
   }
 }
 
-function texas () {
+function initializeContainers () {
   //generate containers of given size
-  let player = new Container('player', [800, 450]);
-  let transcript = new Container('transcript', [200, 0]);
-  let statsTable = new Container('statsTable', [0, 100]);
+  let player = new Container('player', [600, 337.5]);
+  let transcript = new Container('transcript', [400, 0]);
+  let statsTable = new Container('statsTable', [0, 212.5]);
   let options = new Container('options', [0, 100], [true, false]);
+
 
   //making all containers visible
   [player, transcript, statsTable, options].forEach((container) => {
     container.setClass('lul-light');
   });
-  
+
   //arranging containers
   options.setRoot('frame');
   player.moveTo('down', options);
   transcript.moveTo('right', options, player);
   statsTable.moveTo('down', player, transcript);
 
-  fillContainers();
-}
-
-function cherry () {
-  //generate containers of given size
-  let options = new Container('options', [0, 100], [true, false]);
-  let player = new Container('player', [400, 450]);
-  let transcript = new Container('transcript', [800, 100]);
-  let statsTable = new Container('statsTable', [0, 100]);
-
-  //making all containers visible
-  [player, transcript, statsTable, options].forEach((container) => {
-    container.setClass('lul-light');
-  });
-  
-  //arranging containers
-  options.setRoot('frame');
-  player.moveTo('down', options);
-  transcript.moveTo('right', options, player);
-  statsTable.moveTo('down',  transcript);
 
   fillContainers();
-}
 
-function nakamoto () {
-  //generate containers of given size
-  let options = new Container('options', [0, 100], [true, false]);
-  let player = new Container('player', [400, 450]);
-  let transcript = new Container('transcript', [400, 0]);
-  let statsTable = new Container('statsTable', [400, 0]);
-
-  //making all containers visible
-  [player, transcript, statsTable, options].forEach((container) => {
-    container.setClass('lul-light');
-  });
-  
-  //arranging containers
-  options.setRoot('frame');
-  player.moveTo('up', options);
-  transcript.moveTo('right', options, player);
-  statsTable.moveTo('left', options, player);
-
-  fillContainers();
-}
-
-function redDragon () {
-  //generate containers of given size
-  let options = new Container('options', [0, 100], [true, false]);
-  let player = new Container('player', [600, 450]);
-  let transcript = new Container('transcript', [400, 0]);
-  let statsTable = new Container('statsTable', [400, 550]);
-
-  //making all containers visible
-  [player, transcript, statsTable, options].forEach((container) => {
-    container.setClass('lul-light');
-  });
-  
-  //arranging containers
-  options.setRoot('frame');
-  player.moveTo('up', options);
-  transcript.moveTo('right', options, player);
-
-  transcript.setTab('Analysis');
-  statsTable.setTab('Analysis');
-
-
-      
-  let tabButton = genButton({
-    text: 'Tab'
-  });
-  let tabRadio = genSelection({
-    button: [tabButton],
-    options: {
-      objects: [transcript, statsTable],
-      textFunction: ((container) => (container.id)),
-      valueFunction: ((container) => (container.name))
-    },
-    name: 'selectedTabContainer',
-    oninput: function () {
-      get(window['selectedTabContainer']).tabTo();
-    }
-  });
-  
-  fillContainers();
-  add('options', tabRadio);
 }
 
 
@@ -492,7 +447,6 @@ function fillContainers () {
   let statsTableDummy = genDummy('statsTableDummy');
   constrainDummy(statsTableDummy, 'statsTable');
   set('statsTable', statsTableDummy);
-  console.log('Heyo');
 }
 
 function genDummy(dummyName) {
@@ -509,28 +463,23 @@ function constrainDummy(dummy, containerName) {
   dummy.style.width = get(containerName + '.container').size[0] + 'px';
 }
 
-const DEFAULT_ID = '8TUK-M41hGI';
-const HIGHLIGHT_TEXT_INTERVAL = 500;
-
-document.getElementById('languageSelectDummy');
-
-const ID_ENTER_TEXT = 'Select YTid';
-const LANGUAGE_SELECT_TEXT = 'Select language';
+var highlightInterval;
 
 //called by an inline script
 function initalizeUI() {
   get('frame').style.display = 'inline-block';
+  initializeContainers();
   let idEnter = genEnter({
     name: 'enteredId'
   });
   let idButton = genButton({
-    text: ID_ENTER_TEXT,
+    text: grabber.ID_ENTER_TEXT,
     onclick: function(){setVideo(window['enteredId']);}
   });
   let idEntry = genEntry({
     content: [ idEnter ],
     button: [ idButton ],
-    direction: 'row'
+    direction: grabber.ID_ENTER_ENTRY_DIRECTION
   });
   set('idEnterDummy', idEntry);
 }
@@ -545,8 +494,8 @@ async function setVideo(enteredString) {
 
   let newId = castToId(enteredString);
 
-  let playerWidth = get('player.container').size[0] - 5;
-  let playerHeight = get('player.container').size[1] - 5;
+  let playerWidth = get('player.container').size[0];
+  let playerHeight = get('player.container').size[1] - 7;
   await setPlayerVideo('playerDummy', newId, playerWidth, playerHeight);
   get('playerDummy');
 
@@ -560,16 +509,16 @@ async function setVideo(enteredString) {
 function castToId(enteredString) {
   //ensures that the entered String is a proper Youtube id
   if(enteredString == undefined || enteredString == null || enteredString == '')
-    return DEFAULT_ID;
+    return grabber.DEFAULT_ID;
 
   return enteredString;
 }
 
 function dispatchHighlightText() {
   if(highlightInterval != undefined) clearInterval(highlightInterval);
-  var highlightInterval = setInterval(function() {
+  highlightInterval = setInterval(function() {
     highlightText();
-  }, HIGHLIGHT_TEXT_INTERVAL);
+  }, grabber.HIGHLIGHT_TEXT_INTERVAL);
 }
 
 async function setLanguageSelection() {
@@ -584,7 +533,7 @@ async function setLanguageSelection() {
   let languageList = await getLanguageList();
 
   let languageSelectButton = genButton({
-    text: LANGUAGE_SELECT_TEXT,
+    text: grabber.LANGUAGE_SELECT_TEXT,
     onclick: onclick
   });
 
@@ -596,11 +545,10 @@ async function setLanguageSelection() {
       valueFunction: function(obj) {return obj.code;}
     },
     button: [languageSelectButton],
-    type: 'radio',
+    type: grabber.LANGUAGE_SELECT_RADIO_TYPE,
+    direction: grabber.LANGUAGE_SELECT_ENTRY_DIRECTION
   });
   set('languageSelectDummy', languageSelectRadio);
 }
 
-console.log(initalizeUI, loadYTAPI,
-  texas, cherry, nakamoto, redDragon
-);
+console.log(initalizeUI, loadYTAPI, Grabber);

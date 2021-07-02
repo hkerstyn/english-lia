@@ -10,36 +10,30 @@
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210110.0/
 .lia-radio	lul/styles/lul-generic.css	/^.lia-radio {$/;"	c
-.lul-box	lul/styles/lul-generic.css	/^.lul-box {$/;"	c
 .lul-collapsible-height	lul/styles/lul-collapsible.css	/^.lul-collapsible-height {$/;"	c
 .lul-collapsible-width	lul/styles/lul-collapsible.css	/^.lul-collapsible-width {$/;"	c
 .lul-dark	lul/styles/lul-generic.css	/^.lul-dark, .lul-dark-hover:hover {$/;"	c
 .lul-dark	lul/styles/lul-generic.css	/^.lul-dark, .lul-medium, .lul-light {$/;"	c
 .lul-dark	lul/styles/lul-generic.css	/^.lul-dark{$/;"	c
 .lul-dark-hover:hover	lul/styles/lul-generic.css	/^.lul-dark, .lul-dark-hover:hover {$/;"	c
-.lul-entry	lul/styles/lul-entry.css	/^.lul-entry {$/;"	c
-.lul-entry-area	lul/styles/lul-entry.css	/^.lul-entry-area {$/;"	c
-.lul-entry-content	lul/styles/lul-entry.css	/^.lul-entry-content {$/;"	c
-.lul-entry:hover .lul-entry-area	lul/styles/lul-entry.css	/^.lul-entry:hover .lul-entry-area, .lul-entry[always-open] .lul-entry-area {$/;"	c
-.lul-entry:hover .lul-entry-content	lul/styles/lul-entry.css	/^.lul-entry:hover .lul-entry-content, .lul-entry[always-open] .lul-entry-content$/;"	c
-.lul-entry>*	lul/styles/lul-entry.css	/^.lul-entry>* {$/;"	c
-.lul-entry[always-open] .lul-entry-area	lul/styles/lul-entry.css	/^.lul-entry:hover .lul-entry-area, .lul-entry[always-open] .lul-entry-area {$/;"	c
-.lul-entry[always-open] .lul-entry-content	lul/styles/lul-entry.css	/^.lul-entry:hover .lul-entry-content, .lul-entry[always-open] .lul-entry-content$/;"	c
+.lul-full-width	lul/styles/lul-generic.css	/^.lul-full-width {$/;"	c
+.lul-highlight-text	lul/styles/lul-generic.css	/^.lul-highlight-text {$/;"	c
+.lul-highlight-text	lul/styles/lul-generic.css	/^.lul-highlight-text, .lul-highlight-text-hover:hover {$/;"	c
+.lul-highlight-text-hover:hover	lul/styles/lul-generic.css	/^.lul-highlight-text, .lul-highlight-text-hover:hover {$/;"	c
 .lul-light	lul/styles/lul-generic.css	/^.lul-dark, .lul-medium, .lul-light {$/;"	c
+.lul-light	lul/styles/lul-generic.css	/^.lul-light {$/;"	c
 .lul-light	lul/styles/lul-generic.css	/^.lul-light, .lul-light-hover:hover {$/;"	c
 .lul-light-hover:hover	lul/styles/lul-generic.css	/^.lul-light, .lul-light-hover:hover {$/;"	c
+.lul-margin	lul/styles/lul-generic.css	/^.lul-margin {$/;"	c
 .lul-medium	lul/styles/lul-generic.css	/^.lul-dark, .lul-medium, .lul-light {$/;"	c
 .lul-medium	lul/styles/lul-generic.css	/^.lul-medium {$/;"	c
 .lul-medium	lul/styles/lul-generic.css	/^.lul-medium, .lul-medium-hover:hover {$/;"	c
 .lul-medium-hover:hover	lul/styles/lul-generic.css	/^.lul-medium, .lul-medium-hover:hover {$/;"	c
+.lul-norm-height	lul/styles/lul-generic.css	/^.lul-norm-height {$/;"	c
 .lul-overflow	lul/styles/lul-collapsible.css	/^.lul-overflow {$/;"	c
 .lul-overflow-parent	lul/styles/lul-collapsible.css	/^.lul-overflow-parent {$/;"	c
 .lul-padding	lul/styles/lul-generic.css	/^.lul-padding {$/;"	c
-.lul-table	lul/styles/lul-table.css	/^.lul-table th, .lul-table td, .lul-table {$/;"	c
-.lul-table td	lul/styles/lul-table.css	/^.lul-table th, .lul-table td {$/;"	s
-.lul-table td	lul/styles/lul-table.css	/^.lul-table th, .lul-table td, .lul-table {$/;"	s
-.lul-table th	lul/styles/lul-table.css	/^.lul-table th, .lul-table td {$/;"	s
-.lul-table th	lul/styles/lul-table.css	/^.lul-table th, .lul-table td, .lul-table {$/;"	s
+.lul-text	lul/styles/lul-generic.css	/^.lul-text {$/;"	c
 0	consys/.babelrc.json	/^      "@babel\/env",$/;"	s	array:presets.0
 0	consys/.babelrc.json	/^    [$/;"	a	array:presets
 1	consys/.babelrc.json	/^      {$/;"	o	array:presets.0
@@ -48,12 +42,12 @@ AnonymousFunction1248cb9c0100	lul/input.js	/^  check.addEventListener('input', f
 AnonymousFunction1248cb9c0200	lul/input.js	/^  input.addEventListener('input', function() {window[this.name] = this.value;});$/;"	f
 AnonymousFunction172b91270100	grabber/wordRenderer.js	/^    span.addEventListener('click', async function(e) {$/;"	f
 AnonymousFunction172b91270200	grabber/wordRenderer.js	/^    oninput: function () {$/;"	f	function:setSortSelection
+AnonymousFunction172b91270300	grabber/wordRenderer.js	/^      cell.addEventListener('click', function () {$/;"	f
 AnonymousFunction56094f210100	grabber/youtube.js	/^  await new Promise(function(resolve,reject) {$/;"	f	function:loadYTAPI
 AnonymousFunction56094f210200	grabber/youtube.js	/^  await new Promise(function(resolve,reject) {$/;"	f	function:createYTPlayer
 AnonymousFunction56094f210300	grabber/youtube.js	/^        onStateChange: function(e) {ret.onPlayerStateChange(e);}$/;"	f	function:createYTPlayer.AnonymousFunction56094f210200
 AnonymousFunction56094f210400	grabber/youtube.js	/^  return new Promise(function(resolve, reject) {$/;"	f	function:loadTranscript
 AnonymousFunction56094f210500	grabber/youtube.js	/^  return new Promise(function(resolve, reject) {$/;"	f	function:getLanguageList
-AnonymousFunction6afda1d70100	grabber/container.js	/^    oninput: function () {$/;"	f	function:redDragon
 AnonymousFunction6b0a7cd60100	lul/collapsible.js	/^  setTimeout(function () {$/;"	f	function:genCollapsible
 AnonymousFunction6b0a7cd60200	lul/collapsible.js	/^      toggle.addEventListener('click', function () {$/;"	f	function:genCollapsible.AnonymousFunction6b0a7cd60100
 AnonymousFunction6b0a7cd60300	lul/collapsible.js	/^      hover.addEventListener('mouseenter', function () {$/;"	f
@@ -74,81 +68,55 @@ AnonymousFunctionbae60f1d0200	YTGrabber/YTAPIScript.js	/^  await new Promise(fun
 AnonymousFunctionbae60f1d0300	YTGrabber/YTAPIScript.js	/^        onStateChange: function(e) {ret.onPlayerStateChange(e);}$/;"	f	function:createYTPlayer.AnonymousFunctionbae60f1d0200
 AnonymousFunctiond4a7653f0100	Test/test.js	/^  onclick: function () {$/;"	f
 AnonymousFunctionfb3bef250100	grabber/interface.js	/^    onclick: function(){setVideo(window['enteredId']);}$/;"	f	function:initalizeUI
-AnonymousFunctionfb3bef250200	grabber/interface.js	/^  var highlightInterval = setInterval(function() {$/;"	f	function:dispatchHighlightText
+AnonymousFunctionfb3bef250200	grabber/interface.js	/^  highlightInterval = setInterval(function() {$/;"	f	function:dispatchHighlightText
 AnonymousFunctionfb3bef250300	grabber/interface.js	/^      textFunction: function(obj) {return obj.languageName;},$/;"	f	function:setLanguageSelection
 AnonymousFunctionfb3bef250400	grabber/interface.js	/^      valueFunction: function(obj) {return obj.code;}$/;"	f	function:setLanguageSelection
-CELL_CLASSNAME	lul/table.js	/^const CELL_CLASSNAME = 'lul-light lul-medium-hover lul-padding';$/;"	C
-CELL_NAME	lul/table.js	/^const CELL_NAME = 'Zelle ';$/;"	C
+COLLAPSIBLE_CLASS_MAP	lul/embed.js	/^    this.COLLAPSIBLE_CLASS_MAP = {$/;"	c	class:Lul.constructor
 COMPARE_FUNKTIONS	YTGrabber/index.js	/^const COMPARE_FUNKTIONS = {}$/;"	C
 COMPARE_FUNKTIONS	grabber/wordHandler.js	/^const COMPARE_FUNKTIONS = {};$/;"	C
-Cherry	grabber/grabber.md	/^## Cherry$/;"	s	chapter:Youtube Script Grabber
-ConSys - Container System	consys/manifest.md	/^# ConSys - Container System$/;"	c
 Container	consys/container.js	/^export class Container extends Sizeable {$/;"	c
-ContainerTab	consys/container.js	/^class ContainerTab extends Tab {$/;"	c
-DEFAULT_ID	grabber/interface.js	/^const DEFAULT_ID = '8TUK-M41hGI';$/;"	C
-Group	consys/item.js	/^export class Group {$/;"	c
-HEAD_CLASSNAME	lul/table.js	/^const HEAD_CLASSNAME = 'lul-dark lul-medium-hover lul-padding';$/;"	C
-HEAD_NAME	lul/table.js	/^const HEAD_NAME = 'Kopf ';$/;"	C
-HEIGHT	grabber/interface.js	/^const HEIGHT = 600;$/;"	C
-HIGHLIGHT_TEXT_INTERVAL	grabber/interface.js	/^const HIGHLIGHT_TEXT_INTERVAL = 500;$/;"	C
+Grabber	grabber/embed.js	/^export class Grabber {$/;"	c
 HIGHT	YTGrabber/index.js	/^const HIGHT = 600;$/;"	C
-HOVER_COLLAPSE_DELAY	lul/collapsible.js	/^const HOVER_COLLAPSE_DELAY = '0.45s';$/;"	C
-ID_ENTER_TEXT	grabber/interface.js	/^const ID_ENTER_TEXT = 'Select YTid';$/;"	C
-Item	consys/item.js	/^export class Item {$/;"	c
+INPUT_ELEMENTS	lul/embed.js	/^    this.INPUT_ELEMENTS = {$/;"	c	class:Lul.constructor
 LANGUAGEADD	YTGrabber/index.js	/^const LANGUAGEADD = "&lang="$/;"	C
 LANGUAGEADD	grabber/youtube.js	/^const LANGUAGEADD = '&lang=';$/;"	C
-LANGUAGE_SELECT_TEXT	grabber/interface.js	/^const LANGUAGE_SELECT_TEXT = 'Select language';$/;"	C
-MAX_SELECTION_WIDTH	lul/selection.js	/^const MAX_SELECTION_WIDTH = 500;$/;"	C
-MIN_WIDTH_DICT	lul/input.js	/^const MIN_WIDTH_DICT = {$/;"	c
+Lul	lul/embed.js	/^export class Lul {$/;"	c
 MyPlayer	YTGrabber/index.html	/^                <td><div id = "MyPlayer"><\/div><\/td>$/;"	I
 NAME_DICT	consys/orientation.js	/^const NAME_DICT = [$/;"	C
-Nakamoto	grabber/grabber.md	/^## Nakamoto$/;"	s	chapter:Youtube Script Grabber
-Objekte	consys/manifest.md	/^## Objekte$/;"	s	chapter:ConSys - Container System
-Orientable	consys/orientable.js	/^export class Orientable extends TreeItem {$/;"	c
+Orientable	consys/orientable.js	/^export class Orientable extends TreeNode {$/;"	c
 Orientation	consys/orientation.js	/^export class Orientation {$/;"	c
 PlatzhalterfuerTextBox	YTGrabber/index.html	/^                        <p id="PlatzhalterfuerTextBox"><\/p>$/;"	I
-Red Dragon	grabber/grabber.md	/^## Red Dragon$/;"	s	chapter:Youtube Script Grabber
-SELECTED_BUTTON_RADIO_CLASSNAME	lul/selection.js	/^const SELECTED_BUTTON_RADIO_CLASSNAME = 'lul-dark';$/;"	C
 STATREPLACECHARACTERS	YTGrabber/index.js	/^const STATREPLACECHARACTERS = \/[%,.;?!\/"“”„\/\\\\\/\\n-0123456789–¿…]\/g$/;"	C
 STATREPLACECHARACTERS	grabber/wordHandler.js	/^const STATREPLACECHARACTERS = \/[%,.;?!\/"“”„\/\\\\\/\\n-0123456789–¿…]\/g;$/;"	C
 STORED_ELEMENTS	base/insert.js	/^var STORED_ELEMENTS = {};$/;"	v
 Sizeable	consys/sizeable.js	/^export class Sizeable extends Orientable {$/;"	c
-Steuerung	consys/manifest.md	/^## Steuerung$/;"	s	chapter:ConSys - Container System
-Tab	consys/tab.js	/^export class Tab extends Item {$/;"	c
-TabGroup	consys/tab.js	/^class TabGroup extends Group {$/;"	c
+TODO	grabber/grabber.md	/^# TODO$/;"	c
 Test	Test/test.md	/^# Test$/;"	c
 Test-Kurs zum Ausprobieren	YTGrabber/grabber.md	/^# Test-Kurs zum Ausprobieren$/;"	c
-Texas	grabber/grabber.md	/^## Texas$/;"	s	chapter:Youtube Script Grabber
-TreeGroup	consys/tree.js	/^export class TreeGroup extends Group {$/;"	c
-TreeItem	consys/tree.js	/^export class TreeItem extends Item {$/;"	c
-UNSELECTED_BUTTON_RADIO_CLASSNAME	lul/selection.js	/^const UNSELECTED_BUTTON_RADIO_CLASSNAME = 'lul-light lul-medium-hover';$/;"	C
+TreeNode	consys/tree.js	/^export class TreeNode {$/;"	c
 VIDEOLANGAUGE	YTGrabber/index.js	/^const VIDEOLANGAUGE = "https:\/\/video.google.com\/timedtext?type=list&v="$/;"	C
 VIDEOLANGUAGE	grabber/youtube.js	/^const VIDEOLANGUAGE = 'https:\/\/video.google.com\/timedtext?type=list&v=';$/;"	C
 VIDEOLINK	YTGrabber/index.js	/^const VIDEOLINK = "https:\/\/video.google.com\/timedtext?v="$/;"	C
 VIDEOLINK	grabber/youtube.js	/^const VIDEOLINK = 'https:\/\/video.google.com\/timedtext?v=';$/;"	C
 Video Grabber	YTGrabber/grabber.md	/^## Video Grabber$/;"	s	chapter:Test-Kurs zum Ausprobieren
 WIDTH	YTGrabber/index.js	/^const WIDTH = 1000;$/;"	C
-WIDTH	grabber/interface.js	/^const WIDTH = 1000;$/;"	C
-Was ist ConSys?	consys/manifest.md	/^## Was ist ConSys?$/;"	s	chapter:ConSys - Container System
-Wie funktioniert es?	consys/manifest.md	/^## Wie funktioniert es?$/;"	s	chapter:ConSys - Container System
 YTAPI	YTGrabber/YTAPIScript.js	/^const YTAPI = 'https:\/\/www.youtube.com\/iframe_api';$/;"	C
 YTAPI	grabber/youtube.js	/^const YTAPI = 'https:\/\/www.youtube.com\/iframe_api';$/;"	C
 YTScriptGrabber	YTGrabber/README.md	/^# YTScriptGrabber$/;"	c
 Youtube Script Grabber	grabber/grabber.md	/^# Youtube Script Grabber$/;"	c
-[Symbol.iterator]	consys/tree.js	/^  *[Symbol.iterator]() {$/;"	g	class:TreeItem
+[Symbol.iterator]	consys/tree.js	/^  *[Symbol.iterator]() {$/;"	g	class:TreeNode
 add	base/insert.js	/^export function add(parentKey, ...elementKeys) {$/;"	f
-addCells	lul/table.js	/^function addCells(table, cells, type, className)$/;"	f
+addAfter	consys/tree.js	/^  addAfter(sibling) {$/;"	m	class:TreeNode
+addAsSiblingOf	consys/tree.js	/^  addAsSiblingOf(sibling, index) {$/;"	m	class:TreeNode
+addBefore	consys/tree.js	/^  addBefore(sibling) {$/;"	m	class:TreeNode
 addNextTo	consys/orientable.js	/^  addNextTo(orientationName, target) {$/;"	m	class:Orientable
-addSizes	consys/sizeable.js	/^  static addSizes(direction, size1, size2) {$/;"	m	class:Sizeable
-addToGroup	consys/container.js	/^  addToGroup(group, index) {$/;"	m	class:Container
-addToGroup	consys/item.js	/^  addToGroup(group, index) {$/;"	m	class:Item
-addToGroupAfter	consys/item.js	/^  addToGroupAfter(item) {$/;"	m	class:Item
-addToGroupBefore	consys/item.js	/^  addToGroupBefore(item) {$/;"	m	class:Item
-addToGroupOf	consys/item.js	/^  addToGroupOf(item, index) {$/;"	m	class:Item
+addSizes	consys/sizeable.js	/^function addSizes(direction, size1, size2) {$/;"	f
 alphabetAtoZ	YTGrabber/index.js	/^COMPARE_FUNKTIONS.alphabetAtoZ = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
 alphabetAtoZ	grabber/wordHandler.js	/^COMPARE_FUNKTIONS.alphabetAtoZ = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
 alphabetZtoA	YTGrabber/index.js	/^COMPARE_FUNKTIONS.alphabetZtoA = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
 alphabetZtoA	grabber/wordHandler.js	/^COMPARE_FUNKTIONS.alphabetZtoA = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
+ancestorGenerator	consys/tree.js	/^  *ancestorGenerator() {$/;"	g	class:TreeNode
+ancestors	consys/tree.js	/^  get ancestors() {return [...this.ancestorGenerator()];}$/;"	G	class:TreeNode
 ant	Test/test.js	/^let ant = new Container('Ant', [100, 200] );$/;"	v
 bee	Test/test.js	/^let bee = new Container('Bee', [50, 70]);$/;"	v
 calculateElementPosition	lul/overflow.js	/^function calculateElementPosition(element) {$/;"	f
@@ -156,28 +124,26 @@ calculateElementSize	lul/overflow.js	/^function calculateElementSize (element) {
 castToId	grabber/interface.js	/^function castToId(enteredString) {$/;"	f
 changeYTVideo	YTGrabber/YTAPIScript.js	/^async function changeYTVideo(YTPlayer, newVideo) {$/;"	f
 changeYTVideo	grabber/youtube.js	/^async function changeYTVideo() {$/;"	f
-cherry	grabber/container.js	/^export function cherry () {$/;"	f
-children	consys/tree.js	/^  get children() {$/;"	G	class:TreeItem
+check	lul/embed.js	/^      check: {$/;"	c	class:Lul.constructor.INPUT_ELEMENTS
 chrome	consys/.babelrc.json	/^          "chrome": "67",$/;"	s	object:presets.0.1.targets
 cicada	Test/test.js	/^let cicada = new Container('Cicada', [30, 30]);$/;"	v
-classNameMap	lul/collapsible.js	/^var classNameMap = {$/;"	c
+className	lul/embed.js	/^        className: 'lia-checkbox',$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.check
+className	lul/embed.js	/^        className: 'lia-input',$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.enter
+className	lul/embed.js	/^        className: 'lia-radio',$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.radio
+className	lul/embed.js	/^        className: 'lia-range',$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.range
 clearTextRemainders	grabber/wordRenderer.js	/^export function clearTextRemainders() {$/;"	f
 collapseElement	lul/collapsible.js	/^function collapseElement(collapsible, delay) {$/;"	f
 column	lul/collapsible.js	/^  column: 'height'$/;"	p	class:directionSizeAttributeMap
-commonParent	consys/tree.js	/^  commonParent(...treeItems) {$/;"	m	class:TreeItem
-commonParent	consys/tree.js	/^  static commonParent(...treeItems) {$/;"	m	class:TreeItem
+commonAncestor	consys/tree.js	/^  commonAncestor(...treeNodes) {$/;"	m	class:TreeNode
+commonAncestor	consys/tree.js	/^  static commonAncestor(...treeNodes) {$/;"	m	class:TreeNode
 constrainDummy	grabber/container.js	/^function constrainDummy(dummy, containerName) {$/;"	f
-constructor	consys/container.js	/^  constructor(container, tabGroupName) {$/;"	m	class:ContainerTab
 constructor	consys/container.js	/^  constructor(id, size, allowLengthChange) {$/;"	m	class:Container
-constructor	consys/item.js	/^  constructor() {$/;"	m	class:Group
-constructor	consys/item.js	/^  constructor(name) {$/;"	m	class:Item
 constructor	consys/orientable.js	/^  constructor(name, direction) {$/;"	m	class:Orientable
 constructor	consys/orientation.js	/^  constructor(direction, factor) {$/;"	m	class:Orientation
 constructor	consys/sizeable.js	/^  constructor(name, minSize, allowLengthChange) {$/;"	m	class:Sizeable
-constructor	consys/tab.js	/^  constructor(tabGroupName) {$/;"	m	class:Tab
-constructor	consys/tab.js	/^  constructor(tabGroupName) {$/;"	m	class:TabGroup
-constructor	consys/tree.js	/^  constructor(name) {$/;"	m	class:TreeItem
-constructor	consys/tree.js	/^  constructor(parent) {$/;"	m	class:TreeGroup
+constructor	consys/tree.js	/^  constructor(name) {$/;"	m	class:TreeNode
+constructor	grabber/embed.js	/^  constructor() {$/;"	m	class:Grabber
+constructor	lul/embed.js	/^  constructor() {$/;"	m	class:Lul
 createYTPlayer	YTGrabber/YTAPIScript.js	/^async function createYTPlayer(playerID, width, height, videoID) {$/;"	f
 createYTPlayer	grabber/youtube.js	/^async function createYTPlayer(playerID, width, height) {$/;"	f
 curTranscript	YTGrabber/index.js	/^let curTranscript = undefined;$/;"	v
@@ -188,6 +154,7 @@ dispatchHighlightText	grabber/interface.js	/^function dispatchHighlightText() {$
 dragonfly	Test/test.js	/^let dragonfly = new Container('Dragonfly', [100, 70]);$/;"	v
 edge	consys/.babelrc.json	/^          "edge": "17",$/;"	s	object:presets.0.1.targets
 element	consys/container.js	/^  get element() {$/;"	G	class:Container
+enter	lul/embed.js	/^      enter: {$/;"	c	class:Lul.constructor.INPUT_ELEMENTS
 expandElement	lul/collapsible.js	/^function expandElement(collapsible) {$/;"	f
 fillContainers	grabber/container.js	/^function fillContainers () {$/;"	f
 firefox	consys/.babelrc.json	/^          "firefox": "60",$/;"	s	object:presets.0.1.targets
@@ -197,37 +164,31 @@ gen	base/misc.js	/^export function gen(name, className) {$/;"	f
 genBox	lul/box.js	/^export function genBox(arg) {$/;"	f
 genButton	lul/input.js	/^export function genButton(arg) {$/;"	f
 genButtonRadioArray	lul/selection.js	/^export function genButtonRadioArray(arg) {$/;"	f
-genCells	lul/table.js	/^function genCells(rowCount, columnCount) {return genElements(rowCount, columnCount, CELL_NAME);}$/;"	f
 genCheck	lul/input.js	/^export function genCheck(arg) {$/;"	f
 genCollapsible	lul/collapsible.js	/^export function genCollapsible(arg) {$/;"	f
 genDummy	grabber/container.js	/^function genDummy(dummyName) {$/;"	f
-genElements	lul/table.js	/^function genElements(rowCount, columnCount, name)$/;"	f
 genEnter	lul/input.js	/^export function genEnter(arg) {$/;"	f
 genEntry	lul/entry.js	/^export function genEntry(arg) {$/;"	f
-genFullTable	lul/table.js	/^export function genFullTable(rowCount, columnCount, containsHeads) {$/;"	f
-genHeads	lul/table.js	/^function genHeads(columnCount) {return genElements(1, columnCount, HEAD_NAME);}$/;"	f
-genInput	lul/input.js	/^export function genInput(arg, type, className) {$/;"	f
+genInput	lul/input.js	/^export function genInput(arg, inputName) {$/;"	f
 genOptionArray	lul/selection.js	/^function genOptionArray(options)$/;"	f
 genOverflow	lul/overflow.js	/^export function genOverflow(arg) {$/;"	f
 genRadioArray	lul/selection.js	/^export function genRadioArray(arg) {$/;"	f
 genRange	lul/input.js	/^export function genRange(arg) {$/;"	f
 genSelection	lul/selection.js	/^export function genSelection(arg) {$/;"	f
-genStatsTable	grabber/wordRenderer.js	/^function genStatsTable() {$/;"	f
-genTable	lul/table.js	/^export function genTable(cells, heads)$/;"	f
 genText	base/misc.js	/^export function genText(content) {$/;"	f
 generateStats	YTGrabber/index.js	/^function generateStats(text) {$/;"	f
 generateStatsTable	YTGrabber/index.js	/^function generateStatsTable(array) {$/;"	f
-getCommonParent	consys/tree.js	/^function getCommonParent(...treeItems) {$/;"	f
+getCommonAncestor	consys/tree.js	/^function getCommonAncestor(...treeNodes) {$/;"	f
 getFullText	grabber/wordHandler.js	/^export function getFullText() {$/;"	f
 getLanguageList	YTGrabber/index.js	/^async function getLanguageList(videoID) {$/;"	f
 getLanguageList	grabber/youtube.js	/^export async function getLanguageList() {$/;"	f
 getMinSize	consys/sizeable.js	/^  getMinSize() {$/;"	m	class:Sizeable
 getText	YTGrabber/index.js	/^function getText(xmldoc) {$/;"	f
-getThicknessAndLengthIndex	consys/sizeable.js	/^  static getThicknessAndLengthIndex(direction) {$/;"	m	class:Sizeable
+getThicknessAndLengthIndex	consys/sizeable.js	/^function getThicknessAndLengthIndex(direction) {$/;"	f
 getTranscript	grabber/youtube.js	/^export async function getTranscript(language) {$/;"	f
 getWordGroups	grabber/wordHandler.js	/^export function getWordGroups() {$/;"	f
-height	lul/collapsible.js	/^  height: 'lul-collapsible-height'$/;"	p	class:classNameMap
 height	lul/collapsible.js	/^  height: 'scrollHeight'$/;"	p	class:scrollSizeAttributeMap
+height	lul/embed.js	/^      height: 'lul-collapsible-height'$/;"	p	class:Lul.constructor.COLLAPSIBLE_CLASS_MAP
 highlightInterval	grabber/interface.js	/^var highlightInterval;$/;"	v
 highlightText	YTGrabber/index.js	/^function highlightText(currentpos) {$/;"	f
 highlightText	grabber/wordRenderer.js	/^export function highlightText() {$/;"	f
@@ -237,26 +198,27 @@ hightlightWord	YTGrabber/index.js	/^function hightlightWord(suchword) {$/;"	f
 idCount	base/misc.js	/^var idCount = 0;$/;"	v
 idEnterDummy	grabber/compatibility/grabber.html	/^    <span id="idEnterDummy"><\/span>$/;"	I
 initalizeUI	grabber/interface.js	/^export function initalizeUI() {$/;"	f
+initializeContainers	grabber/container.js	/^export function initializeContainers () {$/;"	f
+inputType	lul/embed.js	/^        inputType: 'checkbox'$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.check
+inputType	lul/embed.js	/^        inputType: 'radio'$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.radio
+inputType	lul/embed.js	/^        inputType: 'range'$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.range
+inputType	lul/embed.js	/^        inputType: 'text'$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.enter
 insert	base/insert.js	/^export function insert(mode, parentKey, ...elementKeys) {$/;"	f
-isActiveTab	consys/tab.js	/^  get isActiveTab() {$/;"	G	class:Tab
 jumpInVideo	YTGrabber/YTAPIScript.js	/^async function jumpInVideo(YTPlayer, position) {$/;"	f
 jumpInVideo	grabber/youtube.js	/^export async function jumpInVideo(position) {$/;"	f
 languageSelectDummy	grabber/compatibility/grabber.html	/^    <span id="languageSelectDummy"><\/span>$/;"	I
-languageSelectDummy	grabber/interface.js	/^const languageSelectDummy = document.getElementById('languageSelectDummy');$/;"	C
-lia-checkbox	lul/input.js	/^  ['lia-checkbox']: 0,$/;"	p	class:MIN_WIDTH_DICT
-lia-input	lul/input.js	/^  ['lia-input']: 225$/;"	p	class:MIN_WIDTH_DICT
-lia-radio	lul/input.js	/^  ['lia-radio']: 0,$/;"	p	class:MIN_WIDTH_DICT
-lia-range	lul/input.js	/^  ['lia-range']: 225,$/;"	p	class:MIN_WIDTH_DICT
 loadTranscript	YTGrabber/index.js	/^async function loadTranscript(videoID, language){$/;"	f
 loadTranscript	grabber/youtube.js	/^async function loadTranscript(language){$/;"	f
 loadYTAPI	YTGrabber/YTAPIScript.js	/^async function loadYTAPI() {$/;"	f
 loadYTAPI	grabber/youtube.js	/^export async function loadYTAPI() {$/;"	f
 make	base/insert.js	/^export function make(parentKey, ...elementKeys) {$/;"	f
+minWidth	lul/embed.js	/^        minWidth: 0,$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.check
+minWidth	lul/embed.js	/^        minWidth: 0,$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.radio
+minWidth	lul/embed.js	/^        minWidth: 225,$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.enter
+minWidth	lul/embed.js	/^        minWidth: 225,$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.range
 moveTo	consys/container.js	/^  moveTo(orientationName, ...targetKeys) {$/;"	m	class:Container
 myTextfield	YTGrabber/index.html	/^                    <input type="text" id = "myTextfield">$/;"	I
-nakamoto	grabber/container.js	/^export function nakamoto () {$/;"	f
 name	consys/orientation.js	/^  get name() {$/;"	G	class:Orientation
-next	consys/item.js	/^  get next() {$/;"	G	class:Item
 ofName	consys/orientation.js	/^  static ofName(name) {$/;"	m	class:Orientation
 onPlayerStateChange	YTGrabber/YTAPIScript.js	/^  ret.onPlayerStateChange = function() {};$/;"	f	function:ret
 onPlayerStateChange	grabber/youtube.js	/^  ret.onPlayerStateChange = function() {};$/;"	f	function:ret
@@ -269,15 +231,10 @@ onchange	YTGrabber/index.js	/^    selectSort.onchange = function() {$/;"	f	funct
 onclick	YTGrabber/index.js	/^    block.onclick = function() {$/;"	f	function:block
 onclick	YTGrabber/index.js	/^    nextButton.onclick = async function() {$/;"	f	function:nextButton
 onclick	grabber/interface.js	/^  let onclick = async function() {$/;"	f	function:setLanguageSelection
-onclick	grabber/wordRenderer.js	/^    block.onclick = function() {$/;"	f	function:block
 onload	YTGrabber/index.js	/^        request.onload = function () {$/;"	f	function:request
 onload	YTGrabber/index.js	/^onload = function() {$/;"	f
 onload	grabber/youtube.js	/^    request.onload = function () {$/;"	f	function:request
 overlapTest	lul/overflow.js	/^function overlapTest (overflow1, overflow2) {$/;"	f
-parent	consys/tree.js	/^  get parent() {$/;"	G	class:TreeItem
-parent	consys/tree.js	/^  set parent(newParent) {$/;"	S	class:TreeItem
-parentGenerator	consys/tree.js	/^  *parentGenerator() {$/;"	g	class:TreeItem
-parents	consys/tree.js	/^  get parents() {return [...this.parentGenerator()];}$/;"	G	class:TreeItem
 parseLanguageList	YTGrabber/index.js	/^function parseLanguageList(xmldoc) {$/;"	f
 parseLanguageList	grabber/youtube.js	/^function parseLanguageList(xmldoc) {$/;"	f
 placefuerselectzwo	YTGrabber/index.html	/^                    <span id="placefuerselectzwo"><\/span>$/;"	I
@@ -289,15 +246,12 @@ player	YTGrabber/index.js	/^let player = undefined;$/;"	v
 player	grabber/youtube.js	/^var player;$/;"	v
 playerDummy	grabber/compatibility/grabber.html	/^    <div id = "playerDummy"><\/div>$/;"	I
 playerDummy	grabber/interface.js	/^var playerDummy;$/;"	v
-playerDummyID	grabber/interface.js	/^const playerDummyID = 'playerDummy';$/;"	C
 presets	consys/.babelrc.json	/^  "presets": [$/;"	a
-previous	consys/item.js	/^  get previous() {$/;"	G	class:Item
-recalculateIndices	consys/item.js	/^  recalculateIndices() {$/;"	m	class:Group
+previousIndex	grabber/wordRenderer.js	/^var previousIndex = -1;$/;"	v
+radio	lul/embed.js	/^      radio: {$/;"	c	class:Lul.constructor.INPUT_ELEMENTS
+range	lul/embed.js	/^      range: {$/;"	c	class:Lul.constructor.INPUT_ELEMENTS
+recalculateIndices	consys/tree.js	/^  recalculateIndices() {$/;"	m	class:TreeNode
 recalculateOverflowIndices	lul/overflow.js	/^export function recalculateOverflowIndices () {$/;"	f
-redDragon	grabber/container.js	/^export function redDragon () {$/;"	f
-removeFromGroup	consys/container.js	/^  removeFromGroup() {$/;"	m	class:Container
-removeFromGroup	consys/item.js	/^  removeFromGroup() {$/;"	m	class:Item
-removeFromGroup	consys/tab.js	/^  removeFromGroup() {$/;"	m	class:Tab
 render	consys/container.js	/^  render() {$/;"	m	class:Container
 renderText	YTGrabber/index.js	/^function renderText() {$/;"	f
 result	base/insert.js	/^  let result =  document.getElementById(key);$/;"	v
@@ -306,14 +260,14 @@ safari	consys/.babelrc.json	/^          "safari": "11.1"$/;"	s	object:presets.0.
 scrollSizeAttributeMap	lul/collapsible.js	/^var scrollSizeAttributeMap = {$/;"	c
 setClass	consys/container.js	/^  setClass(newClass) {$/;"	m	class:Container
 setLanguageSelection	grabber/interface.js	/^async function setLanguageSelection() {$/;"	f
-setParent	consys/tree.js	/^  setParent(newParent, index) {$/;"	m	class:TreeItem
+setParent	consys/container.js	/^  setParent(parent, index) {$/;"	m	class:Container
+setParent	consys/tree.js	/^  setParent(parent, index) {$/;"	m	class:TreeNode
 setPlayerVideo	grabber/youtube.js	/^export async function setPlayerVideo(playerDummyID, newId, width, height) {$/;"	f
 setRoot	consys/container.js	/^  setRoot(key) {$/;"	m	class:Container
 setSize	consys/container.js	/^  setSize(size) {$/;"	m	class:Container
 setSize	consys/sizeable.js	/^  setSize(size) {$/;"	m	class:Sizeable
 setSortSelection	grabber/wordRenderer.js	/^export function setSortSelection() {$/;"	f
 setStatsTable	grabber/wordRenderer.js	/^function setStatsTable(comparator) {$/;"	f
-setTab	consys/container.js	/^  setTab(tabGroupName) {$/;"	m	class:Container
 setText	grabber/wordRenderer.js	/^export function setText() {$/;"	f
 setTranscript	grabber/wordHandler.js	/^export function setTranscript(newTranscript) {transcript = newTranscript;}$/;"	f
 setVideo	YTGrabber/index.js	/^async function setVideo(video) {$/;"	f
@@ -334,18 +288,13 @@ spacefuerStats	YTGrabber/index.html	/^                    <div id="spacefuerStat
 spacefuerStats	YTGrabber/index.js	/^let spacefuerStats = document.getElementById("spacefuerStats");$/;"	v
 split	consys/container.js	/^  split(direction) {$/;"	m	class:Container
 split	consys/orientable.js	/^  split(direction, splitParent) {$/;"	m	class:Orientable
+splitByWords	grabber/wordHandler.js	/^export function splitByWords(text) {$/;"	f
 startProg	YTGrabber/index.js	/^async function startProg() {$/;"	f
 statsTableDummy	grabber/compatibility/grabber.html	/^    <div id="statsTableDummy"><\/div>$/;"	I
 statsTableDummy	grabber/wordRenderer.js	/^var statsTableDummy;$/;"	v
 statsarray	YTGrabber/index.js	/^let statsarray = undefined;$/;"	v
 store	base/insert.js	/^export function store(element, id) {$/;"	f
-tabTo	consys/container.js	/^  tabTo() {$/;"	m	class:Container
-tabTo	consys/container.js	/^  tabTo() {$/;"	m	class:ContainerTab
-tabTo	consys/tab.js	/^  tabTo() {$/;"	m	class:Tab
-tabToNext	consys/tab.js	/^  tabToNext() {$/;"	m	class:Tab
-tabToPrevious	consys/tab.js	/^  tabToPrevious() {$/;"	m	class:Tab
 targets	consys/.babelrc.json	/^        "targets": {$/;"	o	object:presets.0.1
-texas	grabber/container.js	/^export function texas () {$/;"	f
 textDummy	grabber/compatibility/grabber.html	/^    <p id="textDummy"><\/p>$/;"	I
 textDummy	grabber/wordRenderer.js	/^var textDummy;$/;"	v
 texthaufen	YTGrabber/index.js	/^let texthaufen = undefined;$/;"	v
@@ -359,7 +308,7 @@ truetypeof	base/misc.js	/^export function truetypeof(value) {$/;"	f
 uid	base/misc.js	/^export function uid() {$/;"	f
 updateSizes	consys/container.js	/^  static updateSizes() {$/;"	m	class:Container
 videoId	grabber/youtube.js	/^var videoId;$/;"	v
-width	lul/collapsible.js	/^  width: 'lul-collapsible-width',$/;"	p	class:classNameMap
 width	lul/collapsible.js	/^  width: 'scrollWidth',$/;"	p	class:scrollSizeAttributeMap
+width	lul/embed.js	/^      width: 'lul-collapsible-width',$/;"	p	class:Lul.constructor.COLLAPSIBLE_CLASS_MAP
 wordGroups	grabber/wordHandler.js	/^export var wordGroups;$/;"	v
 wordInstances	grabber/wordHandler.js	/^export var wordInstances;$/;"	v

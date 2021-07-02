@@ -1,7 +1,7 @@
 //imports all lul-functions. gets bundled by rollup into lul.js
 
-import {genTable, genFullTable}
-  from './table.js';
+import {Lul}
+  from './embed.js';
 import {genButton, genEnter, genRange, genCheck}
   from './input.js';
 import {genRadioArray, genButtonRadioArray, genSelection}
@@ -16,11 +16,10 @@ import {genBox}
   from './box.js';
 
 
-
 //tell rollup that all of these functions are in fact necessary
 console.log(
+  Lul,
   genButton, genEnter, genRange, genCheck,
   genRadioArray, genButtonRadioArray, genSelection,
-  genCollapsible, genOverflow, genEntry, genBox,
-  genTable, genFullTable, 
+  genCollapsible, genOverflow, genEntry, genBox
 );

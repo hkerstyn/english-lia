@@ -22,7 +22,7 @@ export class Sizeable extends Orientable {
     let minSize = this.getMinSize();
 
     let [thicknessIndex, lengthIndex]
-      = Sizeable.getThicknessAndLengthIndex(this.direction);
+      = getThicknessAndLengthIndex(this.direction);
 
 
     let lengthToGain = size[lengthIndex] - minSize[lengthIndex];
@@ -59,7 +59,7 @@ export class Sizeable extends Orientable {
     
     let minSize = [0, 0];
     this.children.forEach((child) => {
-      minSize = Sizeable.addSizes(
+      minSize = addSizes(
         this.direction,
         minSize,
         child.getMinSize()
@@ -68,32 +68,32 @@ export class Sizeable extends Orientable {
     this.minSize = minSize;
     return minSize;
   }
+}
 
-  static addSizes(direction, size1, size2) {
-    let [thicknessIndex, lengthIndex]
-      = Sizeable.getThicknessAndLengthIndex(direction);
-    let compoundSize = [0, 0];
+function addSizes(direction, size1, size2) {
+  let [thicknessIndex, lengthIndex]
+      = getThicknessAndLengthIndex(direction);
+  let compoundSize = [0, 0];
 
-    compoundSize[thicknessIndex] = Math.max(
-      size1[thicknessIndex],
-      size2[thicknessIndex]
-    );
-    compoundSize[lengthIndex] = 
+  compoundSize[thicknessIndex] = Math.max(
+    size1[thicknessIndex],
+    size2[thicknessIndex]
+  );
+  compoundSize[lengthIndex] = 
       size1[lengthIndex]
     + size2[lengthIndex];
 
-    return compoundSize;
-  }
-
-
-  static getThicknessAndLengthIndex(direction) {
-    let thicknessIndex = 1;
-    let lengthIndex = 0;
-    if(direction == 'column') {
-      thicknessIndex = 0;
-      lengthIndex = 1;
-    }
-    return [thicknessIndex, lengthIndex];
-  }
-
+  return compoundSize;
 }
+
+function getThicknessAndLengthIndex(direction) {
+  let thicknessIndex = 1;
+  let lengthIndex = 0;
+  if(direction == 'column') {
+    thicknessIndex = 0;
+    lengthIndex = 1;
+  }
+  return [thicknessIndex, lengthIndex];
+}
+
+

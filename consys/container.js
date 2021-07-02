@@ -1,21 +1,8 @@
 import {Sizeable}
   from './sizeable.js';
-import {Tab}
-  from './tab.js';
-import {TreeItem}
+import {TreeNode}
   from './tree.js';
 
-class ContainerTab extends Tab {
-  constructor(container, tabGroupName) {
-    super(tabGroupName);
-    this.container = container;
-  }
-  tabTo() {
-    container.addToGroupAfter(this.group.activeTab.container);
-    this.group.activeTab.container.removeFromGroup();
-    super.tabTo();
-  }
-}
 
 export class Container extends Sizeable {
 
@@ -24,11 +11,6 @@ export class Container extends Sizeable {
     this.id = id;
   }
 
-  setTab(tabGroupName) {
-    this.tab = new Tab(tabGroupName);
-    this.tab.container = this;
-    let stub = this.element;
-  }
 
   get element() {
     if(this.internalElement == undefined) return this.render();
@@ -77,23 +59,24 @@ export class Container extends Sizeable {
     return table;
   }
 
-  addToGroup(group, index) {
-    super.addToGroup(group, index);
-    this.parent.render();
+  setParent(parent, index) {
+    let oldParent;
+    if(this.parent != undefined)
+      oldParent = this.parent;
+
+    super.setParent(parent, index);
+    parent.render();
+    
+    if(oldParent != undefined)
+      oldParent.render();
+
     Container.updateSizes();
   }
 
-  removeFromGroup() {
-    if(this.group == undefined) return;
-    let parent = this.group.parent;
-    super.removeFromGroup();
-    parent.render();
-    Container.updateSizes();
-  }
 
   setRoot(key) {
     let root = new Container('Root');
-    this.parent = root;
+    this.setParent(root);
     set(key, root.element);
     get(key).className += ' lul-light';
   }
@@ -105,11 +88,13 @@ export class Container extends Sizeable {
 
     root.setSize(root.getMinSize());
   }
+
   setSize(size) {
     super.setSize(size);
     this.element.style.width = size[0] + 'px';
     this.element.style.height = size[1] + 'px';
   }
+
   split(direction) {
     let splitParent = new Container(uid());
     splitParent.direction = direction;
@@ -123,23 +108,15 @@ export class Container extends Sizeable {
     }
   }
 
-  tabTo() {
-    if(this.tab == undefined) return;
-    if(this.tab.isActiveTab) return;
-    let activeContainer = this.tab.group.activeTab.container;
-    this.parent = activeContainer.parent; 
-    activeContainer.removeFromGroup();
-    this.tab.tabTo();
-  }
-
   moveTo(orientationName, ...targetKeys) {
     let targets = [];
     targetKeys.forEach((targetKey) => {
       targets.push(get(targetKey));
     });
 
-    let commonParent = TreeItem.commonParent(...targets);
-    this.addNextTo(orientationName, commonParent);
+    let commonAncestor = TreeNode.commonAncestor(...targets);
+
+    this.addNextTo(orientationName, commonAncestor);
   }
 
 }

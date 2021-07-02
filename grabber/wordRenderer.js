@@ -5,7 +5,7 @@ var sortSelectDummy;
 var transcriptSpans;
 
 import {transcript, setTranscript, wordGroups, wordInstances, sortWordGroups,
-  getFullText, getWordGroups} from './wordHandler.js';
+  getFullText, splitByWords, getWordGroups} from './wordHandler.js';
 import {jumpInVideo, currentPosition} from './youtube.js';
 
 export function clearTextRemainders() {
@@ -17,20 +17,29 @@ export function clearTextRemainders() {
 
 
 
-
+var previousIndex = -1;
 export function highlightText() {
-  if(transcript === undefined) {
+  if(transcript === undefined) 
     return;
-  }
+
+  let newIndex;
   for(let i = 0; i < transcript.length; i++) {
     let tsmp = transcript[i];
     let currentpos = currentPosition();
+
     if(tsmp.start < currentpos && tsmp.start + tsmp.duration > currentpos){
-      transcriptSpans[i].style = 'background-color:#CC9CDF';
+      newIndex = i;
+      break;
     }
-    else{
-      transcriptSpans[i].style = 'background-color:none';
-    }
+  }
+  if(newIndex == undefined)
+    newIndex = 0;
+  if(newIndex != previousIndex) {
+    if(previousIndex != -1)
+      transcriptSpans[previousIndex].className = grabber.DEFAULT_SPAN_CLASS;
+
+    transcriptSpans[newIndex].className = grabber.HIGHLIGHT_SPAN_CLASS;
+    previousIndex = newIndex;
   }
 }
 
@@ -38,10 +47,8 @@ export function setText() {
   transcriptSpans = [];
 
   for(let transcriptEntry of transcript) {
-    let span = gen('span');
+    let span = genText(transcriptEntry.text + ' ');
 
-    span.innerHTML = transcriptEntry.text;
-    span.innerHTML += ' ';
     span.addEventListener('click', async function(e) {
       console.log(e);
       jumpInVideo(transcriptEntry.start);
@@ -54,9 +61,9 @@ export function setText() {
 
 export function setSortSelection() {
   let selectedSortButton = genButton({
-    text: 'Sort criterium'
+    text: grabber.SORT_SELECT_TEXT
   });
-  selectedSortButton.className = 'lul-medium';
+  selectedSortButton.className = grabber.SORT_SELECT_BUTTON_CLASS; 
 
   let selectedSortRadio = genSelection({
     name: 'selectedSort',
@@ -64,10 +71,12 @@ export function setSortSelection() {
       setStatsTable(window['selectedSort']);
     },
     options: {
-      texts: ['By frequency', 'By length', 'Alphabetically'],
+      texts: grabber.SORT_SELECT_OPTION_TEXTS,
       values: ['sortAmountDown', 'sortLengthDown', 'alphabetAtoZ']
-    } ,
-    button: [selectedSortButton]
+    },
+    button: [selectedSortButton],
+    direction: grabber.SORT_SELECT_ENTRY_DIRECTION,
+    type: grabber.SORT_SELECT_RADIO_TYPE
   });
   set('sortSelectDummy', selectedSortRadio);
 
@@ -86,78 +95,64 @@ export function setSortSelection() {
 
 
 function setStatsTable(comparator) {
-  statsTableDummy = get('statsTableDummy');
+
   sortWordGroups(comparator);
-  statsTableDummy.innerHTML = '';
-  statsTableDummy.appendChild(genStatsTable());
-}
+  let wordGroupIndex = 0;
 
+  let columnCount = Math.floor( get('statsTable.container').size[0] / grabber.TABLE_COLUMN_WIDTH);
+  console.log(columnCount);
+  let rowCount = Math.ceil(wordGroups.length / columnCount);
 
-function genStatsTable() {
-  let array = wordGroups;
-  let spaltn = 4;
-  let zeilen = undefined;
-  if(array%4==0){
-    zeilen = Math.floor(array.length/4);
-  }
-  else{
-    zeilen = Math.floor(array.length/4) + 1;
-  }
-  //console.log(zeilen);
-  let displayArray = [];
-  for(let entry of array) { // eintraege in die Tab. generieren...
-    let block = document.createElement('table');
-    block.style='width:100%';
-    let blockItem = document.createElement('TR');
-    let word = document.createElement('TD');
-    word.style='width:50%';
-    let amount = document.createElement('TD');
-    amount.style='width:50%';
-    word.appendChild(document.createTextNode(entry.name));
-    amount.appendChild(document.createTextNode(entry.amount));
-    blockItem.appendChild(word);
-    blockItem.appendChild(amount);
-    block.appendChild(blockItem);
-    //console.log(amount, word);
-    displayArray.push(block);
-
-    block.onclick = function() {
-      //console.log(entry.word);
-      highlightWord(entry.name);
-    };
-
-  }
-  //console.log(displayArray);
-  let table = document.createElement('table');
-  table.style='width:100%; border:2px solid black;';
-  for(let zeile = 0; zeile < zeilen; zeile++) {
-    let zeileItem = document.createElement('TR');
-    for(let spalte = 0; spalte < spaltn; spalte++) {
-      let spalteItem = document.createElement('TD');
-      spalteItem.style='border:2px solid black;';
-      //console.log(spalte + zeile * spaltn);
-      if(displayArray[spalte + zeile * spaltn] === undefined){
+  let table = gen('table', grabber.TABLE_CLASS);
+  for(let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+    let row = gen('tr', grabber.TABLE_ROW_CLASS);
+    for(let columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+      if(wordGroupIndex >= wordGroups.length)
         break;
-      }
-      spalteItem.appendChild(displayArray[spalte + zeile * spaltn]);
-      zeileItem.appendChild(spalteItem);
+      let wordGroup = wordGroups[wordGroupIndex];
+      wordGroupIndex++;
+
+      let text = gen('a', grabber.TABLE_TEXT_CLASS);
+      text.innerHTML = wordGroup.name;
+
+      let cell = gen('td', grabber.TABLE_CELL_CLASS);
+      cell.style.textAlign = 'center';
+      cell.addEventListener('click', function () {
+        highlightWord(wordGroup.name);
+      });
+      cell.appendChild(text);
+      row.appendChild(cell);
     }
-    table.appendChild(zeileItem);
+    table.appendChild(row);
   }
-  //console.log(table);
-  return table;
+  set('statsTableDummy', table);
 }
 
 function highlightWord(suchword) {
   for(let i = 0; i < transcript.length; i++) {
     let textToCheck = transcript[i].text;
-    let res = textToCheck.split(' ');
+    let words = textToCheck.split(/[ \n]/g);
     transcriptSpans[i].innerHTML = '';
-    for(let word of res) {
-      let wordSpan = document.createElement('SPAN');
+    for(let word of words) {
+      console.log('word: ', word);
+      let wordSpan = gen('span');
       wordSpan.innerHTML = word + ' ';
-      if(word.toLowerCase().includes(suchword)){
-        wordSpan.style = 'background-color:#33d7ff';
+
+      let match = false;
+      let wordNames = splitByWords(word);
+      for (let wordName of wordNames) {
+        console.log('wordName: ', wordName);
+        if(wordName.toLowerCase() != suchword.toLowerCase()) 
+          continue;
+
+        match = true;
+        break;
+      }
+
+      if(match){
+        wordSpan.className = grabber.HIGHLIGHT_SPAN_CLASS;
+      } else {
+        wordSpan.className = grabber.DEFAULT_SPAN_CLASS;
       }
       transcriptSpans[i].appendChild(wordSpan);
     }

@@ -1,77 +1,15 @@
-class Group {
-  constructor() {
-    this.items = [];
-  }
+class TreeNode {
 
-  recalculateIndices() {
-    this.items.forEach((item, i) => {
-      item.index = i;
-    });
-
-  }
-}
-
-class Item {
   constructor(name) {
     this.name = name;
     store(this, name);
+    this.children = [];
   }
 
-
-  addToGroup(group, index) {
-    this.removeFromGroup();
-
-    if(index == undefined)
-      group.items.push(this);
-    else
-      group.items.splice(index, 0, this);
-
-    this.group = group;
-    this.group.recalculateIndices();
-  }
-  addToGroupOf(item, index) {
-    this.addToGroup(item.group, index);
-  }
-  addToGroupAfter(item) {
-    this.addToGroupOf(item, item.index + 1);
-  }
-  addToGroupBefore(item) {
-    this.addToGroupOf(item, item.index);
-  }
-
-  removeFromGroup() {
-    if(this.group == undefined) return;
-    this.group.items.splice(this.index, 1);
-
-    this.group.recalculateIndices();
-    this.group = undefined;
-    this.index = undefined;
-  }
-
-  get next() {
-    return this.group.items[this.index + 1];
-  }
-
-  get previous() {
-    return this.group.items[this.index - 1];
-  }
-}
-
-class TreeGroup extends Group {
-  constructor(parent) {
-    super();
-    this.parent = parent;
-  }
-}
-
-class TreeItem extends Item {
-  constructor(name) {
-    super(name);
-    this.childGroup = new TreeGroup(this);
-  }
-
-  get children() {
-    return this.childGroup.items;
+  recalculateIndices() {
+    this.children.forEach((child, i) => {
+      child.index = i;
+    });
   }
 
   *[Symbol.iterator]() {
@@ -81,110 +19,69 @@ class TreeItem extends Item {
   }
 
 
+  setParent(parent, index) {
+    if(this.parent != undefined) {
+      this.parent.children.splice(this.index, 1);
+      this.parent.recalculateIndices();
+    }
 
-  get parent() {
-    if(this.group == undefined)
-      return undefined;
-    return this.group.parent;
-  }
-  set parent(newParent) {
-    this.setParent(newParent);
-  }
-  setParent(newParent, index) {
-    this.addToGroup(newParent.childGroup, index);
+    if(index == undefined)
+      parent.children.push(this);
+    else
+      parent.children.splice(index, 0, this);
+
+    this.parent = parent;
+    parent.recalculateIndices();
   }
 
-  get parents() {return [...this.parentGenerator()];}
+  addAsSiblingOf(sibling, index) {
+    this.setParent(sibling.parent, index);
+  }
+  addAfter(sibling) {
+    this.addAsSiblingOf(sibling, sibling.index + 1);
+  }
+  addBefore(sibling) {
+    this.addAsSiblingOf(sibling, sibling.index);
+  }
 
-  *parentGenerator() {
+  get ancestors() {return [...this.ancestorGenerator()];}
+
+  *ancestorGenerator() {
     yield this;
     if(this.parent != undefined)
-      yield* this.parent.parentGenerator();
+      yield* this.parent.ancestorGenerator();
   }
 
-  commonParent(...treeItems) {
-    return TreeItem.commonParent(this, ...treeItems);
+  commonAncestor(...treeNodes) {
+    return TreeNode.commonAncestor(this, ...treeNodes);
   }
-  static commonParent(...treeItems) {
-    if (treeItems.length == 1) {
-      return treeItems[0]; 
+  static commonAncestor(...treeNodes) {
+    if (treeNodes.length == 1) {
+      return treeNodes[0]; 
     }
-    return getCommonParent(...treeItems);
+    return getCommonAncestor(...treeNodes);
   }
-
-
 
 }
 
 
-//returns the smallest common Parent of a number of treeItems
+//returns the smallest common Parent of a number of treeNodes
 
-function getCommonParent(...treeItems) {
-  if(treeItems.length > 2)
-    return getCommonParent(treeItems[0],
-      getCommonParent(...treeItems.slice(1)));
+function getCommonAncestor(...treeNodes) {
+  if(treeNodes.length > 2)
+    return getCommonAncestor(treeNodes[0],
+      getCommonAncestor(...treeNodes.slice(1)));
 
-  let comparatorGenerator = treeItems[1].parentGenerator();
+  let comparatorGenerator = treeNodes[1].ancestorGenerator();
 
-  for(let comparatorItem of comparatorGenerator) {
-    let referenceGenerator = treeItems[0].parentGenerator();
-    for(let referenceItem of referenceGenerator) {
-      if(referenceItem == comparatorItem)
-        return referenceItem;
+  for(let comparatorNode of comparatorGenerator) {
+    let referenceGenerator = treeNodes[0].ancestorGenerator();
+    for(let referenceNode of referenceGenerator) {
+      if(referenceNode == comparatorNode)
+        return referenceNode;
     }
   }
   return undefined;
-}
-
-class TabGroup extends Group {
-  constructor(tabGroupName) {
-    super();
-    store(this, tabGroupName);
-  }
-
-}
-
-
-
-class Tab extends Item {
-
-  constructor(tabGroupName) {
-    let tabGroup = get(tabGroupName);
-    if(tabGroup == undefined)
-      tabGroup = new TabGroup(tabGroupName);
-
-
-    let tabName = tabGroupName + tabGroup.items.length;
-    super(tabName);
-
-    this.addToGroup(tabGroup);
-    if(tabGroup.activeTab == undefined)
-      this.tabTo();
-  }
-
-  get isActiveTab() {
-    return (this == this.group.activeTab);
-  }
-
-  tabTo() {
-    this.group.activeTab = this;
-  }
-  tabToNext() {
-    if(this.next == undefined)
-      this.group.items[0].tabTo();
-    else this.next.tabTo();
-  }
-  tabToPrevious() {
-    if(this.previous == undefined)
-      this.group.items.slice(-1)[0].tabTo();
-    else this.previous.tabTo();
-  }
-  removeFromGroup() {
-    if(this.group == undefined) return;
-    if(this.isActiveTab)
-      this.tabToPrevious();
-    super.removeFromGroup();
-  }
 }
 
 const NAME_DICT = [
@@ -226,12 +123,14 @@ class Orientation {
   }
 }
 
-class Orientable extends TreeItem {
+class Orientable extends TreeNode {
 
   constructor(name, direction) {
     super(name);
     if(direction != undefined)
       this.direction = direction;
+    else
+      this.direction = null;
   }
   
 
@@ -239,26 +138,36 @@ class Orientable extends TreeItem {
     if(splitParent == undefined)
       splitParent = new Orientable(uid(), direction);
 
-    splitParent.addToGroupAfter(this);
-    this.parent = splitParent;
+    splitParent.addAfter(this);
+    this.setParent(splitParent);
   }
+
   addNextTo(orientationName, target) {
     let orientation = Orientation.ofName(orientationName);
 
-    if(orientation.direction != target.parent.direction)
+    let targetParentDirection;
+    if(target.parent != undefined)
+      targetParentDirection = target.parent.direction;
+    else
+      targetParentDirection = 'none';
+
+    if(orientation.direction != targetParentDirection)
       target.split(orientation.direction);
 
 
-    let oldParent = this.parent;
+    let oldParent;
+    if(this.parent != undefined)
+      oldParent = this.parent;
+
+
     switch (orientation.factor) {
-    case 'neg': this.addToGroupBefore(target); break;
-    case 'pos': this.addToGroupAfter(target); break;
+    case 'neg': this.addBefore(target); break;
+    case 'pos': this.addAfter(target); break;
     }
 
     if(oldParent != undefined)
       if(oldParent.children.length == 1) {
-        oldParent.children[0].addToGroupAfter(oldParent);
-        oldParent.removeFromGroup();
+        oldParent.children[0].addAfter(oldParent);
       }
   }
 }
@@ -283,7 +192,7 @@ class Sizeable extends Orientable {
     let minSize = this.getMinSize();
 
     let [thicknessIndex, lengthIndex]
-      = Sizeable.getThicknessAndLengthIndex(this.direction);
+      = getThicknessAndLengthIndex(this.direction);
 
 
     let lengthToGain = size[lengthIndex] - minSize[lengthIndex];
@@ -320,7 +229,7 @@ class Sizeable extends Orientable {
     
     let minSize = [0, 0];
     this.children.forEach((child) => {
-      minSize = Sizeable.addSizes(
+      minSize = addSizes(
         this.direction,
         minSize,
         child.getMinSize()
@@ -329,34 +238,32 @@ class Sizeable extends Orientable {
     this.minSize = minSize;
     return minSize;
   }
+}
 
-  static addSizes(direction, size1, size2) {
-    let [thicknessIndex, lengthIndex]
-      = Sizeable.getThicknessAndLengthIndex(direction);
-    let compoundSize = [0, 0];
+function addSizes(direction, size1, size2) {
+  let [thicknessIndex, lengthIndex]
+      = getThicknessAndLengthIndex(direction);
+  let compoundSize = [0, 0];
 
-    compoundSize[thicknessIndex] = Math.max(
-      size1[thicknessIndex],
-      size2[thicknessIndex]
-    );
-    compoundSize[lengthIndex] = 
+  compoundSize[thicknessIndex] = Math.max(
+    size1[thicknessIndex],
+    size2[thicknessIndex]
+  );
+  compoundSize[lengthIndex] = 
       size1[lengthIndex]
     + size2[lengthIndex];
 
-    return compoundSize;
+  return compoundSize;
+}
+
+function getThicknessAndLengthIndex(direction) {
+  let thicknessIndex = 1;
+  let lengthIndex = 0;
+  if(direction == 'column') {
+    thicknessIndex = 0;
+    lengthIndex = 1;
   }
-
-
-  static getThicknessAndLengthIndex(direction) {
-    let thicknessIndex = 1;
-    let lengthIndex = 0;
-    if(direction == 'column') {
-      thicknessIndex = 0;
-      lengthIndex = 1;
-    }
-    return [thicknessIndex, lengthIndex];
-  }
-
+  return [thicknessIndex, lengthIndex];
 }
 
 class Container extends Sizeable {
@@ -366,11 +273,6 @@ class Container extends Sizeable {
     this.id = id;
   }
 
-  setTab(tabGroupName) {
-    this.tab = new Tab(tabGroupName);
-    this.tab.container = this;
-    this.element;
-  }
 
   get element() {
     if(this.internalElement == undefined) return this.render();
@@ -419,23 +321,24 @@ class Container extends Sizeable {
     return table;
   }
 
-  addToGroup(group, index) {
-    super.addToGroup(group, index);
-    this.parent.render();
+  setParent(parent, index) {
+    let oldParent;
+    if(this.parent != undefined)
+      oldParent = this.parent;
+
+    super.setParent(parent, index);
+    parent.render();
+    
+    if(oldParent != undefined)
+      oldParent.render();
+
     Container.updateSizes();
   }
 
-  removeFromGroup() {
-    if(this.group == undefined) return;
-    let parent = this.group.parent;
-    super.removeFromGroup();
-    parent.render();
-    Container.updateSizes();
-  }
 
   setRoot(key) {
     let root = new Container('Root');
-    this.parent = root;
+    this.setParent(root);
     set(key, root.element);
     get(key).className += ' lul-light';
   }
@@ -447,11 +350,13 @@ class Container extends Sizeable {
 
     root.setSize(root.getMinSize());
   }
+
   setSize(size) {
     super.setSize(size);
     this.element.style.width = size[0] + 'px';
     this.element.style.height = size[1] + 'px';
   }
+
   split(direction) {
     let splitParent = new Container(uid());
     splitParent.direction = direction;
@@ -465,25 +370,17 @@ class Container extends Sizeable {
     }
   }
 
-  tabTo() {
-    if(this.tab == undefined) return;
-    if(this.tab.isActiveTab) return;
-    let activeContainer = this.tab.group.activeTab.container;
-    this.parent = activeContainer.parent; 
-    activeContainer.removeFromGroup();
-    this.tab.tabTo();
-  }
-
   moveTo(orientationName, ...targetKeys) {
     let targets = [];
     targetKeys.forEach((targetKey) => {
       targets.push(get(targetKey));
     });
 
-    let commonParent = TreeItem.commonParent(...targets);
-    this.addNextTo(orientationName, commonParent);
+    let commonAncestor = TreeNode.commonAncestor(...targets);
+
+    this.addNextTo(orientationName, commonAncestor);
   }
 
 }
 
-console.log(TreeItem, Tab, Orientation, Orientable, Container);
+console.log(Container);

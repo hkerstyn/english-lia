@@ -1,17 +1,5 @@
-const DEFAULT_ID = '8TUK-M41hGI';
-const WIDTH = 1000;
-const HEIGHT = 600;
-const HIGHLIGHT_TEXT_INTERVAL = 500;
-
-const languageSelectDummy = document.getElementById('languageSelectDummy');
-const playerDummyID = 'playerDummy';
-var playerDummy;
-
-
 var highlightInterval;
-
-const ID_ENTER_TEXT = 'Select YTid';
-const LANGUAGE_SELECT_TEXT = 'Select language';
+var playerDummy;
 
 import {setPlayerVideo, getTranscript, getLanguageList}
   from './youtube.js';
@@ -25,17 +13,18 @@ import {initializeContainers}
 //called by an inline script
 export function initalizeUI() {
   get('frame').style.display = 'inline-block';
+  initializeContainers();
   let idEnter = genEnter({
     name: 'enteredId'
   });
   let idButton = genButton({
-    text: ID_ENTER_TEXT,
+    text: grabber.ID_ENTER_TEXT,
     onclick: function(){setVideo(window['enteredId']);}
   });
   let idEntry = genEntry({
     content: [ idEnter ],
     button: [ idButton ],
-    direction: 'row'
+    direction: grabber.ID_ENTER_ENTRY_DIRECTION
   });
   set('idEnterDummy', idEntry);
 }
@@ -50,8 +39,8 @@ async function setVideo(enteredString) {
 
   let newId = castToId(enteredString);
 
-  let playerWidth = get('player.container').size[0] - 5;
-  let playerHeight = get('player.container').size[1] - 5;
+  let playerWidth = get('player.container').size[0];
+  let playerHeight = get('player.container').size[1] - 7;
   await setPlayerVideo('playerDummy', newId, playerWidth, playerHeight);
   playerDummy = get('playerDummy');
 
@@ -65,16 +54,16 @@ async function setVideo(enteredString) {
 function castToId(enteredString) {
   //ensures that the entered String is a proper Youtube id
   if(enteredString == undefined || enteredString == null || enteredString == '')
-    return DEFAULT_ID;
+    return grabber.DEFAULT_ID;
 
   return enteredString;
 }
 
 function dispatchHighlightText() {
   if(highlightInterval != undefined) clearInterval(highlightInterval);
-  var highlightInterval = setInterval(function() {
+  highlightInterval = setInterval(function() {
     highlightText();
-  }, HIGHLIGHT_TEXT_INTERVAL);
+  }, grabber.HIGHLIGHT_TEXT_INTERVAL);
 }
 
 async function setLanguageSelection() {
@@ -89,7 +78,7 @@ async function setLanguageSelection() {
   let languageList = await getLanguageList();
 
   let languageSelectButton = genButton({
-    text: LANGUAGE_SELECT_TEXT,
+    text: grabber.LANGUAGE_SELECT_TEXT,
     onclick: onclick
   });
 
@@ -101,7 +90,8 @@ async function setLanguageSelection() {
       valueFunction: function(obj) {return obj.code;}
     },
     button: [languageSelectButton],
-    type: 'radio',
+    type: grabber.LANGUAGE_SELECT_RADIO_TYPE,
+    direction: grabber.LANGUAGE_SELECT_ENTRY_DIRECTION
   });
   set('languageSelectDummy', languageSelectRadio);
 }

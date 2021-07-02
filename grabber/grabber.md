@@ -1,66 +1,52 @@
 <!--
 author:   Daniel Hoffmann
-
 version:  0.0.1
-
 language: en
-
 narrator: US English Female
-
 
 online-link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
 offline-link: http://localhost:3000/home/english-lia/
 
-script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/base.js
-script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/consys.js
-script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/grabber.js
-script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/lul.js
-link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/lul.css
-link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/consys.css
-
-
-
-
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
+link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
+link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
 
 -->
 
 # Youtube Script Grabber
 
-Below several layout options.
+<script input="hidden" defer>
 
-If something does not work, consider:
-* pressing F5
-* selecting another language
-* reopening the website
+  let grabber = new Grabber();
+  window['grabber'] = grabber;
 
+  let lul = new Lul();
+  window['lul'] = lul;
 
-<div style="display:none">
-To Do immediatly:
+  loadYTAPI();
+  initalizeUI()
 
-Bugs to fix:
+</script>
 
-* loading video does not work after hopping slides
-* rework word detection (don instead of don't)
-* fix being unable to properly select words
-* fix some languaes not working
+<div id='frame'></div>
+
+# TODO
 
 To Do next:
-* build a lul-dropdown
 * support of youtube links
-* implement message at top
-* make table and highlights into lia-colors
 * clean up & prettify codebase
-* show highlighted text immediatly
-
-To Do later:
-
-* restructure layout
 
 
+Bugs to fix:
+* loading video does not work after hopping slides
+* fix some languaes not working
 
 
 To maybe Do at some point:
-
+* implement message at top
 * search for keywords
 * jump to section
 * exclude small words
@@ -70,32 +56,6 @@ To maybe Do at some point:
 * select and save technical terms
 * video controlling by lecturer
 
-8TUK-M41hGI
-document.getElementById('myTextfield').value
 
-</div>
-
-
-
-## Texas
-
-<script input="hidden" defer> loadYTAPI(); texas(); initalizeUI();</script>
-<div id='frame'></div>
-
-## Cherry
-
-<script input="hidden" defer> loadYTAPI(); cherry(); initalizeUI();</script>
-<div id='frame'></div>
-
-## Nakamoto
-
-<script input="hidden" defer> loadYTAPI(); nakamoto(); initalizeUI();</script>
-<div id='frame'></div>
-
-
-## Red Dragon
-
-<script input="hidden" defer> loadYTAPI(); redDragon(); initalizeUI();</script>
-<div id='frame'></div>
 
 

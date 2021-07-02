@@ -1,77 +1,53 @@
-/*
-    genFullTable(rowCount, columnCount, containsHeads) generates a table of given
-    size with or without table heads, where the cells are filled with text elements
-    (see CELL_NAME, HEAD_NAME)
-
-    genTable(cells, heads) generates a table where 'cells' is an array of arrays of
-    nodes to be put into the table cells. 'head' is a single array (omit this argument to avoid
-    a table head alltogether)
-
-*/
+class Lul {
 
 
+  constructor() {
+    this.BOX_CLASS = 'lul-padding lul-light';
 
-//names of elements in full Table
-const CELL_NAME = 'Zelle ';
-const HEAD_NAME = 'Kopf ';
+    this.HOVER_COLLAPSE_DELAY = '0.45s';
+    this.HOVER_INITIAL_DELAY_MS = 80;
+    this.COLLAPSIBLE_CLASS_MAP = {
+      width: 'lul-collapsible-width',
+      height: 'lul-collapsible-height'
+    };
+  
+    this.DEFAULT_OVERFLOW_CLASS = 'lul-overflow';
+    this.DEFAULT_OVERFLOW_PARENT_CLASS = 'lul-overflow-parent lul-margin';
+    this.DEFAULT_BUTTON_CLASS = 'lul-dark lul-medium-hover lul-norm-height';
 
-const CELL_CLASSNAME = 'lul-light lul-medium-hover lul-padding';
-const HEAD_CLASSNAME = 'lul-dark lul-medium-hover lul-padding';
+    this.INPUT_ELEMENTS = {
+      radio: {
+        className: 'lia-radio',
+        minWidth: 0,
+        inputType: 'radio'
+      },
+      check: {
+        className: 'lia-checkbox',
+        minWidth: 0,
+        inputType: 'checkbox'
+      },
+      range: {
+        className: 'lia-range',
+        minWidth: 225,
+        inputType: 'range'
+      },
+      enter: {
+        className: 'lia-input',
+        minWidth: 225,
+        inputType: 'text'
+      }
+    }; 
+ 
+    this.SELECTED_BUTTON_RADIO_CLASSNAME = 'lul-dark';
+    this.UNSELECTED_BUTTON_RADIO_CLASSNAME = 'lul-light lul-medium-hover';
+    this.MAX_SELECTION_WIDTH = 500;
 
-/*table functions*/
-
-function genFullTable(rowCount, columnCount, containsHeads) {
-  let cells = genCells(rowCount,columnCount);
-
-  //both heads and cells
-  let heads = genHeads(columnCount);
-  return genTable(cells, heads);
-}
-
-function genTable(cells, heads)
-{
-  let table = gen('table', 'lul-table');
-
-  if(heads != null && heads != undefined && heads.length > 0)
-    addCells(table, heads, 'TH', HEAD_CLASSNAME);
-
-  if(cells != null && cells != undefined && cells.length > 0)
-    addCells(table , cells, 'TD', CELL_CLASSNAME);
-
-  return table;
-}
+    
 
 
 
-//adds elements (cells or heads) of HTML type to table
-function addCells(table, cells, type, className)
-{
-
-  for(let i = 0; i < cells.length; i++) { //loop through rows
-    let row = gen('TR');
-    for(let j = 0; j < cells[i].length; j++) { //loop through columns
-      let cellContainer = gen(type, className);
-      cellContainer.appendChild(cells[i][j]);
-      row.appendChild(cellContainer);
-    }
-    table.appendChild(row);
   }
-}
 
-//generates Nodes that can be put into a table
-//mainly for testing, you would want to generate your cells manually
-function genHeads(columnCount) {return genElements(1, columnCount, HEAD_NAME);}
-function genCells(rowCount, columnCount) {return genElements(rowCount, columnCount, CELL_NAME);}
-function genElements(rowCount, columnCount, name)
-{
-  let cells = [];
-  for (var i = 0; i < rowCount; i++) {
-    let row = [];
-    for (var j = 0; j < columnCount; j++)
-      row.push(document.createTextNode(name + (j + i*columnCount)));
-    cells.push(row);
-  }
-  return cells;
 }
 
 /*
@@ -86,9 +62,10 @@ function genElements(rowCount, columnCount, name)
 
 
 */
+
 function genButton(arg) {
   let button;
-  button = gen('button', 'lul-dark lul-medium-hover');
+  button = gen('button', lul.DEFAULT_BUTTON_CLASS );
 
   if(arg.onclick != undefined)
     button.addEventListener('click', arg.onclick);
@@ -98,21 +75,16 @@ function genButton(arg) {
   return button;
 }
 
-const MIN_WIDTH_DICT = {
-  ['lia-radio']: 0,
-  ['lia-checkbox']: 0,
-  ['lia-range']: 225,
-  ['lia-input']: 225
-};
+
 
 
 
 function genEnter(arg) {
-  return genInput(arg, 'text', 'lia-input');
+  return genInput(arg, 'enter');
 }
 
 function genRange(arg) {
-  let range = genInput(arg, 'range', 'lia-range');
+  let range = genInput(arg, 'range');
   range.min = arg.min;
   range.max = arg.max;
   range.step = arg.step;
@@ -121,20 +93,20 @@ function genRange(arg) {
 }
 
 function genCheck(arg) {
-  let check = genInput(arg, 'checkbox', 'lia-checkbox');
+  let check = genInput(arg, 'check');
   check.addEventListener('input', function() {window[this.name] = this.checked;});
   return check;
 }
 
 
-function genInput(arg, type, className) {
-  let input = gen('input', className);
-  input.type = type;
+function genInput(arg, inputName) {
+  let input = gen('input', lul.INPUT_ELEMENTS[inputName].className);
+  input.type = lul.INPUT_ELEMENTS[inputName].inputType;
   input.name = arg.name;
   input.addEventListener('input', function() {window[this.name] = this.value;});
   if(arg.oninput != undefined)
     input.addEventListener('input', arg.oninput);
-  if(arg.minWidth == undefined) arg.minWidth = MIN_WIDTH_DICT[className];
+  if(arg.minWidth == undefined) arg.minWidth = lul.INPUT_ELEMENTS[inputName].minWidth;
   input.style.minWidth = arg.minWidth + 'px';
   return input;
 }
@@ -154,8 +126,8 @@ function genInput(arg, type, className) {
 
 
 function genOverflow(arg) {
-  let parent = gen('div', 'lul-overflow-parent');
-  let box = gen('div', 'lul-overflow');
+  let parent = gen('div', lul.DEFAULT_OVERFLOW_PARENT_CLASS);
+  let box = gen('div', lul.DEFAULT_OVERFLOW_CLASS);
   if(arg.direction == 'column')
     box.style.flexDirection = 'column';
 
@@ -233,7 +205,7 @@ function calculateElementPosition(element) {
 */
 
 function genBox(arg) {
-  let box = gen('div', 'lul-padding lul-light');
+  let box = gen('div', lul.BOX_CLASS);
   if(arg.visible == 'false')
     box.className = '';
 
@@ -281,12 +253,8 @@ var scrollSizeAttributeMap = {
   width: 'scrollWidth',
   height: 'scrollHeight'
 };
-var classNameMap = {
-  width: 'lul-collapsible-width',
-  height: 'lul-collapsible-height'
-};
 
-const HOVER_COLLAPSE_DELAY = '0.45s';
+
 
 
 function genCollapsible(arg) {
@@ -297,7 +265,7 @@ function genCollapsible(arg) {
     sizeAttribute = 'width';
 
   //set the css class
-  let className = classNameMap[sizeAttribute] + '';
+  let className = lul.COLLAPSIBLE_CLASS_MAP[sizeAttribute] + '';
   let collapsible = gen('div', className);
 
   collapsible.setAttribute('sizeAttribute', sizeAttribute);
@@ -323,9 +291,9 @@ function genCollapsible(arg) {
         expandElement(collapsible);
       });
       hover.addEventListener('mouseleave', function () {
-        collapseElement(collapsible, HOVER_COLLAPSE_DELAY);
+        collapseElement(collapsible, lul.HOVER_COLLAPSE_DELAY);
       });}
-  }, 80);
+  }, lul.HOVER_INITIAL_DELAY_MS);
 
   if(arg.functions != undefined) {
     arg.functions['toggleFunction'] = function () {
@@ -487,9 +455,6 @@ function genEntry(arg) {
 
 
 */
-const SELECTED_BUTTON_RADIO_CLASSNAME = 'lul-dark';
-const UNSELECTED_BUTTON_RADIO_CLASSNAME = 'lul-light lul-medium-hover';
-const MAX_SELECTION_WIDTH = 500;
 
 
 function genSelection(arg) {
@@ -521,7 +486,7 @@ function genSelection(arg) {
 
   //deciding direction
   let direction;
-  if(width > MAX_SELECTION_WIDTH)
+  if(width > lul.MAX_SELECTION_WIDTH)
     direction = 'column';
   else direction = 'row';
 
@@ -547,7 +512,7 @@ function genRadioArray(arg) {
   let radioArray = [];
   for (var i = 0; i < texts.length; i++) {
     let couple = gen('span');
-    let radio = genInput(arg, 'radio', 'lia-radio');
+    let radio = genInput(arg, 'radio');
 
     radio.value = values[i];
     couple.appendChild(radio);
@@ -572,7 +537,7 @@ function genButtonRadioArray(arg) {
   let buttonRadioArray = [];
   for (var i = 0; i < texts.length; i++) {
     let buttonRadio = genButton({text: texts[i]});
-    buttonRadio.className = UNSELECTED_BUTTON_RADIO_CLASSNAME;
+    buttonRadio.className = lul.UNSELECTED_BUTTON_RADIO_CLASSNAME;
     buttonRadioArray.push(buttonRadio);
   }
 
@@ -582,9 +547,9 @@ function genButtonRadioArray(arg) {
       window[arg.name] = values[i];
 
       buttonRadioArray.forEach((otherButtonRadio) => {
-        otherButtonRadio.className = UNSELECTED_BUTTON_RADIO_CLASSNAME;
+        otherButtonRadio.className = lul.UNSELECTED_BUTTON_RADIO_CLASSNAME;
       });
-      buttonRadio.className = SELECTED_BUTTON_RADIO_CLASSNAME;
+      buttonRadio.className = lul.SELECTED_BUTTON_RADIO_CLASSNAME;
 
     });
   });
@@ -616,11 +581,10 @@ function genOptionArray(options)
 //imports all lul-functions. gets bundled by rollup into lul.js
 
 
-
 //tell rollup that all of these functions are in fact necessary
 console.log(
+  Lul,
   genButton, genEnter, genRange, genCheck,
   genRadioArray, genButtonRadioArray, genSelection,
-  genCollapsible, genOverflow, genEntry, genBox,
-  genTable, genFullTable, 
+  genCollapsible, genOverflow, genEntry, genBox
 );

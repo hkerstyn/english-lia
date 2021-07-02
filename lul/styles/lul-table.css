@@ -1,7 +1,0 @@
-/*table*/
-.lul-table th, .lul-table td, .lul-table {
-  border-collapse: collapse;
-}
-.lul-table th, .lul-table td {
-  padding: 10px;
-}

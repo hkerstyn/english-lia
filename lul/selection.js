@@ -50,9 +50,6 @@
 
 
 */
-const SELECTED_BUTTON_RADIO_CLASSNAME = 'lul-dark';
-const UNSELECTED_BUTTON_RADIO_CLASSNAME = 'lul-light lul-medium-hover';
-const MAX_SELECTION_WIDTH = 500;
 
 
 import {genInput, genButton}
@@ -90,7 +87,7 @@ export function genSelection(arg) {
 
   //deciding direction
   let direction;
-  if(width > MAX_SELECTION_WIDTH)
+  if(width > lul.MAX_SELECTION_WIDTH)
     direction = 'column';
   else direction = 'row';
 
@@ -116,7 +113,7 @@ export function genRadioArray(arg) {
   let radioArray = [];
   for (var i = 0; i < texts.length; i++) {
     let couple = gen('span');
-    let radio = genInput(arg, 'radio', 'lia-radio');
+    let radio = genInput(arg, 'radio');
 
     radio.value = values[i];
     couple.appendChild(radio);
@@ -141,7 +138,7 @@ export function genButtonRadioArray(arg) {
   let buttonRadioArray = [];
   for (var i = 0; i < texts.length; i++) {
     let buttonRadio = genButton({text: texts[i]});
-    buttonRadio.className = UNSELECTED_BUTTON_RADIO_CLASSNAME;
+    buttonRadio.className = lul.UNSELECTED_BUTTON_RADIO_CLASSNAME;
     buttonRadioArray.push(buttonRadio);
   }
 
@@ -151,9 +148,9 @@ export function genButtonRadioArray(arg) {
       window[arg.name] = values[i];
 
       buttonRadioArray.forEach((otherButtonRadio) => {
-        otherButtonRadio.className = UNSELECTED_BUTTON_RADIO_CLASSNAME;
+        otherButtonRadio.className = lul.UNSELECTED_BUTTON_RADIO_CLASSNAME;
       });
-      buttonRadio.className = SELECTED_BUTTON_RADIO_CLASSNAME;
+      buttonRadio.className = lul.SELECTED_BUTTON_RADIO_CLASSNAME;
 
     });
   });

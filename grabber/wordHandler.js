@@ -31,32 +31,38 @@ COMPARE_FUNKTIONS.alphabetZtoA = function(a,b) {
 export function getFullText() {
   fullText = '';
   for(let transcriptEntry of transcript) {
+
+    let textArea = document.createElement('textarea');
+    textArea.innerHTML = transcriptEntry.text;
+    transcriptEntry.text = textArea.value;
+    textArea.remove();
     fullText += transcriptEntry.text + ' ';
   }
   //html zeug entfernen
-  let textArea = document.createElement('textarea');
-  textArea.innerHTML = fullText;
-  fullText = textArea.value;
 }
 
-export function getWordGroups() {
+export function splitByWords(text) {
   //seperates string 'fullText' into array of strings 'wordInstances'
-  fullText = fullText.replaceAll(STATREPLACECHARACTERS, ' ').toLowerCase();
-  wordInstances = fullText.split(' ');
-  for(let i = 0; i < wordInstances.length; i++){
-    if(wordInstances[i] === '') {
-      wordInstances.splice(i, 1);
-      i--;
-    }
-  }
+  text = text.replaceAll(/\d/g, ' ');
+  text = text.replaceAll(/'/g, '0');
+  text = text.replaceAll(/\W/g, ' ');
+  text = text.replaceAll(/0+/g, "'");
+  
+  return text.trim().split(/ +/g);
+}
+export function getWordGroups() {
+  
+  wordInstances = splitByWords(fullText);
   //groups wordInstances into wordGroups
   wordGroups = [];
   for(wordInstance of wordInstances) {
 
     let matchingWordGroupFound = false;
     for(existingWordGroup of wordGroups) {
-      if(existingWordGroup.name === wordInstance){
+      if(existingWordGroup.name.toLowerCase() === wordInstance.toLowerCase()){
         existingWordGroup.amount++;
+        if(wordInstance == wordInstance.toLowerCase())
+          existingWordGroup.name = wordInstance;
         matchingWordGroupFound = true;
         break;
       }

@@ -38,12 +38,8 @@ var scrollSizeAttributeMap = {
   width: 'scrollWidth',
   height: 'scrollHeight'
 };
-var classNameMap = {
-  width: 'lul-collapsible-width',
-  height: 'lul-collapsible-height'
-};
 
-const HOVER_COLLAPSE_DELAY = '0.45s';
+
 
 
 export function genCollapsible(arg) {
@@ -54,7 +50,7 @@ export function genCollapsible(arg) {
     sizeAttribute = 'width';
 
   //set the css class
-  let className = classNameMap[sizeAttribute] + '';
+  let className = lul.COLLAPSIBLE_CLASS_MAP[sizeAttribute] + '';
   let collapsible = gen('div', className);
 
   collapsible.setAttribute('sizeAttribute', sizeAttribute);
@@ -80,9 +76,9 @@ export function genCollapsible(arg) {
         expandElement(collapsible);
       });
       hover.addEventListener('mouseleave', function () {
-        collapseElement(collapsible, HOVER_COLLAPSE_DELAY);
+        collapseElement(collapsible, lul.HOVER_COLLAPSE_DELAY);
       });}
-  }, 80);
+  }, lul.HOVER_INITIAL_DELAY_MS);
 
   if(arg.functions != undefined) {
     arg.functions['toggleFunction'] = function () {

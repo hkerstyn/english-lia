@@ -1,46 +1,87 @@
 :root {
+  --text-color: 75, 75, 75;
+  --default-font-size: 1.5rem;
+  --increased-font-size: 1.75rem;
+
   --color-dark: 57,145,147;
-  --color-light: 235.2, 244, 244.2;
+  --color-medium: 235.2, 244, 244.2;
+  --color-light: 255, 255, 255;
+
+  --font-weight-dark: bold;
+  --font-weight-medium: bold;
+  --font-weight-light: normal;
+
+  --norm-height: 60px;
+  --default-padding: 10px;
+  --default-margin: 10px;
 }
 
+.lia-radio {
+  margin: 7px 4px 7px 8px;
+}
 
+.lul-padding {
+  padding: var(--default-padding);
+}
+
+.lul-margin {
+  margin: var(--default-margin);
+}
+.lul-norm-height {
+  height: var(--norm-height);
+}
+.lul-full-width {
+  width: 100%;
+}
+
+.lul-text {
+  color: rgb(var(--text-color));
+  font-size: var(--default-font-size);
+  transition-duration: .3s;
+  transition-timing-function: ease;
+  transition-property: color, font-size;
+}
+.lul-highlight-text, .lul-highlight-text-hover:hover {
+  color: rgb(var(--color-dark));
+  transition-duration: .3s;
+  transition-timing-function: ease;
+  transition-property: color, font-size;
+  font-size: var(--increased-font-size);
+}
+.lul-highlight-text {
+}
 
 .lul-dark, .lul-medium, .lul-light {
   border: 1px solid rgb(var(--color-dark));
   border-radius: 0px;
   transition: color .3s ease;
   transition: background-color .3s ease;
+  font-size: var(--default-font-size);
 }
 
-.lul-padding {
-  padding: 10px;
-}
 
 .lul-dark, .lul-dark-hover:hover {
   background-color: rgb(var(--color-dark));
-  color: white;
+  color: rgb(var(--color-light));
 }
 .lul-dark{
-  font-weight: bold;
+  font-weight: var(--font-weight-dark);
 }
 
 
 .lul-medium, .lul-medium-hover:hover {
-  background-color: rgb(var(--color-light));
+  background-color: rgb(var(--color-medium));
   color: rgb(var(--color-dark));
 }
 .lul-medium {
-  font-weight: bold;
+  font-weight: var(--font-weight-medium);
 }
 .lul-light, .lul-light-hover:hover {
-  background-color: white;
-  color: black;
+  background-color: rgb(var(--color-light));
+  color: rgb(var(--text-color));
 }
-.lul-box {
-  height: 100%;
-  width: 100% ;
+.lul-light {
+  font-weight: var(--font-weight-light);
 }
 
-.lia-radio {
-  margin: 3px 4px 3px 8px;
-}
+
