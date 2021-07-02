@@ -4,15 +4,15 @@ version:  0.0.1
 language: en
 narrator: US English Female
 
-online-link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/
+online-link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/
 offline-link: http://localhost:3000/home/english-lia/
 
-script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/base.js
-script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/consys.js
-script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/grabber.js
-script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/lul.js
-link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/lul.css
-link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia/consys.css
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/base.js
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/consys.js
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/grabber.js
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/lul.js
+link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/lul.css
+link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/consys.css
 
 -->
 
