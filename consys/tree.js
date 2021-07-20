@@ -18,6 +18,14 @@ export class TreeNode {
       yield* child;
   }
 
+  *youngestPredecessorGenerator() {
+    if(this.children.length == 0)
+      yield this;
+    else
+      for(let child of this.children)
+        yield* child.youngestPredecessorGenerator()
+  }
+
 
   setParent(parent, index) {
     if(this.parent != undefined) {

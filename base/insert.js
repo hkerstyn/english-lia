@@ -1,93 +1,73 @@
-/*
-  store(element, id)
-  get(key)
-  insert(mode, parentKey, ...elementKeys)
-  set(parentKey, ...elementKeys)
-  make(parentKey, ...elementKeys)
-  add(parentKey, ...elementKeys)
-  
-  This script is responsible for placing (and returning)
-  HTML-Elements in the document or the STORED_ELEMENTS object
+/**
+ * @class Insert
+ * @classdesc A {@tutorial PseudoClass}. Resposible for inserting
+ * Elements into the HTML-page
+ * @borrows set
+ * @borrows add
+ * @borrows make
+ * @borrows insert
+ * @hideconstructor
+ */
 
-  store(element, id): stores the element under 'id'
-    inside STORED_ELEMENTS
-    if no id is given, a unique new one is used
-    and returned
-
-  get(key): if 'key' is
-    an HTML-Element:
-      returns 'key'
-    a string:
-      returns (if present) the element stored under 'key'
-      inside STORED_ELEMENTS
-      otherwise, searches the HTML-DOM for an element
-      with id 'key'
-
-  insert(mode, parentKey, ...elementKeys):
-    'parentKey' and 'elementKeys' are references
-      to some HTML-Elements (see get())
-    sets the elements as children of the parent
-    if 'mode' is equal to
-    "set":
-      the parent is being cleared of previous children
-    "make":
-      the process gets aborted
-      if parent already has children
-    "add":
-      the new children are simply added to the existing ones
-
-
-  set(parentKey, ...elementKeys)
-  make(parentKey, ...elementKeys)
-  add(parentKey, ...elementKeys):
-    shorthands for insert()
-*/
-import {truetypeof, uid}
-  from './misc.js';
-
-var STORED_ELEMENTS = {};
-
-export function store(element, id) {
-  if(STORED_ELEMENTS[id] != undefined) {
-    console.warn('store: id', id, 'is already taken by', STORED_ELEMENTS[id], 'element:', element, 'Overriding...');
-  }
-  if(id == undefined) {
-    id = uid();
-    console.warn('Defaulting to uid:', id, element);
-  }
-
-  STORED_ELEMENTS[id] = element;
-  return id;
-}
-
-export function get(key) {
-  if(key == undefined) return undefined;
-
-
-  let trueType = truetypeof(key);
-  if(trueType != 'string') return key;
-
-  if(STORED_ELEMENTS[key] != undefined)
-    return STORED_ELEMENTS[key];
-
-  let result =  document.getElementById(key);
-  return result;
-}
+import {get, store}
+  from './get-store.js';
 
 
 
+/**
+ * Sets one or several **elements** as children
+ * of some **parent** element.  
+ * All previous children of **parent** get cleared.
+ *
+ *
+ * @param {key} parentKey - the {@tutorial key} to the **parent** element
+ * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
+ * @tutorial key
+ */
 export function set(parentKey, ...elementKeys) {
   insert('set', parentKey, ...elementKeys);
 }
+
+/**
+ * Sets one or several **elements** as children
+ * of some **parent** element.  
+ * All previous children of **parent** remain next to the new ones.
+ *
+ *
+ * @param {key} parentKey - the {@tutorial key} to the **parent** element
+ * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
+ * @tutorial key
+ */
 export function add(parentKey, ...elementKeys) {
   insert('add', parentKey, ...elementKeys);
 }
+
+/**
+ * Sets one or several **elements** as children
+ * of some **parent** element.  
+ * If **parent** already has children, the process gets aborted
+ *
+ *
+ * @param {key} parentKey - the {@tutorial key} to the **parent** element
+ * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
+ * @tutorial key
+ */
 export function make(parentKey, ...elementKeys) {
   insert('make', parentKey, ...elementKeys);
 }
 
 
-
+/**
+ * Sets one or several **elements** as children
+ * of some **parent** element.  
+ * The behaviour is like that of [set]{@link Insert.set}, [make]{@link Insert.make} or [add]{@link Insert.add},  
+ * depending on the value of **mode**
+ *
+ * @param {string} mode - either "set", "make", or "add"
+ * @param {key} parentKey - the {@tutorial key} to the **parent** element
+ * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
+ * @tutorial key
+ */
 export function insert(mode, parentKey, ...elementKeys) {
   let parent = get(parentKey);
   if(mode == undefined) mode = 'set';

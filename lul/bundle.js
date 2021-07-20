@@ -1,6 +1,27 @@
+/**
+ * @class LulFunctions
+ * @classdesc A {@tutorial PseudoClass}. Provides genFunctions
+ * to create beautiful UI.  
+ * Before you can use any though, initialize the Library using
+ * the {@link LulConfig} class first.
+ *
+ * **ATTENTION:** Most functions here use the [arg input scheme]{@tutorial arg}
+ * @borrows genBox
+ * @borrows genCollapsible
+ * @borrows genOverflow
+ * @borrows genButton
+ * @borrows genEnter
+ * @borrows genEntry
+ * @borrows genRange
+ * @borrows genCheck
+ * @borrows genRadioArray
+ * @borrows genButtonRadioArray
+ * @borrows genSelection
+ * @hideconstructor
+ */
 //imports all lul-functions. gets bundled by rollup into lul.js
 
-import {Lul}
+import {LulConfig}
   from './embed.js';
 import {genButton, genEnter, genRange, genCheck}
   from './input.js';
@@ -18,7 +39,7 @@ import {genBox}
 
 //tell rollup that all of these functions are in fact necessary
 console.log(
-  Lul,
+  LulConfig,
   genButton, genEnter, genRange, genCheck,
   genRadioArray, genButtonRadioArray, genSelection,
   genCollapsible, genOverflow, genEntry, genBox

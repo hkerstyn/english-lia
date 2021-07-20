@@ -1,19 +1,17 @@
-/*
-  genButton({text, onclick})
-  genEnter({name, oninput, minWidth})
-  genRange({name, oninput, minWidth, min, max, step})
-  genCheck({name, oninput})
 
-  The above functions generate input elements which store
-  the selected value in a global variable named 'name'.
-  'minWidth' can be used to alter the width of the elements 
-
-
-*/
+/**
+ * Generates a button.  
+ * Uses {@tutorial arg}
+ *
+ * @param {string} text - the text of the button
+ * @param {afn} onclick - (optional) an anonymous function to be fired  
+ * when clicking the button.
+ * @see [DEFAULT_BUTTON_CLASS]{@link LulConfig#DEFAULT_BUTTON_CLASS}
+ */
 
 export function genButton(arg) {
   let button;
-  button = gen('button', lul.DEFAULT_BUTTON_CLASS );
+  button = gen('button', lulConfig.DEFAULT_BUTTON_CLASS );
 
   if(arg.onclick != undefined)
     button.addEventListener('click', arg.onclick);
@@ -27,10 +25,38 @@ export function genButton(arg) {
 
 
 
+/**
+ * generates an input area for text.  
+ * Uses {@tutorial arg}
+ *
+ * @param {string} name - the name of the global variable  
+ * that the entered text should always be stored in
+ * @param {afn} oninput - (optional) the anonymous function that
+ * should be executed while typing
+ * @param {number} minWidth - (optional) sets the width of the enter area  
+ * omit to use a [default value]{@link LulConfig#INPUT_ELEMENTS}
+ * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
+ */
 export function genEnter(arg) {
   return genInput(arg, 'enter');
 }
 
+/**
+ * generates a draggable slider representing numbers of a given range  
+ * Uses {@tutorial arg}
+ *
+ * @param {string} name - the name of the global variable  
+ * that the selected number should always be stored in
+ * @param {afn} oninput - (optional) the anonymous function that
+ * should be executed when dragging the slider
+ * @param {number} minWidth - (optional) sets the width of the slide range (in pixels).  
+ * omit to use a [default value]{@link LulConfig#INPUT_ELEMENTS}
+ * @param {number} min - the smallest possible number  
+ * the slider can select
+ * @param {number} max - the biggest one
+ * @param {number} step - the step between two possible selections
+ * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
+ */
 export function genRange(arg) {
   let range = genInput(arg, 'range');
   range.min = arg.min;
@@ -40,21 +66,31 @@ export function genRange(arg) {
   return range;
 }
 
+/**
+ * generates a checkbox that can be (un)ticked to change a boolean value  
+ * Uses {@tutorial arg}
+ *
+ * @param {string} name - the name of the global variable  
+ * that the boolean should always be stored in
+ * @param {afn} oninput - (optional) the anonymous function that
+ * should be executed when (un)ticking
+ * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
+ */
 export function genCheck(arg) {
   let check = genInput(arg, 'check');
   check.addEventListener('input', function() {window[this.name] = this.checked;});
   return check;
 }
 
-
+// generates an input element based on INPUT_ELEMENTS
 export function genInput(arg, inputName) {
-  let input = gen('input', lul.INPUT_ELEMENTS[inputName].className);
-  input.type = lul.INPUT_ELEMENTS[inputName].inputType;
+  let input = gen('input', lulConfig.INPUT_ELEMENTS[inputName].className);
+  input.type = lulConfig.INPUT_ELEMENTS[inputName].inputType;
   input.name = arg.name;
   input.addEventListener('input', function() {window[this.name] = this.value;});
   if(arg.oninput != undefined)
     input.addEventListener('input', arg.oninput);
-  if(arg.minWidth == undefined) arg.minWidth = lul.INPUT_ELEMENTS[inputName].minWidth;
+  if(arg.minWidth == undefined) arg.minWidth = lulConfig.INPUT_ELEMENTS[inputName].minWidth;
   input.style.minWidth = arg.minWidth + 'px';
   return input;
 }

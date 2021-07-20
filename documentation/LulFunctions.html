@@ -1,0 +1,2415 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Class: LulFunctions</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Class: LulFunctions</h1>
+
+    
+
+
+
+
+<section>
+
+<header>
+    
+        <h2><span class="attribs"><span class="type-signature"></span></span>LulFunctions</h2>
+        
+            <div class="class-description"><p>A <a href="tutorial-PseudoClass.html">PseudoClass</a>. Provides genFunctions
+to create beautiful UI.<br>
+Before you can use any though, initialize the Library using
+the <a href="LulConfig.html">LulConfig</a> class first.</p>
+<p><strong>ATTENTION:</strong> Most functions here use the <a href="tutorial-arg.html">arg input scheme</a></p></div>
+        
+    
+</header>
+
+<article>
+    <div class="container-overview">
+    
+        
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lul_bundle.js.html">lul/bundle.js</a>, <a href="lul_bundle.js.html#line1">line 1</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+    </div>
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+        <h3 class="subsection-title">Methods</h3>
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".genBox"><span class="type-signature">(static) </span>genBox<span class="signature">(visible, direction)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>returns a newly generated HTML-Box.<br>
+Uses <a href="tutorial-arg.html">arg</a>.</p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>visible</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">'true'</span>
+|
+
+<span class="param-type">'false'</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>whether the <a href="LulConfig.html#BOX_CLASS">BOX_CLASS</a> parameter<br>
+should be set as css class of the box</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>direction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">'column'</span>
+|
+
+<span class="param-type">'row'</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>whether the children of the box<br>
+should be positioned next to or above and below each other.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lul_box.js.html">lul/box.js</a>, <a href="lul_box.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><p><a href="LulConfig.html#BOX_CLASS">BOX_CLASS</a></p></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".genButton"><span class="type-signature">(static) </span>genButton<span class="signature">(text, onclick)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Generates a button.<br>
+Uses <a href="tutorial-arg.html">arg</a></p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>text</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the text of the button</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>onclick</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">afn</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(optional) an anonymous function to be fired<br>
+when clicking the button.</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lul_input.js.html">lul/input.js</a>, <a href="lul_input.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><p><a href="LulConfig.html#DEFAULT_BUTTON_CLASS">DEFAULT_BUTTON_CLASS</a></p></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".genButtonRadioArray"><span class="type-signature">(static) </span>genButtonRadioArray<span class="signature">(name, oninput, options)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>generates an array of <a href="LulFunctions.html#.genButton">buttons</a>  behaving like a
+<a href="LulFunctions.html#.genRadioArray">radioArray</a>.<br>
+Uses <a href="tutorial-arg.html">arg</a></p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the name of the global variable<br>
+that the selected value should always be stored in</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>oninput</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">afn</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(optional) the anonymous function that
+should be executed when selecting a value</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Options</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the Options the button-radio should have</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lul_selection.js.html">lul/selection.js</a>, <a href="lul_selection.js.html#line171">line 171</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><p><a href="LulConfig.html#SELECTED_BUTTON_RADIO_CLASSNAME">SELECTED_BUTTON_RADIO_CLASSNAME</a><br>
+<a href="LulConfig.html#UNSELECTED_BUTTON_RADIO_CLASSNAME">UNSELECTED_BUTTON_RADIO_CLASSNAME</a></p></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".genCheck"><span class="type-signature">(static) </span>genCheck<span class="signature">(name, oninput)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>generates a checkbox that can be (un)ticked to change a boolean value<br>
+Uses <a href="tutorial-arg.html">arg</a></p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the name of the global variable<br>
+that the boolean should always be stored in</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>oninput</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">afn</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(optional) the anonymous function that
+should be executed when (un)ticking</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lul_input.js.html">lul/input.js</a>, <a href="lul_input.js.html#line79">line 79</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><p><a href="LulConfig.html#INPUT_ELEMENTS">INPUT_ELEMENTS</a></p></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".genCollapsible"><span class="type-signature">(static) </span>genCollapsible<span class="signature">(innerId, direction, toggle, hover, functions)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>Generates a <a href="global.html#genBox">box</a>, that can be collapsed
+and expanded via javascript.<br>
+Uses <a href="tutorial-arg.html">arg</a></p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>innerId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the value specified here can be used<br>
+as <a href="tutorial-key.html">key</a> to insert other elements into the collapsible</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>direction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">'row'</span>
+|
+
+<span class="param-type">'column'</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>whether the box should collapse<br>
+horizontally or vertically</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>toggle</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">key</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(optional) a <a href="tutorial-key.html">key</a> to an html-element that<br>
+gets set to trigger an expansion or collapse of this box<br>
+when clicked</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>hover</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">key</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(optional) a <a href="tutorial-key.html">key</a> to an html-element that<br>
+gets set to trigger an expansion or collapse of this box<br>
+when hovered.</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>functions</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Object</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(optional) some object that gets assigned three new properties:</p>
+<ul>
+<li>expandFunction: call this to expand this specific box</li>
+<li>collapseFunction: call to collapse</li>
+<li>toggleFunction: automatically expands or collapses the box</li>
+</ul></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lul_collapsible.js.html">lul/collapsible.js</a>, <a href="lul_collapsible.js.html#line43">line 43</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><p><a href="LulConfig.html#COLLAPSIBLE_CLASS_MAP">COLLAPSIBLE_CLASS_MAP</a><br>
+<a href="LulConfig.html#HOVER_COLLAPSE_DELAY">HOVER_COLLAPSE_DELAY</a><br>
+<a href="LulConfig.html#HOVER_INITIAL_DELAY_MS">HOVER_INITIAL_DELAY_MS</a></p></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".genEnter"><span class="type-signature">(static) </span>genEnter<span class="signature">(name, oninput, minWidth)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>generates an input area for text.<br>
+Uses <a href="tutorial-arg.html">arg</a></p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the name of the global variable<br>
+that the entered text should always be stored in</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>oninput</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">afn</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(optional) the anonymous function that
+should be executed while typing</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>minWidth</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(optional) sets the width of the enter area<br>
+omit to use a <a href="LulConfig.html#INPUT_ELEMENTS">default value</a></p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lul_input.js.html">lul/input.js</a>, <a href="lul_input.js.html#line40">line 40</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><p><a href="LulConfig.html#INPUT_ELEMENTS">INPUT_ELEMENTS</a></p></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".genEntry"><span class="type-signature">(static) </span>genEntry<span class="signature">(direction, content, button)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>generates a <a href="LulFunctions.html#.genCollapsible">collapsible</a> next to a
+<a href="LulFunctions.html#.genButton">button</a> inside an
+<a href="LulFunctions.html#.genOverflow">overflow</a>.<br>
+Uses <a href="tutorial-arg.html">arg</a></p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>direction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">'row'</span>
+|
+
+<span class="param-type">'column'</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>specifies whether the <strong>collapsible</strong><br>
+and the <strong>button(s)</strong> should be next to or on top of one another</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>content</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>array of HTML-Elements to be put inside the <strong>collapsible</strong></p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>button</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>array of HTML-Elements to be used as <strong>buttons</strong></p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lul_entry.js.html">lul/entry.js</a>, <a href="lul_entry.js.html#line35">line 35</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".genOverflow"><span class="type-signature">(static) </span>genOverflow<span class="signature">(innerId, direction)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>generates an html element whose size always remains the same.<br>
+when its content gets too large, it simply overflows<br>
+Uses <a href="tutorial-arg.html">arg</a></p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>innerId</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the value specified here can be used<br>
+as <a href="tutorial-key.html">key</a> to insert other elements into the collapsible</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>direction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">'row'</span>
+|
+
+<span class="param-type">'column'</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the direction the <strong>overflow</strong>'s child nodes are positioned</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lul_overflow.js.html">lul/overflow.js</a>, <a href="lul_overflow.js.html#line12">line 12</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".genRadioArray"><span class="type-signature">(static) </span>genRadioArray<span class="signature">(name, oninput, options)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>generates an array of spans each containing
+an html-radio-element and some text.<br>
+Uses <a href="tutorial-arg.html">arg</a></p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the name of the global variable<br>
+that the selected value should always be stored in</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>oninput</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">afn</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(optional) the anonymous function that
+should be executed when selecting a value</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Options</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the Options the radio should have</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lul_selection.js.html">lul/selection.js</a>, <a href="lul_selection.js.html#line135">line 135</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><p><a href="LulConfig.html#INPUT_ELEMENTS">INPUT_ELEMENTS</a></p></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".genRange"><span class="type-signature">(static) </span>genRange<span class="signature">(name, oninput, minWidth, min, max, step)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>generates a draggable slider representing numbers of a given range<br>
+Uses <a href="tutorial-arg.html">arg</a></p>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the name of the global variable<br>
+that the selected number should always be stored in</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>oninput</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">afn</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(optional) the anonymous function that
+should be executed when dragging the slider</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>minWidth</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(optional) sets the width of the slide range (in pixels).<br>
+omit to use a <a href="LulConfig.html#INPUT_ELEMENTS">default value</a></p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>min</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the smallest possible number<br>
+the slider can select</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>max</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the biggest one</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>step</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">number</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the step between two possible selections</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lul_input.js.html">lul/input.js</a>, <a href="lul_input.js.html#line60">line 60</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><p><a href="LulConfig.html#INPUT_ELEMENTS">INPUT_ELEMENTS</a></p></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+            
+
+    
+
+    
+    <h4 class="name" id=".genSelection"><span class="type-signature">(static) </span>genSelection<span class="signature">(type, button, name, oninput, options, direction)</span><span class="type-signature"></span></h4>
+    
+
+    
+
+
+
+<div class="description">
+    <p>generates an <a href="LulFunctions.html#.genEntry">entry</a> containing either a</p>
+<ul>
+<li><a href="LulFunctions.html#.genRadioArray">radio</a> or a</li>
+<li><a href="LulFunctions.html#.genButtonRadioArray">buttonRadio</a></li>
+</ul>
+</div>
+
+
+
+
+
+
+
+
+
+    <h5>Parameters:</h5>
+    
+
+<table class="params">
+    <thead>
+    <tr>
+        
+        <th>Name</th>
+        
+
+        <th>Type</th>
+
+        
+
+        
+
+        <th class="last">Description</th>
+    </tr>
+    </thead>
+
+    <tbody>
+    
+
+        <tr>
+            
+                <td class="name"><code>type</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">'radio'</span>
+|
+
+<span class="param-type">'button-radio'</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>specifies whether a
+<strong>radio</strong> or a <strong>buttonRadio</strong> should be used</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>button</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Array</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the <a href="LulFunctions.html#.genButton">button(s)</a> for the <strong>entry</strong></p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>name</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">string</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the name of the global variable<br>
+that the selected value should always be stored in</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>oninput</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">afn</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>(optional) the anonymous function that
+should be executed when selecting a value</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>options</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">Options</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>the Options the radio should have</p></td>
+        </tr>
+
+    
+
+        <tr>
+            
+                <td class="name"><code>direction</code></td>
+            
+
+            <td class="type">
+            
+                
+<span class="param-type">'row'</span>
+|
+
+<span class="param-type">'column'</span>
+
+
+            
+            </td>
+
+            
+
+            
+
+            <td class="description last"><p>specifies the direction of the <strong>entry</strong>.<br>
+when omitted, direction is set to 'row'<br>
+if the width of that exceeds <a href="LulConfig.html#MAX_SELECTION_WIDTH">MAX_SELECTION_WIDTH</a> however,
+it is set to 'column'</p></td>
+        </tr>
+
+    
+    </tbody>
+</table>
+
+
+
+
+
+
+<dl class="details">
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+
+    
+    <dt class="tag-source">Source:</dt>
+    <dd class="tag-source"><ul class="dummy"><li>
+        <a href="lul_selection.js.html">lul/selection.js</a>, <a href="lul_selection.js.html#line78">line 78</a>
+    </li></ul></dd>
+    
+
+    
+
+    
+    <dt class="tag-see">See:</dt>
+    <dd class="tag-see">
+        <ul>
+            <li><p><a href="LulConfig.html#MAX_SELECTION_WIDTH">MAX_SELECTION_WIDTH</a></p></li>
+        </ul>
+    </dd>
+    
+
+    
+</dl>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+    
+
+    
+
+    
+</article>
+
+</section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Container.html">Container</a></li><li><a href="GetStore.html">GetStore</a></li><li><a href="Insert.html">Insert</a></li><li><a href="LulConfig.html">LulConfig</a></li><li><a href="LulFunctions.html">LulFunctions</a></li><li><a href="Misc.html">Misc</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-PseudoClass.html">PseudoClass</a></li><li><a href="tutorial-README.html">README</a></li><li><a href="tutorial-arg.html">arg</a></li><li><a href="tutorial-key.html">key</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#gen">gen</a></li><li><a href="global.html#genBox">genBox</a></li><li><a href="global.html#genButton">genButton</a></li><li><a href="global.html#genButtonRadioArray">genButtonRadioArray</a></li><li><a href="global.html#genCheck">genCheck</a></li><li><a href="global.html#genCollapsible">genCollapsible</a></li><li><a href="global.html#genEnter">genEnter</a></li><li><a href="global.html#genEntry">genEntry</a></li><li><a href="global.html#genOverflow">genOverflow</a></li><li><a href="global.html#genRadioArray">genRadioArray</a></li><li><a href="global.html#genRange">genRange</a></li><li><a href="global.html#genSelection">genSelection</a></li><li><a href="global.html#genText">genText</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#make">make</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#truetypeof">truetypeof</a></li><li><a href="global.html#uid">uid</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Tue Jul 20 2021 12:39:24 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

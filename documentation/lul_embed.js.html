@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: lul/embed.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: lul/embed.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * This class is only for initializing the Lia UI Library.
+ * It does not hold any [functions]{@link LulFunctions}.
+ *
+ */
+export class LulConfig {
+
+
+  /**
+   * Initializes the library with the default values.
+   * @constructor
+   */
+  constructor() {
+    /** The default css-classname to apply to a
+     * [box]{@link LulFunctions.genBox}
+     * @default
+     */
+    this.BOX_CLASS = 'lul-padding lul-light';
+
+    /** Let **collapsible** be a [collapsible]{@link LulFunctions.genCollapsible} generated  
+     * with a **hover** controlling its expansion/collapse.
+     *
+     * Now, when the cursor leaves the **hover** element,  
+     * the **collapsible** gets collapsed.  
+     * For better UX however, there is a delay,  
+     * which is specified here.
+     * @default
+     */
+    this.HOVER_COLLAPSE_DELAY = '0.45s';
+
+    /** When a [collapsible]{@link LulFunctions.genCollapsible} gets created,  
+     * there is a delay before the specified
+     * **hover** and/or **toggle** element gets activated.
+     *
+     * Its length in milliseconds is specified here
+     * @default
+     */
+    this.HOVER_INITIAL_DELAY_MS = 80;
+
+    /** An Object with two properties:
+     * * **width**: css classname for horizontal collapsibles
+     * * **height**: css classname for vertical collapsibles
+     *
+     * Whether a [collapsible]{@link LulFunctions.genCollapsible}  
+     * is horizontal or vertical  
+     * depends on its **direction** parameter  
+     * (set when creating the collapsible via genCollapsible).
+     * @default
+     */
+    this.COLLAPSIBLE_CLASS_MAP = {
+      width: 'lul-collapsible-width',
+      height: 'lul-collapsible-height'
+    };
+  
+    //it's best to leave these two as they are
+    this.DEFAULT_OVERFLOW_CLASS = 'lul-overflow';
+    this.DEFAULT_OVERFLOW_PARENT_CLASS = 'lul-overflow-parent lul-margin';
+
+    /** The css class [buttons]{@link LulFunctions.genButton} have by default.
+     * @default
+     */
+    this.DEFAULT_BUTTON_CLASS = 'lul-dark lul-medium-hover lul-norm-height';
+
+    /** An Object with 4 properties (**radio**, **check**, **range**, **enter**).  
+     * Each describes one type of input element  
+     * and specifies the following:
+     * * **className**: the css-classname to apply to the input-element
+     * * **minWidth**: the minimum width in px. Can be overriden when  
+     * creating a [range]{LulFunctions.genRange} or a [text enter area]{LulFunctions.genEnter}
+     * * **inputType**: defines the **type** attribute of the html input-element
+     *
+     * *see source code for default value*
+     */
+    this.INPUT_ELEMENTS = {
+      radio: {
+        className: 'lia-radio',
+        minWidth: 0,
+        inputType: 'radio'
+      },
+      check: {
+        className: 'lia-checkbox',
+        minWidth: 0,
+        inputType: 'checkbox'
+      },
+      range: {
+        className: 'lia-range',
+        minWidth: 225,
+        inputType: 'range'
+      },
+      enter: {
+        className: 'lia-input',
+        minWidth: 225,
+        inputType: 'text'
+      }
+    }; 
+
+    /**the default css class of a selected [buttonRadio-Element]{@link LulFunctions.genButtonRadioArray} 
+     */
+    this.SELECTED_BUTTON_RADIO_CLASSNAME = 'lul-dark';
+    /**the default css class of an unselected [buttonRadio-Element]{@link LulFunctions.genButtonRadioArray} 
+     */
+    this.UNSELECTED_BUTTON_RADIO_CLASSNAME = 'lul-light lul-medium-hover';
+
+    /** when creating a [buttonRadioArray]{@link LulFunctions.genButtonRadioArray},  
+     * the **direction** is determined by whether or not the sum of the *widths*  
+     * of all the options exceeds this value.
+     * @default
+     */
+    this.MAX_SELECTION_WIDTH = 500;
+
+    
+
+
+
+  }
+
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Container.html">Container</a></li><li><a href="GetStore.html">GetStore</a></li><li><a href="Insert.html">Insert</a></li><li><a href="LulConfig.html">LulConfig</a></li><li><a href="LulFunctions.html">LulFunctions</a></li><li><a href="Misc.html">Misc</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-PseudoClass.html">PseudoClass</a></li><li><a href="tutorial-README.html">README</a></li><li><a href="tutorial-arg.html">arg</a></li><li><a href="tutorial-key.html">key</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#gen">gen</a></li><li><a href="global.html#genBox">genBox</a></li><li><a href="global.html#genButton">genButton</a></li><li><a href="global.html#genButtonRadioArray">genButtonRadioArray</a></li><li><a href="global.html#genCheck">genCheck</a></li><li><a href="global.html#genCollapsible">genCollapsible</a></li><li><a href="global.html#genEnter">genEnter</a></li><li><a href="global.html#genEntry">genEntry</a></li><li><a href="global.html#genOverflow">genOverflow</a></li><li><a href="global.html#genRadioArray">genRadioArray</a></li><li><a href="global.html#genRange">genRange</a></li><li><a href="global.html#genSelection">genSelection</a></li><li><a href="global.html#genText">genText</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#make">make</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#truetypeof">truetypeof</a></li><li><a href="global.html#uid">uid</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Tue Jul 20 2021 12:39:24 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

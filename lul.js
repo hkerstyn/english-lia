@@ -1,20 +1,76 @@
-class Lul {
+/**
+ * This class is only for initializing the Lia UI Library.
+ * It does not hold any [functions]{@link LulFunctions}.
+ *
+ */
+class LulConfig {
 
 
+  /**
+   * Initializes the library with the default values.
+   * @constructor
+   */
   constructor() {
+    /** The default css-classname to apply to a
+     * [box]{@link LulFunctions.genBox}
+     * @default
+     */
     this.BOX_CLASS = 'lul-padding lul-light';
 
+    /** Let **collapsible** be a [collapsible]{@link LulFunctions.genCollapsible} generated  
+     * with a **hover** controlling its expansion/collapse.
+     *
+     * Now, when the cursor leaves the **hover** element,  
+     * the **collapsible** gets collapsed.  
+     * For better UX however, there is a delay,  
+     * which is specified here.
+     * @default
+     */
     this.HOVER_COLLAPSE_DELAY = '0.45s';
+
+    /** When a [collapsible]{@link LulFunctions.genCollapsible} gets created,  
+     * there is a delay before the specified
+     * **hover** and/or **toggle** element gets activated.
+     *
+     * Its length in milliseconds is specified here
+     * @default
+     */
     this.HOVER_INITIAL_DELAY_MS = 80;
+
+    /** An Object with two properties:
+     * * **width**: css classname for horizontal collapsibles
+     * * **height**: css classname for vertical collapsibles
+     *
+     * Whether a [collapsible]{@link LulFunctions.genCollapsible}  
+     * is horizontal or vertical  
+     * depends on its **direction** parameter  
+     * (set when creating the collapsible via genCollapsible).
+     * @default
+     */
     this.COLLAPSIBLE_CLASS_MAP = {
       width: 'lul-collapsible-width',
       height: 'lul-collapsible-height'
     };
   
+    //it's best to leave these two as they are
     this.DEFAULT_OVERFLOW_CLASS = 'lul-overflow';
     this.DEFAULT_OVERFLOW_PARENT_CLASS = 'lul-overflow-parent lul-margin';
+
+    /** The css class [buttons]{@link LulFunctions.genButton} have by default.
+     * @default
+     */
     this.DEFAULT_BUTTON_CLASS = 'lul-dark lul-medium-hover lul-norm-height';
 
+    /** An Object with 4 properties (**radio**, **check**, **range**, **enter**).  
+     * Each describes one type of input element  
+     * and specifies the following:
+     * * **className**: the css-classname to apply to the input-element
+     * * **minWidth**: the minimum width in px. Can be overriden when  
+     * creating a [range]{LulFunctions.genRange} or a [text enter area]{LulFunctions.genEnter}
+     * * **inputType**: defines the **type** attribute of the html input-element
+     *
+     * *see source code for default value*
+     */
     this.INPUT_ELEMENTS = {
       radio: {
         className: 'lia-radio',
@@ -37,9 +93,19 @@ class Lul {
         inputType: 'text'
       }
     }; 
- 
+
+    /**the default css class of a selected [buttonRadio-Element]{@link LulFunctions.genButtonRadioArray} 
+     */
     this.SELECTED_BUTTON_RADIO_CLASSNAME = 'lul-dark';
+    /**the default css class of an unselected [buttonRadio-Element]{@link LulFunctions.genButtonRadioArray} 
+     */
     this.UNSELECTED_BUTTON_RADIO_CLASSNAME = 'lul-light lul-medium-hover';
+
+    /** when creating a [buttonRadioArray]{@link LulFunctions.genButtonRadioArray},  
+     * the **direction** is determined by whether or not the sum of the *widths*  
+     * of all the options exceeds this value.
+     * @default
+     */
     this.MAX_SELECTION_WIDTH = 500;
 
     
@@ -50,22 +116,19 @@ class Lul {
 
 }
 
-/*
-  genButton({text, onclick})
-  genEnter({name, oninput, minWidth})
-  genRange({name, oninput, minWidth, min, max, step})
-  genCheck({name, oninput})
-
-  The above functions generate input elements which store
-  the selected value in a global variable named 'name'.
-  'minWidth' can be used to alter the width of the elements 
-
-
-*/
+/**
+ * Generates a button.  
+ * Uses {@tutorial arg}
+ *
+ * @param {string} text - the text of the button
+ * @param {afn} onclick - (optional) an anonymous function to be fired  
+ * when clicking the button.
+ * @see [DEFAULT_BUTTON_CLASS]{@link LulConfig#DEFAULT_BUTTON_CLASS}
+ */
 
 function genButton(arg) {
   let button;
-  button = gen('button', lul.DEFAULT_BUTTON_CLASS );
+  button = gen('button', lulConfig.DEFAULT_BUTTON_CLASS );
 
   if(arg.onclick != undefined)
     button.addEventListener('click', arg.onclick);
@@ -79,10 +142,38 @@ function genButton(arg) {
 
 
 
+/**
+ * generates an input area for text.  
+ * Uses {@tutorial arg}
+ *
+ * @param {string} name - the name of the global variable  
+ * that the entered text should always be stored in
+ * @param {afn} oninput - (optional) the anonymous function that
+ * should be executed while typing
+ * @param {number} minWidth - (optional) sets the width of the enter area  
+ * omit to use a [default value]{@link LulConfig#INPUT_ELEMENTS}
+ * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
+ */
 function genEnter(arg) {
   return genInput(arg, 'enter');
 }
 
+/**
+ * generates a draggable slider representing numbers of a given range  
+ * Uses {@tutorial arg}
+ *
+ * @param {string} name - the name of the global variable  
+ * that the selected number should always be stored in
+ * @param {afn} oninput - (optional) the anonymous function that
+ * should be executed when dragging the slider
+ * @param {number} minWidth - (optional) sets the width of the slide range (in pixels).  
+ * omit to use a [default value]{@link LulConfig#INPUT_ELEMENTS}
+ * @param {number} min - the smallest possible number  
+ * the slider can select
+ * @param {number} max - the biggest one
+ * @param {number} step - the step between two possible selections
+ * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
+ */
 function genRange(arg) {
   let range = genInput(arg, 'range');
   range.min = arg.min;
@@ -92,42 +183,48 @@ function genRange(arg) {
   return range;
 }
 
+/**
+ * generates a checkbox that can be (un)ticked to change a boolean value  
+ * Uses {@tutorial arg}
+ *
+ * @param {string} name - the name of the global variable  
+ * that the boolean should always be stored in
+ * @param {afn} oninput - (optional) the anonymous function that
+ * should be executed when (un)ticking
+ * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
+ */
 function genCheck(arg) {
   let check = genInput(arg, 'check');
   check.addEventListener('input', function() {window[this.name] = this.checked;});
   return check;
 }
 
-
+// generates an input element based on INPUT_ELEMENTS
 function genInput(arg, inputName) {
-  let input = gen('input', lul.INPUT_ELEMENTS[inputName].className);
-  input.type = lul.INPUT_ELEMENTS[inputName].inputType;
+  let input = gen('input', lulConfig.INPUT_ELEMENTS[inputName].className);
+  input.type = lulConfig.INPUT_ELEMENTS[inputName].inputType;
   input.name = arg.name;
   input.addEventListener('input', function() {window[this.name] = this.value;});
   if(arg.oninput != undefined)
     input.addEventListener('input', arg.oninput);
-  if(arg.minWidth == undefined) arg.minWidth = lul.INPUT_ELEMENTS[inputName].minWidth;
+  if(arg.minWidth == undefined) arg.minWidth = lulConfig.INPUT_ELEMENTS[inputName].minWidth;
   input.style.minWidth = arg.minWidth + 'px';
   return input;
 }
 
-/*
-  genOverflow({innerId, direction})
-
-  genOverflow(arg):
-      generates an html element whose size remains the same.
-      when its content gets too large, it simply overflows
-    arg.innerId:
-      use this as key for inserting other elements into
-      the collapsible
-    arg.direction: 'row' or 'column'
-      the direction the overflow's child nodes are positioned
-*/
-
+/**
+ * generates an html element whose size always remains the same.  
+ * when its content gets too large, it simply overflows  
+ * Uses {@tutorial arg}
+ *
+ * @param innerId {string} - the value specified here can be used  
+ * as {@tutorial key} to insert other elements into the collapsible
+ * @param direction {'row'|'column'} - the direction the **overflow**'s child nodes are positioned
+ */
 
 function genOverflow(arg) {
-  let parent = gen('div', lul.DEFAULT_OVERFLOW_PARENT_CLASS);
-  let box = gen('div', lul.DEFAULT_OVERFLOW_CLASS);
+  let parent = gen('div', lulConfig.DEFAULT_OVERFLOW_PARENT_CLASS);
+  let box = gen('div', lulConfig.DEFAULT_OVERFLOW_CLASS);
   if(arg.direction == 'column')
     box.style.flexDirection = 'column';
 
@@ -146,15 +243,12 @@ function genOverflow(arg) {
 }
 
 function recalculateOverflowIndices () {
-  let overflows = document.getElementsByClassName('lul-overflow'); 
+  let overflows = document.getElementsByClassName(lulConfig.DEFAULT_OVERFLOW_CLASS); 
   let overflowArray = [];
   for (let overflow of overflows) {
     overflowArray.push(overflow);
   }
 
-  //  console.log(overflow);
-  //  console.log(calculateElementPosition(overflow));
-  //  console.log([overflow.scrollHeight, overflow.scrollWidth]);
   overflowArray.sort(overlapTest);
   let i = 1;
   overflowArray.forEach((overflow) => {
@@ -200,12 +294,19 @@ function calculateElementPosition(element) {
   };
 }
 
-/*
-  genBox({direction, visible})
-*/
+/**
+ * returns a newly generated HTML-Box.  
+ * Uses {@tutorial arg}.
+ *
+ * @param visible {'true'|'false'} - whether the [BOX_CLASS]{@link LulConfig#BOX_CLASS} parameter  
+ * should be set as css class of the box
+ * @param direction {'column'|'row'} - whether the children of the box  
+ * should be positioned next to or above and below each other.
+ * @see [BOX_CLASS]{@link LulConfig#BOX_CLASS}
+ */
 
 function genBox(arg) {
-  let box = gen('div', lul.BOX_CLASS);
+  let box = gen('div', lulConfig.BOX_CLASS);
   if(arg.visible == 'false')
     box.className = '';
 
@@ -217,32 +318,6 @@ function genBox(arg) {
 
   return box;
 }
-
-/*
-  genCollapsible({innerId, direction, toggle, hover, functions})
-
-  genCollapsible(arg): generates a box
-      that can be expanded and collapsed
-      at your arbitrary whim
-    arg.innerId:
-      use this as key for inserting other elements into
-      the collapsible
-    arg.direction:
-      'row' or 'column', defines
-      whether the box should change its
-      width or height
-    arg.toggle:
-      an html-element whose onclick-event
-      is to expand or collapse our collapsible
-    arg.hover:
-      an html-elment whose onmouseleave and
-      onmouseenter events are set to collapse and expand
-    arg.functions:
-      an object that gets assigned the properties
-      'expandFunction', 'collapseFunction' and 'toggleFunction'
-      with functions controlling the newly created collapsible.
-
-*/
 
 //dictionaries for equating values of different properties
 var directionSizeAttributeMap = {
@@ -257,6 +332,29 @@ var scrollSizeAttributeMap = {
 
 
 
+/**
+ * Generates a [box]{@link genBox}, that can be collapsed
+ * and expanded via javascript.  
+ * Uses {@tutorial arg}
+ *
+ * @param innerId {string} - the value specified here can be used  
+ * as {@tutorial key} to insert other elements into the collapsible
+ * @param direction {'row'|'column'} - whether the box should collapse  
+ * horizontally or vertically
+ * @param toggle {key} - (optional) a {@tutorial key} to an html-element that  
+ * gets set to trigger an expansion or collapse of this box  
+ * when clicked
+ * @param hover {key} - (optional) a {@tutorial key} to an html-element that  
+ * gets set to trigger an expansion or collapse of this box  
+ * when hovered.
+ * @param functions {Object} - (optional) some object that gets assigned three new properties:
+ * * expandFunction: call this to expand this specific box
+ * * collapseFunction: call to collapse
+ * * toggleFunction: automatically expands or collapses the box
+ * @see [COLLAPSIBLE_CLASS_MAP]{@link LulConfig#COLLAPSIBLE_CLASS_MAP}  
+ * [HOVER_COLLAPSE_DELAY]{@link LulConfig#HOVER_COLLAPSE_DELAY}  
+ * [HOVER_INITIAL_DELAY_MS]{@link LulConfig#HOVER_INITIAL_DELAY_MS}
+ */
 function genCollapsible(arg) {
   recalculateOverflowIndices();
   //determine sizeAttribute from arg.direction
@@ -265,7 +363,7 @@ function genCollapsible(arg) {
     sizeAttribute = 'width';
 
   //set the css class
-  let className = lul.COLLAPSIBLE_CLASS_MAP[sizeAttribute] + '';
+  let className = lulConfig.COLLAPSIBLE_CLASS_MAP[sizeAttribute] + '';
   let collapsible = gen('div', className);
 
   collapsible.setAttribute('sizeAttribute', sizeAttribute);
@@ -291,9 +389,9 @@ function genCollapsible(arg) {
         expandElement(collapsible);
       });
       hover.addEventListener('mouseleave', function () {
-        collapseElement(collapsible, lul.HOVER_COLLAPSE_DELAY);
+        collapseElement(collapsible, lulConfig.HOVER_COLLAPSE_DELAY);
       });}
-  }, lul.HOVER_INITIAL_DELAY_MS);
+  }, lulConfig.HOVER_INITIAL_DELAY_MS);
 
   if(arg.functions != undefined) {
     arg.functions['toggleFunction'] = function () {
@@ -384,6 +482,18 @@ function expandElement(collapsible) {
 */
 
 
+/**
+ * generates a [collapsible]{@link LulFunctions.genCollapsible} next to a
+ * [button]{@link LulFunctions.genButton} inside an
+ * [overflow]{@link LulFunctions.genOverflow}.  
+ * Uses {@tutorial arg}
+ *
+ * @param {'row'|'column'} direction - specifies whether the **collapsible**  
+ * and the **button(s)** should be next to or on top of one another
+ * @param {Array} content - array of HTML-Elements to be put inside the **collapsible** 
+ * @param {Array} button - array of HTML-Elements to be used as **buttons** 
+ */
+
 function genEntry(arg) {
   let overflowId = uid();
   let overflow = genOverflow({
@@ -409,9 +519,7 @@ function genEntry(arg) {
   genSelection({type, button, name, options, oninput})
 
   genRadioArray(arg):
-    generates an array of spans each containing
-    a radio and some text.
-    the selected value is stored in a global variable named 'name'
+   the selected value is stored in a global variable named 'name'
     'options' can have the following forms:
 
       options = {
@@ -457,6 +565,25 @@ function genEntry(arg) {
 */
 
 
+/**
+ * generates an [entry]{@link LulFunctions.genEntry} containing either a  
+ * * [radio]{@link LulFunctions.genRadioArray} or a
+ * * [buttonRadio]{@link LulFunctions.genButtonRadioArray}
+ *
+ * @param {'radio'|'button-radio'} type - specifies whether a
+ * **radio** or a **buttonRadio** should be used
+ * @param {Array} button - the [button(s)]{@link LulFunctions.genButton} for the **entry**
+ * @param {string} name - the name of the global variable  
+ * that the selected value should always be stored in
+ * @param {afn} oninput - (optional) the anonymous function that
+ * should be executed when selecting a value
+ * @param {Options} options - the {@tutorial Options} the radio should have
+ * @param {'row'|'column'} direction - specifies the direction of the **entry**.  
+ * when omitted, direction is set to 'row'  
+ * if the width of that exceeds [MAX_SELECTION_WIDTH]{@link LulConfig#MAX_SELECTION_WIDTH} however,
+ * it is set to 'column'
+ * @see [MAX_SELECTION_WIDTH]{@link LulConfig#MAX_SELECTION_WIDTH }
+ */
 function genSelection(arg) {
   //retrieving genFunction and boxVisible depending on arg.type
   let genFunction;
@@ -486,7 +613,7 @@ function genSelection(arg) {
 
   //deciding direction
   let direction;
-  if(width > lul.MAX_SELECTION_WIDTH)
+  if(width > lulConfig.MAX_SELECTION_WIDTH)
     direction = 'column';
   else direction = 'row';
 
@@ -501,6 +628,18 @@ function genSelection(arg) {
 
 
 
+/**
+ * generates an array of spans each containing
+ * an html-radio-element and some text.  
+ * Uses {@tutorial arg}
+ *
+ * @param {string} name - the name of the global variable  
+ * that the selected value should always be stored in
+ * @param {afn} oninput - (optional) the anonymous function that
+ * should be executed when selecting a value
+ * @param {Options} options - the {@tutorial Options} the radio should have
+ * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
+ */
 
 function genRadioArray(arg) {
 
@@ -525,8 +664,19 @@ function genRadioArray(arg) {
 }
 
 
-
-
+/**
+ * generates an array of [buttons]{@link LulFunctions.genButton}  behaving like a
+ * [radioArray]{@link LulFunctions.genRadioArray}.   
+ * Uses {@tutorial arg}
+ *
+ * @param {string} name - the name of the global variable  
+ * that the selected value should always be stored in
+ * @param {afn} oninput - (optional) the anonymous function that
+ * should be executed when selecting a value
+ * @param {Options} options - the {@tutorial Options} the button-radio should have
+ * @see [SELECTED_BUTTON_RADIO_CLASSNAME]{@link LulConfig#SELECTED_BUTTON_RADIO_CLASSNAME}  
+ * [UNSELECTED_BUTTON_RADIO_CLASSNAME]{@link LulConfig#UNSELECTED_BUTTON_RADIO_CLASSNAME}
+*/
 function genButtonRadioArray(arg) {
 
   if(arg.options == undefined)
@@ -537,7 +687,7 @@ function genButtonRadioArray(arg) {
   let buttonRadioArray = [];
   for (var i = 0; i < texts.length; i++) {
     let buttonRadio = genButton({text: texts[i]});
-    buttonRadio.className = lul.UNSELECTED_BUTTON_RADIO_CLASSNAME;
+    buttonRadio.className = lulConfig.UNSELECTED_BUTTON_RADIO_CLASSNAME;
     buttonRadioArray.push(buttonRadio);
   }
 
@@ -547,9 +697,9 @@ function genButtonRadioArray(arg) {
       window[arg.name] = values[i];
 
       buttonRadioArray.forEach((otherButtonRadio) => {
-        otherButtonRadio.className = lul.UNSELECTED_BUTTON_RADIO_CLASSNAME;
+        otherButtonRadio.className = lulConfig.UNSELECTED_BUTTON_RADIO_CLASSNAME;
       });
-      buttonRadio.className = lul.SELECTED_BUTTON_RADIO_CLASSNAME;
+      buttonRadio.className = lulConfig.SELECTED_BUTTON_RADIO_CLASSNAME;
 
     });
   });
@@ -578,12 +728,32 @@ function genOptionArray(options)
   return [options.texts, options.texts];
 }
 
-//imports all lul-functions. gets bundled by rollup into lul.js
+/**
+ * @class LulFunctions
+ * @classdesc A {@tutorial PseudoClass}. Provides genFunctions
+ * to create beautiful UI.  
+ * Before you can use any though, initialize the Library using
+ * the {@link LulConfig} class first.
+ *
+ * **ATTENTION:** Most functions here use the [arg input scheme]{@tutorial arg}
+ * @borrows genBox
+ * @borrows genCollapsible
+ * @borrows genOverflow
+ * @borrows genButton
+ * @borrows genEnter
+ * @borrows genEntry
+ * @borrows genRange
+ * @borrows genCheck
+ * @borrows genRadioArray
+ * @borrows genButtonRadioArray
+ * @borrows genSelection
+ * @hideconstructor
+ */
 
 
 //tell rollup that all of these functions are in fact necessary
 console.log(
-  Lul,
+  LulConfig,
   genButton, genEnter, genRange, genCheck,
   genRadioArray, genButtonRadioArray, genSelection,
   genCollapsible, genOverflow, genEntry, genBox

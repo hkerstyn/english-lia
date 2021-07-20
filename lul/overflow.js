@@ -1,20 +1,17 @@
-/*
-  genOverflow({innerId, direction})
 
-  genOverflow(arg):
-      generates an html element whose size remains the same.
-      when its content gets too large, it simply overflows
-    arg.innerId:
-      use this as key for inserting other elements into
-      the collapsible
-    arg.direction: 'row' or 'column'
-      the direction the overflow's child nodes are positioned
-*/
-
+/**
+ * generates an html element whose size always remains the same.  
+ * when its content gets too large, it simply overflows  
+ * Uses {@tutorial arg}
+ *
+ * @param innerId {string} - the value specified here can be used  
+ * as {@tutorial key} to insert other elements into the collapsible
+ * @param direction {'row'|'column'} - the direction the **overflow**'s child nodes are positioned
+ */
 
 export function genOverflow(arg) {
-  let parent = gen('div', lul.DEFAULT_OVERFLOW_PARENT_CLASS);
-  let box = gen('div', lul.DEFAULT_OVERFLOW_CLASS);
+  let parent = gen('div', lulConfig.DEFAULT_OVERFLOW_PARENT_CLASS);
+  let box = gen('div', lulConfig.DEFAULT_OVERFLOW_CLASS);
   if(arg.direction == 'column')
     box.style.flexDirection = 'column';
 
@@ -33,15 +30,12 @@ export function genOverflow(arg) {
 }
 
 export function recalculateOverflowIndices () {
-  let overflows = document.getElementsByClassName('lul-overflow'); 
+  let overflows = document.getElementsByClassName(lulConfig.DEFAULT_OVERFLOW_CLASS); 
   let overflowArray = [];
   for (let overflow of overflows) {
     overflowArray.push(overflow);
   }
 
-  //  console.log(overflow);
-  //  console.log(calculateElementPosition(overflow));
-  //  console.log([overflow.scrollHeight, overflow.scrollWidth]);
   overflowArray.sort(overlapTest);
   let i = 1;
   overflowArray.forEach((overflow) => {

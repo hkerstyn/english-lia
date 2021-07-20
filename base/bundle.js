@@ -1,4 +1,6 @@
-import {get, store, set, add, make, insert}
+import {get, store}
+  from './get-store.js'
+import {set, add, make, insert}
   from './insert.js';
 import {gen, genText, uid, truetypeof}
   from './misc.js';

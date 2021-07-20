@@ -57,52 +57,29 @@ AnonymousFunction6b0a7cd60600	lul/collapsible.js	/^    requestAnimationFrame(fun
 AnonymousFunction929ee7400100	lul/overflow.js	/^  requestAnimationFrame(function () {$/;"	f	function:genOverflow
 AnonymousFunction929ee7400200	lul/overflow.js	/^    setTimeout(function () {$/;"	f	function:genOverflow.AnonymousFunction929ee7400100
 AnonymousFunction95b83e320100	lul/selection.js	/^    buttonRadio.addEventListener('click', function () {$/;"	f
-AnonymousFunctionb7966ab90100	YTGrabber/index.js	/^            setInterval(function() {$/;"	f	function:setVideo
-AnonymousFunctionb7966ab90200	YTGrabber/index.js	/^    return new Promise(function(resolve, reject) {$/;"	f	function:getLanguageList
-AnonymousFunctionb7966ab90300	YTGrabber/index.js	/^    return new Promise(function(resolve, reject) {$/;"	f	function:loadTranscript
-AnonymousFunctionb7966ab90400	YTGrabber/index.js	/^        span.addEventListener("click", function(e) {$/;"	f
-AnonymousFunctionb7966ab90500	YTGrabber/index.js	/^        span.addEventListener("dblclick", function(e) {$/;"	f
-AnonymousFunctionb7966ab90600	YTGrabber/index.js	/^            tbtemp.addEventListener("focusout", function() {$/;"	f
-AnonymousFunctionbae60f1d0100	YTGrabber/YTAPIScript.js	/^  await new Promise(function(resolve,reject) {$/;"	f	function:loadYTAPI
-AnonymousFunctionbae60f1d0200	YTGrabber/YTAPIScript.js	/^  await new Promise(function(resolve,reject) {$/;"	f	function:createYTPlayer
-AnonymousFunctionbae60f1d0300	YTGrabber/YTAPIScript.js	/^        onStateChange: function(e) {ret.onPlayerStateChange(e);}$/;"	f	function:createYTPlayer.AnonymousFunctionbae60f1d0200
-AnonymousFunctiond4a7653f0100	Test/test.js	/^  onclick: function () {$/;"	f
 AnonymousFunctionfb3bef250100	grabber/interface.js	/^    onclick: function(){setVideo(window['enteredId']);}$/;"	f	function:initalizeUI
 AnonymousFunctionfb3bef250200	grabber/interface.js	/^  highlightInterval = setInterval(function() {$/;"	f	function:dispatchHighlightText
 AnonymousFunctionfb3bef250300	grabber/interface.js	/^      textFunction: function(obj) {return obj.languageName;},$/;"	f	function:setLanguageSelection
 AnonymousFunctionfb3bef250400	grabber/interface.js	/^      valueFunction: function(obj) {return obj.code;}$/;"	f	function:setLanguageSelection
-COLLAPSIBLE_CLASS_MAP	lul/embed.js	/^    this.COLLAPSIBLE_CLASS_MAP = {$/;"	c	class:Lul.constructor
-COMPARE_FUNKTIONS	YTGrabber/index.js	/^const COMPARE_FUNKTIONS = {}$/;"	C
+COLLAPSIBLE_CLASS_MAP	lul/embed.js	/^    this.COLLAPSIBLE_CLASS_MAP = {$/;"	c	class:LulConfig.constructor
 COMPARE_FUNKTIONS	grabber/wordHandler.js	/^const COMPARE_FUNKTIONS = {};$/;"	C
 Container	consys/container.js	/^export class Container extends Sizeable {$/;"	c
 Grabber	grabber/embed.js	/^export class Grabber {$/;"	c
-HIGHT	YTGrabber/index.js	/^const HIGHT = 600;$/;"	C
-INPUT_ELEMENTS	lul/embed.js	/^    this.INPUT_ELEMENTS = {$/;"	c	class:Lul.constructor
-LANGUAGEADD	YTGrabber/index.js	/^const LANGUAGEADD = "&lang="$/;"	C
+INPUT_ELEMENTS	lul/embed.js	/^    this.INPUT_ELEMENTS = {$/;"	c	class:LulConfig.constructor
 LANGUAGEADD	grabber/youtube.js	/^const LANGUAGEADD = '&lang=';$/;"	C
-Lul	lul/embed.js	/^export class Lul {$/;"	c
-MyPlayer	YTGrabber/index.html	/^                <td><div id = "MyPlayer"><\/div><\/td>$/;"	I
+LulConfig	lul/embed.js	/^export class LulConfig {$/;"	c
 NAME_DICT	consys/orientation.js	/^const NAME_DICT = [$/;"	C
 Orientable	consys/orientable.js	/^export class Orientable extends TreeNode {$/;"	c
 Orientation	consys/orientation.js	/^export class Orientation {$/;"	c
-PlatzhalterfuerTextBox	YTGrabber/index.html	/^                        <p id="PlatzhalterfuerTextBox"><\/p>$/;"	I
-STATREPLACECHARACTERS	YTGrabber/index.js	/^const STATREPLACECHARACTERS = \/[%,.;?!\/"“”„\/\\\\\/\\n-0123456789–¿…]\/g$/;"	C
 STATREPLACECHARACTERS	grabber/wordHandler.js	/^const STATREPLACECHARACTERS = \/[%,.;?!\/"“”„\/\\\\\/\\n-0123456789–¿…]\/g;$/;"	C
-STORED_ELEMENTS	base/insert.js	/^var STORED_ELEMENTS = {};$/;"	v
+STORED_ELEMENTS	base/get-store.js	/^var STORED_ELEMENTS = {};$/;"	v
 Sizeable	consys/sizeable.js	/^export class Sizeable extends Orientable {$/;"	c
-TODO	grabber/grabber.md	/^# TODO$/;"	c
-Test	Test/test.md	/^# Test$/;"	c
-Test-Kurs zum Ausprobieren	YTGrabber/grabber.md	/^# Test-Kurs zum Ausprobieren$/;"	c
+TODO	grabber/grabber-offline.md	/^# TODO$/;"	c
 TreeNode	consys/tree.js	/^export class TreeNode {$/;"	c
-VIDEOLANGAUGE	YTGrabber/index.js	/^const VIDEOLANGAUGE = "https:\/\/video.google.com\/timedtext?type=list&v="$/;"	C
 VIDEOLANGUAGE	grabber/youtube.js	/^const VIDEOLANGUAGE = 'https:\/\/video.google.com\/timedtext?type=list&v=';$/;"	C
-VIDEOLINK	YTGrabber/index.js	/^const VIDEOLINK = "https:\/\/video.google.com\/timedtext?v="$/;"	C
 VIDEOLINK	grabber/youtube.js	/^const VIDEOLINK = 'https:\/\/video.google.com\/timedtext?v=';$/;"	C
-Video Grabber	YTGrabber/grabber.md	/^## Video Grabber$/;"	s	chapter:Test-Kurs zum Ausprobieren
-WIDTH	YTGrabber/index.js	/^const WIDTH = 1000;$/;"	C
-YTAPI	YTGrabber/YTAPIScript.js	/^const YTAPI = 'https:\/\/www.youtube.com\/iframe_api';$/;"	C
 YTAPI	grabber/youtube.js	/^const YTAPI = 'https:\/\/www.youtube.com\/iframe_api';$/;"	C
-YTScriptGrabber	YTGrabber/README.md	/^# YTScriptGrabber$/;"	c
+Youtube Script Grabber	grabber/grabber-offline.md	/^# Youtube Script Grabber$/;"	c
 Youtube Script Grabber	grabber/grabber.md	/^# Youtube Script Grabber$/;"	c
 [Symbol.iterator]	consys/tree.js	/^  *[Symbol.iterator]() {$/;"	g	class:TreeNode
 add	base/insert.js	/^export function add(parentKey, ...elementKeys) {$/;"	f
@@ -111,26 +88,21 @@ addAsSiblingOf	consys/tree.js	/^  addAsSiblingOf(sibling, index) {$/;"	m	class:T
 addBefore	consys/tree.js	/^  addBefore(sibling) {$/;"	m	class:TreeNode
 addNextTo	consys/orientable.js	/^  addNextTo(orientationName, target) {$/;"	m	class:Orientable
 addSizes	consys/sizeable.js	/^function addSizes(direction, size1, size2) {$/;"	f
-alphabetAtoZ	YTGrabber/index.js	/^COMPARE_FUNKTIONS.alphabetAtoZ = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
+all	consys/container.js	/^  static get all() {$/;"	G	class:Container
 alphabetAtoZ	grabber/wordHandler.js	/^COMPARE_FUNKTIONS.alphabetAtoZ = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
-alphabetZtoA	YTGrabber/index.js	/^COMPARE_FUNKTIONS.alphabetZtoA = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
 alphabetZtoA	grabber/wordHandler.js	/^COMPARE_FUNKTIONS.alphabetZtoA = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
 ancestorGenerator	consys/tree.js	/^  *ancestorGenerator() {$/;"	g	class:TreeNode
 ancestors	consys/tree.js	/^  get ancestors() {return [...this.ancestorGenerator()];}$/;"	G	class:TreeNode
-ant	Test/test.js	/^let ant = new Container('Ant', [100, 200] );$/;"	v
-bee	Test/test.js	/^let bee = new Container('Bee', [50, 70]);$/;"	v
 calculateElementPosition	lul/overflow.js	/^function calculateElementPosition(element) {$/;"	f
 calculateElementSize	lul/overflow.js	/^function calculateElementSize (element) {$/;"	f
 castToId	grabber/interface.js	/^function castToId(enteredString) {$/;"	f
-changeYTVideo	YTGrabber/YTAPIScript.js	/^async function changeYTVideo(YTPlayer, newVideo) {$/;"	f
 changeYTVideo	grabber/youtube.js	/^async function changeYTVideo() {$/;"	f
-check	lul/embed.js	/^      check: {$/;"	c	class:Lul.constructor.INPUT_ELEMENTS
+check	lul/embed.js	/^      check: {$/;"	c	class:LulConfig.constructor.INPUT_ELEMENTS
 chrome	consys/.babelrc.json	/^          "chrome": "67",$/;"	s	object:presets.0.1.targets
-cicada	Test/test.js	/^let cicada = new Container('Cicada', [30, 30]);$/;"	v
-className	lul/embed.js	/^        className: 'lia-checkbox',$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.check
-className	lul/embed.js	/^        className: 'lia-input',$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.enter
-className	lul/embed.js	/^        className: 'lia-radio',$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.radio
-className	lul/embed.js	/^        className: 'lia-range',$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.range
+className	lul/embed.js	/^        className: 'lia-checkbox',$/;"	p	class:LulConfig.constructor.INPUT_ELEMENTS.check
+className	lul/embed.js	/^        className: 'lia-input',$/;"	p	class:LulConfig.constructor.INPUT_ELEMENTS.enter
+className	lul/embed.js	/^        className: 'lia-radio',$/;"	p	class:LulConfig.constructor.INPUT_ELEMENTS.radio
+className	lul/embed.js	/^        className: 'lia-range',$/;"	p	class:LulConfig.constructor.INPUT_ELEMENTS.range
 clearTextRemainders	grabber/wordRenderer.js	/^export function clearTextRemainders() {$/;"	f
 collapseElement	lul/collapsible.js	/^function collapseElement(collapsible, delay) {$/;"	f
 column	lul/collapsible.js	/^  column: 'height'$/;"	p	class:directionSizeAttributeMap
@@ -143,18 +115,14 @@ constructor	consys/orientation.js	/^  constructor(direction, factor) {$/;"	m	cla
 constructor	consys/sizeable.js	/^  constructor(name, minSize, allowLengthChange) {$/;"	m	class:Sizeable
 constructor	consys/tree.js	/^  constructor(name) {$/;"	m	class:TreeNode
 constructor	grabber/embed.js	/^  constructor() {$/;"	m	class:Grabber
-constructor	lul/embed.js	/^  constructor() {$/;"	m	class:Lul
-createYTPlayer	YTGrabber/YTAPIScript.js	/^async function createYTPlayer(playerID, width, height, videoID) {$/;"	f
+constructor	lul/embed.js	/^  constructor() {$/;"	m	class:LulConfig
 createYTPlayer	grabber/youtube.js	/^async function createYTPlayer(playerID, width, height) {$/;"	f
-curTranscript	YTGrabber/index.js	/^let curTranscript = undefined;$/;"	v
-currentPosition	YTGrabber/YTAPIScript.js	/^function currentPosition(YTPlayer) {$/;"	f
 currentPosition	grabber/youtube.js	/^export function currentPosition() {$/;"	f
 directionSizeAttributeMap	lul/collapsible.js	/^var directionSizeAttributeMap = {$/;"	c
 dispatchHighlightText	grabber/interface.js	/^function dispatchHighlightText() {$/;"	f
-dragonfly	Test/test.js	/^let dragonfly = new Container('Dragonfly', [100, 70]);$/;"	v
 edge	consys/.babelrc.json	/^          "edge": "17",$/;"	s	object:presets.0.1.targets
 element	consys/container.js	/^  get element() {$/;"	G	class:Container
-enter	lul/embed.js	/^      enter: {$/;"	c	class:Lul.constructor.INPUT_ELEMENTS
+enter	lul/embed.js	/^      enter: {$/;"	c	class:LulConfig.constructor.INPUT_ELEMENTS
 expandElement	lul/collapsible.js	/^function expandElement(collapsible) {$/;"	f
 fillContainers	grabber/container.js	/^function fillContainers () {$/;"	f
 firefox	consys/.babelrc.json	/^          "firefox": "60",$/;"	s	object:presets.0.1.targets
@@ -176,85 +144,57 @@ genRadioArray	lul/selection.js	/^export function genRadioArray(arg) {$/;"	f
 genRange	lul/input.js	/^export function genRange(arg) {$/;"	f
 genSelection	lul/selection.js	/^export function genSelection(arg) {$/;"	f
 genText	base/misc.js	/^export function genText(content) {$/;"	f
-generateStats	YTGrabber/index.js	/^function generateStats(text) {$/;"	f
-generateStatsTable	YTGrabber/index.js	/^function generateStatsTable(array) {$/;"	f
 getCommonAncestor	consys/tree.js	/^function getCommonAncestor(...treeNodes) {$/;"	f
 getFullText	grabber/wordHandler.js	/^export function getFullText() {$/;"	f
-getLanguageList	YTGrabber/index.js	/^async function getLanguageList(videoID) {$/;"	f
 getLanguageList	grabber/youtube.js	/^export async function getLanguageList() {$/;"	f
 getMinSize	consys/sizeable.js	/^  getMinSize() {$/;"	m	class:Sizeable
-getText	YTGrabber/index.js	/^function getText(xmldoc) {$/;"	f
 getThicknessAndLengthIndex	consys/sizeable.js	/^function getThicknessAndLengthIndex(direction) {$/;"	f
 getTranscript	grabber/youtube.js	/^export async function getTranscript(language) {$/;"	f
 getWordGroups	grabber/wordHandler.js	/^export function getWordGroups() {$/;"	f
 height	lul/collapsible.js	/^  height: 'scrollHeight'$/;"	p	class:scrollSizeAttributeMap
-height	lul/embed.js	/^      height: 'lul-collapsible-height'$/;"	p	class:Lul.constructor.COLLAPSIBLE_CLASS_MAP
+height	lul/embed.js	/^      height: 'lul-collapsible-height'$/;"	p	class:LulConfig.constructor.COLLAPSIBLE_CLASS_MAP
 highlightInterval	grabber/interface.js	/^var highlightInterval;$/;"	v
-highlightText	YTGrabber/index.js	/^function highlightText(currentpos) {$/;"	f
 highlightText	grabber/wordRenderer.js	/^export function highlightText() {$/;"	f
 highlightWord	grabber/wordRenderer.js	/^function highlightWord(suchword) {$/;"	f
-highliteWord	YTGrabber/index.js	/^let highliteWord = undefined;$/;"	v
-hightlightWord	YTGrabber/index.js	/^function hightlightWord(suchword) {$/;"	f
 idCount	base/misc.js	/^var idCount = 0;$/;"	v
 idEnterDummy	grabber/compatibility/grabber.html	/^    <span id="idEnterDummy"><\/span>$/;"	I
 initalizeUI	grabber/interface.js	/^export function initalizeUI() {$/;"	f
 initializeContainers	grabber/container.js	/^export function initializeContainers () {$/;"	f
-inputType	lul/embed.js	/^        inputType: 'checkbox'$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.check
-inputType	lul/embed.js	/^        inputType: 'radio'$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.radio
-inputType	lul/embed.js	/^        inputType: 'range'$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.range
-inputType	lul/embed.js	/^        inputType: 'text'$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.enter
+inputType	lul/embed.js	/^        inputType: 'checkbox'$/;"	p	class:LulConfig.constructor.INPUT_ELEMENTS.check
+inputType	lul/embed.js	/^        inputType: 'radio'$/;"	p	class:LulConfig.constructor.INPUT_ELEMENTS.radio
+inputType	lul/embed.js	/^        inputType: 'range'$/;"	p	class:LulConfig.constructor.INPUT_ELEMENTS.range
+inputType	lul/embed.js	/^        inputType: 'text'$/;"	p	class:LulConfig.constructor.INPUT_ELEMENTS.enter
 insert	base/insert.js	/^export function insert(mode, parentKey, ...elementKeys) {$/;"	f
-jumpInVideo	YTGrabber/YTAPIScript.js	/^async function jumpInVideo(YTPlayer, position) {$/;"	f
 jumpInVideo	grabber/youtube.js	/^export async function jumpInVideo(position) {$/;"	f
 languageSelectDummy	grabber/compatibility/grabber.html	/^    <span id="languageSelectDummy"><\/span>$/;"	I
-loadTranscript	YTGrabber/index.js	/^async function loadTranscript(videoID, language){$/;"	f
 loadTranscript	grabber/youtube.js	/^async function loadTranscript(language){$/;"	f
-loadYTAPI	YTGrabber/YTAPIScript.js	/^async function loadYTAPI() {$/;"	f
 loadYTAPI	grabber/youtube.js	/^export async function loadYTAPI() {$/;"	f
 make	base/insert.js	/^export function make(parentKey, ...elementKeys) {$/;"	f
-minWidth	lul/embed.js	/^        minWidth: 0,$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.check
-minWidth	lul/embed.js	/^        minWidth: 0,$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.radio
-minWidth	lul/embed.js	/^        minWidth: 225,$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.enter
-minWidth	lul/embed.js	/^        minWidth: 225,$/;"	p	class:Lul.constructor.INPUT_ELEMENTS.range
+minWidth	lul/embed.js	/^        minWidth: 0,$/;"	p	class:LulConfig.constructor.INPUT_ELEMENTS.check
+minWidth	lul/embed.js	/^        minWidth: 0,$/;"	p	class:LulConfig.constructor.INPUT_ELEMENTS.radio
+minWidth	lul/embed.js	/^        minWidth: 225,$/;"	p	class:LulConfig.constructor.INPUT_ELEMENTS.enter
+minWidth	lul/embed.js	/^        minWidth: 225,$/;"	p	class:LulConfig.constructor.INPUT_ELEMENTS.range
 moveTo	consys/container.js	/^  moveTo(orientationName, ...targetKeys) {$/;"	m	class:Container
-myTextfield	YTGrabber/index.html	/^                    <input type="text" id = "myTextfield">$/;"	I
 name	consys/orientation.js	/^  get name() {$/;"	G	class:Orientation
 ofName	consys/orientation.js	/^  static ofName(name) {$/;"	m	class:Orientation
-onPlayerStateChange	YTGrabber/YTAPIScript.js	/^  ret.onPlayerStateChange = function() {};$/;"	f	function:ret
 onPlayerStateChange	grabber/youtube.js	/^  ret.onPlayerStateChange = function() {};$/;"	f	function:ret
-onYouTubeIframeAPIReady	YTGrabber/YTAPIScript.js	/^  onYouTubeIframeAPIReady = function() {throw new Error('You cant just override this... again! E/;"	f	function:loadYTAPI
-onYouTubeIframeAPIReady	YTGrabber/YTAPIScript.js	/^var onYouTubeIframeAPIReady = function() {$/;"	f
 onYouTubeIframeAPIReady	grabber/youtube.js	/^  onYouTubeIframeAPIReady = function() {throw new Error('You cant just override this... again! E/;"	f	function:loadYTAPI
 onYouTubeIframeAPIReady	grabber/youtube.js	/^var onYouTubeIframeAPIReady = function() {$/;"	f
-onchange	YTGrabber/index.js	/^            tbtemp.onchange = function() {$/;"	f	function:tbtemp
-onchange	YTGrabber/index.js	/^    selectSort.onchange = function() {$/;"	f	function:selectSort
-onclick	YTGrabber/index.js	/^    block.onclick = function() {$/;"	f	function:block
-onclick	YTGrabber/index.js	/^    nextButton.onclick = async function() {$/;"	f	function:nextButton
 onclick	grabber/interface.js	/^  let onclick = async function() {$/;"	f	function:setLanguageSelection
-onload	YTGrabber/index.js	/^        request.onload = function () {$/;"	f	function:request
-onload	YTGrabber/index.js	/^onload = function() {$/;"	f
 onload	grabber/youtube.js	/^    request.onload = function () {$/;"	f	function:request
 overlapTest	lul/overflow.js	/^function overlapTest (overflow1, overflow2) {$/;"	f
-parseLanguageList	YTGrabber/index.js	/^function parseLanguageList(xmldoc) {$/;"	f
 parseLanguageList	grabber/youtube.js	/^function parseLanguageList(xmldoc) {$/;"	f
-placefuerselectzwo	YTGrabber/index.html	/^                    <span id="placefuerselectzwo"><\/span>$/;"	I
-placefuerselectzwo	YTGrabber/index.js	/^let placefuerselectzwo = document.getElementById("placefuerselectzwo");$/;"	v
-platzfuerselect	YTGrabber/index.html	/^                    <span id="platzfuerselect"><\/span>$/;"	I
-platzfuerselect	YTGrabber/index.js	/^let platzfuerselect = document.getElementById("platzfuerselect");$/;"	v
-platzhalterfuerTextBox	YTGrabber/index.js	/^let platzhalterfuerTextBox = document.getElementById("platzhalterfuerTextBox");$/;"	v
-player	YTGrabber/index.js	/^let player = undefined;$/;"	v
 player	grabber/youtube.js	/^var player;$/;"	v
 playerDummy	grabber/compatibility/grabber.html	/^    <div id = "playerDummy"><\/div>$/;"	I
 playerDummy	grabber/interface.js	/^var playerDummy;$/;"	v
 presets	consys/.babelrc.json	/^  "presets": [$/;"	a
 previousIndex	grabber/wordRenderer.js	/^var previousIndex = -1;$/;"	v
-radio	lul/embed.js	/^      radio: {$/;"	c	class:Lul.constructor.INPUT_ELEMENTS
-range	lul/embed.js	/^      range: {$/;"	c	class:Lul.constructor.INPUT_ELEMENTS
+radio	lul/embed.js	/^      radio: {$/;"	c	class:LulConfig.constructor.INPUT_ELEMENTS
+range	lul/embed.js	/^      range: {$/;"	c	class:LulConfig.constructor.INPUT_ELEMENTS
 recalculateIndices	consys/tree.js	/^  recalculateIndices() {$/;"	m	class:TreeNode
 recalculateOverflowIndices	lul/overflow.js	/^export function recalculateOverflowIndices () {$/;"	f
 render	consys/container.js	/^  render() {$/;"	m	class:Container
-renderText	YTGrabber/index.js	/^function renderText() {$/;"	f
-result	base/insert.js	/^  let result =  document.getElementById(key);$/;"	v
+result	base/get-store.js	/^  let result =  document.getElementById(key);$/;"	v
 row	lul/collapsible.js	/^  row: 'width',$/;"	p	class:directionSizeAttributeMap
 safari	consys/.babelrc.json	/^          "safari": "11.1"$/;"	s	object:presets.0.1.targets
 scrollSizeAttributeMap	lul/collapsible.js	/^var scrollSizeAttributeMap = {$/;"	c
@@ -270,45 +210,33 @@ setSortSelection	grabber/wordRenderer.js	/^export function setSortSelection() {$
 setStatsTable	grabber/wordRenderer.js	/^function setStatsTable(comparator) {$/;"	f
 setText	grabber/wordRenderer.js	/^export function setText() {$/;"	f
 setTranscript	grabber/wordHandler.js	/^export function setTranscript(newTranscript) {transcript = newTranscript;}$/;"	f
-setVideo	YTGrabber/index.js	/^async function setVideo(video) {$/;"	f
 setVideo	grabber/interface.js	/^async function setVideo(enteredString) {$/;"	f
-sortAmountDown	YTGrabber/index.js	/^COMPARE_FUNKTIONS.sortAmountDown = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
 sortAmountDown	grabber/wordHandler.js	/^COMPARE_FUNKTIONS.sortAmountDown = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
-sortAmountUp	YTGrabber/index.js	/^COMPARE_FUNKTIONS.sortAmountUp = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
 sortAmountUp	grabber/wordHandler.js	/^COMPARE_FUNKTIONS.sortAmountUp = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
-sortLengthDown	YTGrabber/index.js	/^COMPARE_FUNKTIONS.sortLengthDown = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
 sortLengthDown	grabber/wordHandler.js	/^COMPARE_FUNKTIONS.sortLengthDown = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
-sortLengthUp	YTGrabber/index.js	/^COMPARE_FUNKTIONS.sortLengthUp = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
 sortLengthUp	grabber/wordHandler.js	/^COMPARE_FUNKTIONS.sortLengthUp = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
 sortSelectDummy	grabber/compatibility/grabber.html	/^    <span id="sortSelectDummy"><\/span><br>$/;"	I
 sortSelectDummy	grabber/wordRenderer.js	/^var sortSelectDummy;$/;"	v
-sortTableFunctions	YTGrabber/index.js	/^function sortTableFunctions() {$/;"	f
 sortWordGroups	grabber/wordHandler.js	/^export function sortWordGroups(comparator) {$/;"	f
-spacefuerStats	YTGrabber/index.html	/^                    <div id="spacefuerStats"><\/div>$/;"	I
-spacefuerStats	YTGrabber/index.js	/^let spacefuerStats = document.getElementById("spacefuerStats");$/;"	v
 split	consys/container.js	/^  split(direction) {$/;"	m	class:Container
 split	consys/orientable.js	/^  split(direction, splitParent) {$/;"	m	class:Orientable
 splitByWords	grabber/wordHandler.js	/^export function splitByWords(text) {$/;"	f
-startProg	YTGrabber/index.js	/^async function startProg() {$/;"	f
 statsTableDummy	grabber/compatibility/grabber.html	/^    <div id="statsTableDummy"><\/div>$/;"	I
 statsTableDummy	grabber/wordRenderer.js	/^var statsTableDummy;$/;"	v
-statsarray	YTGrabber/index.js	/^let statsarray = undefined;$/;"	v
-store	base/insert.js	/^export function store(element, id) {$/;"	f
+store	base/get-store.js	/^export function store(element, key) {$/;"	f
 targets	consys/.babelrc.json	/^        "targets": {$/;"	o	object:presets.0.1
 textDummy	grabber/compatibility/grabber.html	/^    <p id="textDummy"><\/p>$/;"	I
 textDummy	grabber/wordRenderer.js	/^var textDummy;$/;"	v
-texthaufen	YTGrabber/index.js	/^let texthaufen = undefined;$/;"	v
 toggleElement	lul/collapsible.js	/^function toggleElement(collapsible) {$/;"	f
 transcript	grabber/wordHandler.js	/^export var transcript;$/;"	v
-transcriptSpans	YTGrabber/index.js	/^let transcriptSpans = undefined;$/;"	v
 transcriptSpans	grabber/wordRenderer.js	/^var transcriptSpans;$/;"	v
-transcripttotext	YTGrabber/index.js	/^function transcripttotext() {$/;"	f
-trueType	base/insert.js	/^  let trueType = truetypeof(key);$/;"	v
+trueType	base/get-store.js	/^  let trueType = truetypeof(key);$/;"	v
 truetypeof	base/misc.js	/^export function truetypeof(value) {$/;"	f
 uid	base/misc.js	/^export function uid() {$/;"	f
 updateSizes	consys/container.js	/^  static updateSizes() {$/;"	m	class:Container
 videoId	grabber/youtube.js	/^var videoId;$/;"	v
 width	lul/collapsible.js	/^  width: 'scrollWidth',$/;"	p	class:scrollSizeAttributeMap
-width	lul/embed.js	/^      width: 'lul-collapsible-width',$/;"	p	class:Lul.constructor.COLLAPSIBLE_CLASS_MAP
+width	lul/embed.js	/^      width: 'lul-collapsible-width',$/;"	p	class:LulConfig.constructor.COLLAPSIBLE_CLASS_MAP
 wordGroups	grabber/wordHandler.js	/^export var wordGroups;$/;"	v
 wordInstances	grabber/wordHandler.js	/^export var wordInstances;$/;"	v
+youngestPredecessorGenerator	consys/tree.js	/^  *youngestPredecessorGenerator() {$/;"	g	class:TreeNode

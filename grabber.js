@@ -404,16 +404,14 @@ function initializeContainers () {
   let options = new Container('options', [0, 100], [true, false]);
 
 
-  //making all containers visible
-  [player, transcript, statsTable, options].forEach((container) => {
-    container.setClass('lul-light');
-  });
 
   //arranging containers
   options.setRoot('frame');
   player.moveTo('down', options);
   transcript.moveTo('right', options, player);
   statsTable.moveTo('down', player, transcript);
+  for(let container of Container.all)
+    container.setClass('lul-light');
 
 
   fillContainers();

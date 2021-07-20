@@ -1,35 +1,22 @@
-/*
-  gen(name, className)
-  genText(content)
-  uid()
-  truetypeof(value)
-
-  This script provides a handful of utility functions
-  used by many different scripts of the lul.
-  None of its functions are being imported via rollup.
-  Therefore, this script needs to be sourced
-  just like lul.js
-
-  gen(name, className): Creates an HTML-Element with
-    a given type (name) and
-    optionally a css class attribute
-
-  genText(content): generates an HTML-span where
-    'content' is a string representing its innerHTML
-
-  uid(): returns a different string on each invocation
-
-  truetypeof(value): determines a string
-    based on the object type of value.
-    The possible return values are:
-      'object'
-      'array'
-      'html'
-      'string'
-      undefined
-*/
+/**
+ * @class Misc
+ * @classdesc A {@tutorial PseudoClass}. Provides several small
+ * pieces of code
+ *
+ * @borrows uid
+ * @borrows truetypeof
+ * @borrows gen
+ * @borrows genText
+ * @hideconstructor
+ */
 
 
+/**
+ * Returns a newly created HTML-Element.
+ *
+ * @param {string} name - The type of the element, like "span", "p", or "div"
+ * @param {string} className - (optional) the className attribute (for css)
+ */
 function gen(name, className) {
   let obj = document.createElement(name);
 
@@ -38,6 +25,14 @@ function gen(name, className) {
 
   return obj;
 }
+
+
+/**
+ * returns a newly created HTML <span> containing **content**
+ *
+ * @param {string} content - the span's innerHTML
+ */
+
 function genText(content) {
   let text = gen('span');
   text.innerHTML = content;
@@ -47,11 +42,31 @@ function genText(content) {
 
 
 var idCount = 0;
+
+/**
+ * returns a different string on each invocation
+ */
+
 function uid() {
   idCount++;
   return 'uid' + idCount;
 }
 
+
+/**
+ * Returns a string representing the  
+ * true (useful) type of some **value**
+ *
+ * The possible return values are:
+ * * 'object'
+ * * 'array'
+ * * 'html'
+ * * 'string'
+ *
+ * Otherwise, a warning is issued and *undefined* is returned.
+ *
+ * @param {any} value - the type of which is to be determined
+ */
 
 function truetypeof(value) {
   let deepType = Object.prototype.toString.call(value);
@@ -65,65 +80,25 @@ function truetypeof(value) {
   console.warn('deepType: ', deepType);
 }
 
-/*
-  store(element, id)
-  get(key)
-  insert(mode, parentKey, ...elementKeys)
-  set(parentKey, ...elementKeys)
-  make(parentKey, ...elementKeys)
-  add(parentKey, ...elementKeys)
-  
-  This script is responsible for placing (and returning)
-  HTML-Elements in the document or the STORED_ELEMENTS object
-
-  store(element, id): stores the element under 'id'
-    inside STORED_ELEMENTS
-    if no id is given, a unique new one is used
-    and returned
-
-  get(key): if 'key' is
-    an HTML-Element:
-      returns 'key'
-    a string:
-      returns (if present) the element stored under 'key'
-      inside STORED_ELEMENTS
-      otherwise, searches the HTML-DOM for an element
-      with id 'key'
-
-  insert(mode, parentKey, ...elementKeys):
-    'parentKey' and 'elementKeys' are references
-      to some HTML-Elements (see get())
-    sets the elements as children of the parent
-    if 'mode' is equal to
-    "set":
-      the parent is being cleared of previous children
-    "make":
-      the process gets aborted
-      if parent already has children
-    "add":
-      the new children are simply added to the existing ones
-
-
-  set(parentKey, ...elementKeys)
-  make(parentKey, ...elementKeys)
-  add(parentKey, ...elementKeys):
-    shorthands for insert()
-*/
+/**
+ * @class GetStore
+ * @classdesc A {@tutorial PseudoClass}. Responsible for retrieving and
+ * storing elements under some {@tutorial key}
+ * 
+ * @borrows get
+ * @borrows store
+ * @hideconstructor
+ */
 
 var STORED_ELEMENTS = {};
 
-function store(element, id) {
-  if(STORED_ELEMENTS[id] != undefined) {
-    console.warn('store: id', id, 'is already taken by', STORED_ELEMENTS[id], 'element:', element, 'Overriding...');
-  }
-  if(id == undefined) {
-    id = uid();
-    console.warn('Defaulting to uid:', id, element);
-  }
-
-  STORED_ELEMENTS[id] = element;
-  return id;
-}
+/**
+ * Returns the object associated with a {@tutorial key}.
+ *
+ * @param {key} key - the {@tutorial key} pointing to some object
+ * @returns{Object}
+ * @tutorial key
+ */
 
 function get(key) {
   if(key == undefined) return undefined;
@@ -139,20 +114,98 @@ function get(key) {
   return result;
 }
 
+/**
+ * Stores an **element** that can now be accessed using [get(**element**)]{@link GetStore.get}
+ *
+ * If no **key** is provided, [generate one]{@link Misc.uid} and return it.
+ *
+ * @param {Object} element - an arbitrary object you  
+ * want to retrieve later
+ * @param {string} key - (optional) use this key to
+ * retrieve your **element**
+ * @tutorial key
+ */
+
+function store(element, key) {
+  if(STORED_ELEMENTS[key] != undefined) {
+    console.warn('store: key', key, 'is already taken by', STORED_ELEMENTS[key], 'element:', element, 'Override...');
+  }
+  if(key == undefined) {
+    key = uid();
+    console.warn('Defaulting to uid:', key, element);
+  }
+
+  STORED_ELEMENTS[key] = element;
+  return key;
+}
+
+/**
+ * @class Insert
+ * @classdesc A {@tutorial PseudoClass}. Resposible for inserting
+ * Elements into the HTML-page
+ * @borrows set
+ * @borrows add
+ * @borrows make
+ * @borrows insert
+ * @hideconstructor
+ */
 
 
+
+/**
+ * Sets one or several **elements** as children
+ * of some **parent** element.  
+ * All previous children of **parent** get cleared.
+ *
+ *
+ * @param {key} parentKey - the {@tutorial key} to the **parent** element
+ * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
+ * @tutorial key
+ */
 function set(parentKey, ...elementKeys) {
   insert('set', parentKey, ...elementKeys);
 }
+
+/**
+ * Sets one or several **elements** as children
+ * of some **parent** element.  
+ * All previous children of **parent** remain next to the new ones.
+ *
+ *
+ * @param {key} parentKey - the {@tutorial key} to the **parent** element
+ * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
+ * @tutorial key
+ */
 function add(parentKey, ...elementKeys) {
   insert('add', parentKey, ...elementKeys);
 }
+
+/**
+ * Sets one or several **elements** as children
+ * of some **parent** element.  
+ * If **parent** already has children, the process gets aborted
+ *
+ *
+ * @param {key} parentKey - the {@tutorial key} to the **parent** element
+ * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
+ * @tutorial key
+ */
 function make(parentKey, ...elementKeys) {
   insert('make', parentKey, ...elementKeys);
 }
 
 
-
+/**
+ * Sets one or several **elements** as children
+ * of some **parent** element.  
+ * The behaviour is like that of [set]{@link Insert.set}, [make]{@link Insert.make} or [add]{@link Insert.add},  
+ * depending on the value of **mode**
+ *
+ * @param {string} mode - either "set", "make", or "add"
+ * @param {key} parentKey - the {@tutorial key} to the **parent** element
+ * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
+ * @tutorial key
+ */
 function insert(mode, parentKey, ...elementKeys) {
   let parent = get(parentKey);
   if(mode == undefined) mode = 'set';

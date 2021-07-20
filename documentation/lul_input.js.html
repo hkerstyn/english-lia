@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: lul/input.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: lul/input.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>
+/**
+ * Generates a button.  
+ * Uses {@tutorial arg}
+ *
+ * @param {string} text - the text of the button
+ * @param {afn} onclick - (optional) an anonymous function to be fired  
+ * when clicking the button.
+ * @see [DEFAULT_BUTTON_CLASS]{@link LulConfig#DEFAULT_BUTTON_CLASS}
+ */
+
+export function genButton(arg) {
+  let button;
+  button = gen('button', lulConfig.DEFAULT_BUTTON_CLASS );
+
+  if(arg.onclick != undefined)
+    button.addEventListener('click', arg.onclick);
+
+  let text = genText(arg.text);
+  button.appendChild(text);
+  return button;
+}
+
+
+
+
+
+/**
+ * generates an input area for text.  
+ * Uses {@tutorial arg}
+ *
+ * @param {string} name - the name of the global variable  
+ * that the entered text should always be stored in
+ * @param {afn} oninput - (optional) the anonymous function that
+ * should be executed while typing
+ * @param {number} minWidth - (optional) sets the width of the enter area  
+ * omit to use a [default value]{@link LulConfig#INPUT_ELEMENTS}
+ * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
+ */
+export function genEnter(arg) {
+  return genInput(arg, 'enter');
+}
+
+/**
+ * generates a draggable slider representing numbers of a given range  
+ * Uses {@tutorial arg}
+ *
+ * @param {string} name - the name of the global variable  
+ * that the selected number should always be stored in
+ * @param {afn} oninput - (optional) the anonymous function that
+ * should be executed when dragging the slider
+ * @param {number} minWidth - (optional) sets the width of the slide range (in pixels).  
+ * omit to use a [default value]{@link LulConfig#INPUT_ELEMENTS}
+ * @param {number} min - the smallest possible number  
+ * the slider can select
+ * @param {number} max - the biggest one
+ * @param {number} step - the step between two possible selections
+ * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
+ */
+export function genRange(arg) {
+  let range = genInput(arg, 'range');
+  range.min = arg.min;
+  range.max = arg.max;
+  range.step = arg.step;
+  range.value = arg.min;
+  return range;
+}
+
+/**
+ * generates a checkbox that can be (un)ticked to change a boolean value  
+ * Uses {@tutorial arg}
+ *
+ * @param {string} name - the name of the global variable  
+ * that the boolean should always be stored in
+ * @param {afn} oninput - (optional) the anonymous function that
+ * should be executed when (un)ticking
+ * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
+ */
+export function genCheck(arg) {
+  let check = genInput(arg, 'check');
+  check.addEventListener('input', function() {window[this.name] = this.checked;});
+  return check;
+}
+
+// generates an input element based on INPUT_ELEMENTS
+export function genInput(arg, inputName) {
+  let input = gen('input', lulConfig.INPUT_ELEMENTS[inputName].className);
+  input.type = lulConfig.INPUT_ELEMENTS[inputName].inputType;
+  input.name = arg.name;
+  input.addEventListener('input', function() {window[this.name] = this.value;});
+  if(arg.oninput != undefined)
+    input.addEventListener('input', arg.oninput);
+  if(arg.minWidth == undefined) arg.minWidth = lulConfig.INPUT_ELEMENTS[inputName].minWidth;
+  input.style.minWidth = arg.minWidth + 'px';
+  return input;
+}
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Container.html">Container</a></li><li><a href="GetStore.html">GetStore</a></li><li><a href="Insert.html">Insert</a></li><li><a href="LulConfig.html">LulConfig</a></li><li><a href="LulFunctions.html">LulFunctions</a></li><li><a href="Misc.html">Misc</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-PseudoClass.html">PseudoClass</a></li><li><a href="tutorial-README.html">README</a></li><li><a href="tutorial-arg.html">arg</a></li><li><a href="tutorial-key.html">key</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#gen">gen</a></li><li><a href="global.html#genBox">genBox</a></li><li><a href="global.html#genButton">genButton</a></li><li><a href="global.html#genButtonRadioArray">genButtonRadioArray</a></li><li><a href="global.html#genCheck">genCheck</a></li><li><a href="global.html#genCollapsible">genCollapsible</a></li><li><a href="global.html#genEnter">genEnter</a></li><li><a href="global.html#genEntry">genEntry</a></li><li><a href="global.html#genOverflow">genOverflow</a></li><li><a href="global.html#genRadioArray">genRadioArray</a></li><li><a href="global.html#genRange">genRange</a></li><li><a href="global.html#genSelection">genSelection</a></li><li><a href="global.html#genText">genText</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#make">make</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#truetypeof">truetypeof</a></li><li><a href="global.html#uid">uid</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Tue Jul 20 2021 12:39:24 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

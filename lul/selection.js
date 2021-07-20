@@ -4,9 +4,7 @@
   genSelection({type, button, name, options, oninput})
 
   genRadioArray(arg):
-    generates an array of spans each containing
-    a radio and some text.
-    the selected value is stored in a global variable named 'name'
+   the selected value is stored in a global variable named 'name'
     'options' can have the following forms:
 
       options = {
@@ -58,6 +56,25 @@ import {genEntry}
   from './entry.js';
 
 
+/**
+ * generates an [entry]{@link LulFunctions.genEntry} containing either a  
+ * * [radio]{@link LulFunctions.genRadioArray} or a
+ * * [buttonRadio]{@link LulFunctions.genButtonRadioArray}
+ *
+ * @param {'radio'|'button-radio'} type - specifies whether a
+ * **radio** or a **buttonRadio** should be used
+ * @param {Array} button - the [button(s)]{@link LulFunctions.genButton} for the **entry**
+ * @param {string} name - the name of the global variable  
+ * that the selected value should always be stored in
+ * @param {afn} oninput - (optional) the anonymous function that
+ * should be executed when selecting a value
+ * @param {Options} options - the {@tutorial Options} the radio should have
+ * @param {'row'|'column'} direction - specifies the direction of the **entry**.  
+ * when omitted, direction is set to 'row'  
+ * if the width of that exceeds [MAX_SELECTION_WIDTH]{@link LulConfig#MAX_SELECTION_WIDTH} however,
+ * it is set to 'column'
+ * @see [MAX_SELECTION_WIDTH]{@link LulConfig#MAX_SELECTION_WIDTH }
+ */
 export function genSelection(arg) {
   //retrieving genFunction and boxVisible depending on arg.type
   let genFunction;
@@ -87,7 +104,7 @@ export function genSelection(arg) {
 
   //deciding direction
   let direction;
-  if(width > lul.MAX_SELECTION_WIDTH)
+  if(width > lulConfig.MAX_SELECTION_WIDTH)
     direction = 'column';
   else direction = 'row';
 
@@ -102,6 +119,18 @@ export function genSelection(arg) {
 
 
 
+/**
+ * generates an array of spans each containing
+ * an html-radio-element and some text.  
+ * Uses {@tutorial arg}
+ *
+ * @param {string} name - the name of the global variable  
+ * that the selected value should always be stored in
+ * @param {afn} oninput - (optional) the anonymous function that
+ * should be executed when selecting a value
+ * @param {Options} options - the {@tutorial Options} the radio should have
+ * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
+ */
 
 export function genRadioArray(arg) {
 
@@ -126,8 +155,19 @@ export function genRadioArray(arg) {
 }
 
 
-
-
+/**
+ * generates an array of [buttons]{@link LulFunctions.genButton}  behaving like a
+ * [radioArray]{@link LulFunctions.genRadioArray}.   
+ * Uses {@tutorial arg}
+ *
+ * @param {string} name - the name of the global variable  
+ * that the selected value should always be stored in
+ * @param {afn} oninput - (optional) the anonymous function that
+ * should be executed when selecting a value
+ * @param {Options} options - the {@tutorial Options} the button-radio should have
+ * @see [SELECTED_BUTTON_RADIO_CLASSNAME]{@link LulConfig#SELECTED_BUTTON_RADIO_CLASSNAME}  
+ * [UNSELECTED_BUTTON_RADIO_CLASSNAME]{@link LulConfig#UNSELECTED_BUTTON_RADIO_CLASSNAME}
+*/
 export function genButtonRadioArray(arg) {
 
   if(arg.options == undefined)
@@ -138,7 +178,7 @@ export function genButtonRadioArray(arg) {
   let buttonRadioArray = [];
   for (var i = 0; i < texts.length; i++) {
     let buttonRadio = genButton({text: texts[i]});
-    buttonRadio.className = lul.UNSELECTED_BUTTON_RADIO_CLASSNAME;
+    buttonRadio.className = lulConfig.UNSELECTED_BUTTON_RADIO_CLASSNAME;
     buttonRadioArray.push(buttonRadio);
   }
 
@@ -148,9 +188,9 @@ export function genButtonRadioArray(arg) {
       window[arg.name] = values[i];
 
       buttonRadioArray.forEach((otherButtonRadio) => {
-        otherButtonRadio.className = lul.UNSELECTED_BUTTON_RADIO_CLASSNAME;
+        otherButtonRadio.className = lulConfig.UNSELECTED_BUTTON_RADIO_CLASSNAME;
       });
-      buttonRadio.className = lul.SELECTED_BUTTON_RADIO_CLASSNAME;
+      buttonRadio.className = lulConfig.SELECTED_BUTTON_RADIO_CLASSNAME;
 
     });
   });

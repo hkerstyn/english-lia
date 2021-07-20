@@ -1,28 +1,3 @@
-/*
-  genCollapsible({innerId, direction, toggle, hover, functions})
-
-  genCollapsible(arg): generates a box
-      that can be expanded and collapsed
-      at your arbitrary whim
-    arg.innerId:
-      use this as key for inserting other elements into
-      the collapsible
-    arg.direction:
-      'row' or 'column', defines
-      whether the box should change its
-      width or height
-    arg.toggle:
-      an html-element whose onclick-event
-      is to expand or collapse our collapsible
-    arg.hover:
-      an html-elment whose onmouseleave and
-      onmouseenter events are set to collapse and expand
-    arg.functions:
-      an object that gets assigned the properties
-      'expandFunction', 'collapseFunction' and 'toggleFunction'
-      with functions controlling the newly created collapsible.
-
-*/
 
 import {recalculateOverflowIndices}
   from './overflow.js';
@@ -42,6 +17,29 @@ var scrollSizeAttributeMap = {
 
 
 
+/**
+ * Generates a [box]{@link genBox}, that can be collapsed
+ * and expanded via javascript.  
+ * Uses {@tutorial arg}
+ *
+ * @param innerId {string} - the value specified here can be used  
+ * as {@tutorial key} to insert other elements into the collapsible
+ * @param direction {'row'|'column'} - whether the box should collapse  
+ * horizontally or vertically
+ * @param toggle {key} - (optional) a {@tutorial key} to an html-element that  
+ * gets set to trigger an expansion or collapse of this box  
+ * when clicked
+ * @param hover {key} - (optional) a {@tutorial key} to an html-element that  
+ * gets set to trigger an expansion or collapse of this box  
+ * when hovered.
+ * @param functions {Object} - (optional) some object that gets assigned three new properties:
+ * * expandFunction: call this to expand this specific box
+ * * collapseFunction: call to collapse
+ * * toggleFunction: automatically expands or collapses the box
+ * @see [COLLAPSIBLE_CLASS_MAP]{@link LulConfig#COLLAPSIBLE_CLASS_MAP}  
+ * [HOVER_COLLAPSE_DELAY]{@link LulConfig#HOVER_COLLAPSE_DELAY}  
+ * [HOVER_INITIAL_DELAY_MS]{@link LulConfig#HOVER_INITIAL_DELAY_MS}
+ */
 export function genCollapsible(arg) {
   recalculateOverflowIndices();
   //determine sizeAttribute from arg.direction
@@ -50,7 +48,7 @@ export function genCollapsible(arg) {
     sizeAttribute = 'width';
 
   //set the css class
-  let className = lul.COLLAPSIBLE_CLASS_MAP[sizeAttribute] + '';
+  let className = lulConfig.COLLAPSIBLE_CLASS_MAP[sizeAttribute] + '';
   let collapsible = gen('div', className);
 
   collapsible.setAttribute('sizeAttribute', sizeAttribute);
@@ -76,9 +74,9 @@ export function genCollapsible(arg) {
         expandElement(collapsible);
       });
       hover.addEventListener('mouseleave', function () {
-        collapseElement(collapsible, lul.HOVER_COLLAPSE_DELAY);
+        collapseElement(collapsible, lulConfig.HOVER_COLLAPSE_DELAY);
       });}
-  }, lul.HOVER_INITIAL_DELAY_MS);
+  }, lulConfig.HOVER_INITIAL_DELAY_MS);
 
   if(arg.functions != undefined) {
     arg.functions['toggleFunction'] = function () {
