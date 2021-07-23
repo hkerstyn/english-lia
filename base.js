@@ -294,16 +294,6 @@ function arrayToListingString(array) {
   return listingString;
 }
 
-// {
-//   watchFunction: function () {
-//     return globalVarialbe;
-//   },
-//   reactFunction: function (newValue) {
-//     //blabla
-//   },
-//   interval: 1000
-// }
-
 function watch(watcher) {
   let previousValue;
   setInterval(function () {
@@ -314,6 +304,7 @@ function watch(watcher) {
     previousValue = newValue;
     watcher.reactFunction(newValue);
   }, watcher.interval);
+  watcher.reactFunction(watcher.watchFunction());
 }
 
 //import all api functions

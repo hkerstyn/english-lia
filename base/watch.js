@@ -1,12 +1,3 @@
-// {
-//   watchFunction: function () {
-//     return globalVarialbe;
-//   },
-//   reactFunction: function (newValue) {
-//     //blabla
-//   },
-//   interval: 1000
-// }
 
 export function watch(watcher) {
   let previousValue;
@@ -18,5 +9,6 @@ export function watch(watcher) {
     previousValue = newValue;
     watcher.reactFunction(newValue);
   }, watcher.interval);
+  watcher.reactFunction(watcher.watchFunction());
 } 
 

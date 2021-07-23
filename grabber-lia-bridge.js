@@ -49,7 +49,6 @@ function updateColorPalette () {
   for(let i = 0; i < 3; i++)
     lulColorMedium[i] = highlightColor[i]*mediumTransparency + backgroundColor[i]*(1 - mediumTransparency);
 
-  console.log(lulColorMedium);
 
   setCssProperty('--color-dark', arrayToListingString(lulColorDark));
   setCssProperty('--color-medium', arrayToListingString(lulColorMedium));
