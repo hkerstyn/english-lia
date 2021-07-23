@@ -17,7 +17,6 @@
 .lul-dark	lul/styles/lul-generic.css	/^.lul-dark{$/;"	c
 .lul-dark-hover:hover	lul/styles/lul-generic.css	/^.lul-dark, .lul-dark-hover:hover {$/;"	c
 .lul-full-width	lul/styles/lul-generic.css	/^.lul-full-width {$/;"	c
-.lul-highlight-text	lul/styles/lul-generic.css	/^.lul-highlight-text {$/;"	c
 .lul-highlight-text	lul/styles/lul-generic.css	/^.lul-highlight-text, .lul-highlight-text-hover:hover {$/;"	c
 .lul-highlight-text-hover:hover	lul/styles/lul-generic.css	/^.lul-highlight-text, .lul-highlight-text-hover:hover {$/;"	c
 .lul-light	lul/styles/lul-generic.css	/^.lul-dark, .lul-medium, .lul-light {$/;"	c
@@ -39,10 +38,11 @@
 1	consys/.babelrc.json	/^      {$/;"	o	array:presets.0
 :root	lul/styles/lul-generic.css	/^:root {$/;"	s
 AnonymousFunction1248cb9c0100	lul/input.js	/^  check.addEventListener('input', function() {window[this.name] = this.checked;});$/;"	f
-AnonymousFunction1248cb9c0200	lul/input.js	/^  input.addEventListener('input', function() {window[this.name] = this.value;});$/;"	f
+AnonymousFunction1248cb9c0200	lul/input.js	/^  input.addEventListener('input', function() {window[arg.name] = this.value;});$/;"	f
 AnonymousFunction172b91270100	grabber/wordRenderer.js	/^    span.addEventListener('click', async function(e) {$/;"	f
 AnonymousFunction172b91270200	grabber/wordRenderer.js	/^    oninput: function () {$/;"	f	function:setSortSelection
 AnonymousFunction172b91270300	grabber/wordRenderer.js	/^      cell.addEventListener('click', function () {$/;"	f
+AnonymousFunction52777d710100	base/watch.js	/^  setInterval(function () {$/;"	f	function:watch
 AnonymousFunction56094f210100	grabber/youtube.js	/^  await new Promise(function(resolve,reject) {$/;"	f	function:loadYTAPI
 AnonymousFunction56094f210200	grabber/youtube.js	/^  await new Promise(function(resolve,reject) {$/;"	f	function:createYTPlayer
 AnonymousFunction56094f210300	grabber/youtube.js	/^        onStateChange: function(e) {ret.onPlayerStateChange(e);}$/;"	f	function:createYTPlayer.AnonymousFunction56094f210200
@@ -79,8 +79,8 @@ TreeNode	consys/tree.js	/^export class TreeNode {$/;"	c
 VIDEOLANGUAGE	grabber/youtube.js	/^const VIDEOLANGUAGE = 'https:\/\/video.google.com\/timedtext?type=list&v=';$/;"	C
 VIDEOLINK	grabber/youtube.js	/^const VIDEOLINK = 'https:\/\/video.google.com\/timedtext?v=';$/;"	C
 YTAPI	grabber/youtube.js	/^const YTAPI = 'https:\/\/www.youtube.com\/iframe_api';$/;"	C
-Youtube Script Grabber	grabber/grabber-offline.md	/^# Youtube Script Grabber$/;"	c
-Youtube Script Grabber	grabber/grabber.md	/^# Youtube Script Grabber$/;"	c
+Youtube Script Grabber	grabber/grabber-offline.md	/^# Youtube Script Grabber $/;"	c
+Youtube Script Grabber	grabber/grabber.md	/^# Youtube Script Grabber $/;"	c
 [Symbol.iterator]	consys/tree.js	/^  *[Symbol.iterator]() {$/;"	g	class:TreeNode
 add	base/insert.js	/^export function add(parentKey, ...elementKeys) {$/;"	f
 addAfter	consys/tree.js	/^  addAfter(sibling) {$/;"	m	class:TreeNode
@@ -93,6 +93,8 @@ alphabetAtoZ	grabber/wordHandler.js	/^COMPARE_FUNKTIONS.alphabetAtoZ = function(
 alphabetZtoA	grabber/wordHandler.js	/^COMPARE_FUNKTIONS.alphabetZtoA = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
 ancestorGenerator	consys/tree.js	/^  *ancestorGenerator() {$/;"	g	class:TreeNode
 ancestors	consys/tree.js	/^  get ancestors() {return [...this.ancestorGenerator()];}$/;"	G	class:TreeNode
+apply	lul/embed.js	/^  apply() {$/;"	m	class:LulConfig
+arrayToListingString	base/css-control.js	/^export function arrayToListingString(array) {$/;"	f
 calculateElementPosition	lul/overflow.js	/^function calculateElementPosition(element) {$/;"	f
 calculateElementSize	lul/overflow.js	/^function calculateElementSize (element) {$/;"	f
 castToId	grabber/interface.js	/^function castToId(enteredString) {$/;"	f
@@ -106,7 +108,6 @@ className	lul/embed.js	/^        className: 'lia-range',$/;"	p	class:LulConfig.c
 clearTextRemainders	grabber/wordRenderer.js	/^export function clearTextRemainders() {$/;"	f
 collapseElement	lul/collapsible.js	/^function collapseElement(collapsible, delay) {$/;"	f
 column	lul/collapsible.js	/^  column: 'height'$/;"	p	class:directionSizeAttributeMap
-commonAncestor	consys/tree.js	/^  commonAncestor(...treeNodes) {$/;"	m	class:TreeNode
 commonAncestor	consys/tree.js	/^  static commonAncestor(...treeNodes) {$/;"	m	class:TreeNode
 constrainDummy	grabber/container.js	/^function constrainDummy(dummy, containerName) {$/;"	f
 constructor	consys/container.js	/^  constructor(id, size, allowLengthChange) {$/;"	m	class:Container
@@ -143,8 +144,8 @@ genOverflow	lul/overflow.js	/^export function genOverflow(arg) {$/;"	f
 genRadioArray	lul/selection.js	/^export function genRadioArray(arg) {$/;"	f
 genRange	lul/input.js	/^export function genRange(arg) {$/;"	f
 genSelection	lul/selection.js	/^export function genSelection(arg) {$/;"	f
-genText	base/misc.js	/^export function genText(content) {$/;"	f
-getCommonAncestor	consys/tree.js	/^function getCommonAncestor(...treeNodes) {$/;"	f
+genText	base/misc.js	/^export function genText(content, className) {$/;"	f
+getCssProperty	base/css-control.js	/^export function getCssProperty(propertyName) {$/;"	f
 getFullText	grabber/wordHandler.js	/^export function getFullText() {$/;"	f
 getLanguageList	grabber/youtube.js	/^export async function getLanguageList() {$/;"	f
 getMinSize	consys/sizeable.js	/^  getMinSize() {$/;"	m	class:Sizeable
@@ -157,7 +158,6 @@ highlightInterval	grabber/interface.js	/^var highlightInterval;$/;"	v
 highlightText	grabber/wordRenderer.js	/^export function highlightText() {$/;"	f
 highlightWord	grabber/wordRenderer.js	/^function highlightWord(suchword) {$/;"	f
 idCount	base/misc.js	/^var idCount = 0;$/;"	v
-idEnterDummy	grabber/compatibility/grabber.html	/^    <span id="idEnterDummy"><\/span>$/;"	I
 initalizeUI	grabber/interface.js	/^export function initalizeUI() {$/;"	f
 initializeContainers	grabber/container.js	/^export function initializeContainers () {$/;"	f
 inputType	lul/embed.js	/^        inputType: 'checkbox'$/;"	p	class:LulConfig.constructor.INPUT_ELEMENTS.check
@@ -166,7 +166,7 @@ inputType	lul/embed.js	/^        inputType: 'range'$/;"	p	class:LulConfig.constr
 inputType	lul/embed.js	/^        inputType: 'text'$/;"	p	class:LulConfig.constructor.INPUT_ELEMENTS.enter
 insert	base/insert.js	/^export function insert(mode, parentKey, ...elementKeys) {$/;"	f
 jumpInVideo	grabber/youtube.js	/^export async function jumpInVideo(position) {$/;"	f
-languageSelectDummy	grabber/compatibility/grabber.html	/^    <span id="languageSelectDummy"><\/span>$/;"	I
+listingStringToArray	base/css-control.js	/^export function listingStringToArray(listingString) {$/;"	f
 loadTranscript	grabber/youtube.js	/^async function loadTranscript(language){$/;"	f
 loadYTAPI	grabber/youtube.js	/^export async function loadYTAPI() {$/;"	f
 make	base/insert.js	/^export function make(parentKey, ...elementKeys) {$/;"	f
@@ -185,7 +185,6 @@ onload	grabber/youtube.js	/^    request.onload = function () {$/;"	f	function:re
 overlapTest	lul/overflow.js	/^function overlapTest (overflow1, overflow2) {$/;"	f
 parseLanguageList	grabber/youtube.js	/^function parseLanguageList(xmldoc) {$/;"	f
 player	grabber/youtube.js	/^var player;$/;"	v
-playerDummy	grabber/compatibility/grabber.html	/^    <div id = "playerDummy"><\/div>$/;"	I
 playerDummy	grabber/interface.js	/^var playerDummy;$/;"	v
 presets	consys/.babelrc.json	/^  "presets": [$/;"	a
 previousIndex	grabber/wordRenderer.js	/^var previousIndex = -1;$/;"	v
@@ -195,10 +194,12 @@ recalculateIndices	consys/tree.js	/^  recalculateIndices() {$/;"	m	class:TreeNod
 recalculateOverflowIndices	lul/overflow.js	/^export function recalculateOverflowIndices () {$/;"	f
 render	consys/container.js	/^  render() {$/;"	m	class:Container
 result	base/get-store.js	/^  let result =  document.getElementById(key);$/;"	v
+root	base/css-control.js	/^var root = document.querySelector(':root');$/;"	v
 row	lul/collapsible.js	/^  row: 'width',$/;"	p	class:directionSizeAttributeMap
 safari	consys/.babelrc.json	/^          "safari": "11.1"$/;"	s	object:presets.0.1.targets
 scrollSizeAttributeMap	lul/collapsible.js	/^var scrollSizeAttributeMap = {$/;"	c
 setClass	consys/container.js	/^  setClass(newClass) {$/;"	m	class:Container
+setCssProperty	base/css-control.js	/^export function setCssProperty(propertyName, propertyValue) {$/;"	f
 setLanguageSelection	grabber/interface.js	/^async function setLanguageSelection() {$/;"	f
 setParent	consys/container.js	/^  setParent(parent, index) {$/;"	m	class:Container
 setParent	consys/tree.js	/^  setParent(parent, index) {$/;"	m	class:TreeNode
@@ -215,17 +216,15 @@ sortAmountDown	grabber/wordHandler.js	/^COMPARE_FUNKTIONS.sortAmountDown = funct
 sortAmountUp	grabber/wordHandler.js	/^COMPARE_FUNKTIONS.sortAmountUp = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
 sortLengthDown	grabber/wordHandler.js	/^COMPARE_FUNKTIONS.sortLengthDown = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
 sortLengthUp	grabber/wordHandler.js	/^COMPARE_FUNKTIONS.sortLengthUp = function(a,b) {$/;"	f	function:COMPARE_FUNKTIONS
-sortSelectDummy	grabber/compatibility/grabber.html	/^    <span id="sortSelectDummy"><\/span><br>$/;"	I
 sortSelectDummy	grabber/wordRenderer.js	/^var sortSelectDummy;$/;"	v
 sortWordGroups	grabber/wordHandler.js	/^export function sortWordGroups(comparator) {$/;"	f
 split	consys/container.js	/^  split(direction) {$/;"	m	class:Container
 split	consys/orientable.js	/^  split(direction, splitParent) {$/;"	m	class:Orientable
 splitByWords	grabber/wordHandler.js	/^export function splitByWords(text) {$/;"	f
-statsTableDummy	grabber/compatibility/grabber.html	/^    <div id="statsTableDummy"><\/div>$/;"	I
+start	grabber/embed.js	/^  start() {$/;"	m	class:Grabber
 statsTableDummy	grabber/wordRenderer.js	/^var statsTableDummy;$/;"	v
 store	base/get-store.js	/^export function store(element, key) {$/;"	f
 targets	consys/.babelrc.json	/^        "targets": {$/;"	o	object:presets.0.1
-textDummy	grabber/compatibility/grabber.html	/^    <p id="textDummy"><\/p>$/;"	I
 textDummy	grabber/wordRenderer.js	/^var textDummy;$/;"	v
 toggleElement	lul/collapsible.js	/^function toggleElement(collapsible) {$/;"	f
 transcript	grabber/wordHandler.js	/^export var transcript;$/;"	v
@@ -235,6 +234,7 @@ truetypeof	base/misc.js	/^export function truetypeof(value) {$/;"	f
 uid	base/misc.js	/^export function uid() {$/;"	f
 updateSizes	consys/container.js	/^  static updateSizes() {$/;"	m	class:Container
 videoId	grabber/youtube.js	/^var videoId;$/;"	v
+watch	base/watch.js	/^export function watch(watcher) {$/;"	f
 width	lul/collapsible.js	/^  width: 'scrollWidth',$/;"	p	class:scrollSizeAttributeMap
 width	lul/embed.js	/^      width: 'lul-collapsible-width',$/;"	p	class:LulConfig.constructor.COLLAPSIBLE_CLASS_MAP
 wordGroups	grabber/wordHandler.js	/^export var wordGroups;$/;"	v

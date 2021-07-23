@@ -19,8 +19,8 @@
  * @borrows genSelection
  * @hideconstructor
  */
-//imports all lul-functions. gets bundled by rollup into lul.js
 
+//import all api-functions
 import {LulConfig}
   from './embed.js';
 import {genButton, genEnter, genRange, genCheck}
@@ -37,7 +37,8 @@ import {genBox}
   from './box.js';
 
 
-//tell rollup that all of these functions are in fact necessary
+//log them so that rollup will include them
+//these functions will now be globally available
 console.log(
   LulConfig,
   genButton, genEnter, genRange, genCheck,

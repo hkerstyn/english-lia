@@ -1,4 +1,3 @@
-
 /**
  * Generates a button.  
  * Uses {@tutorial arg}
@@ -10,8 +9,7 @@
  */
 
 export function genButton(arg) {
-  let button;
-  button = gen('button', lulConfig.DEFAULT_BUTTON_CLASS );
+  let button = gen('button', lulConfig.DEFAULT_BUTTON_CLASS );
 
   if(arg.onclick != undefined)
     button.addEventListener('click', arg.onclick);
@@ -37,6 +35,7 @@ export function genButton(arg) {
  * omit to use a [default value]{@link LulConfig#INPUT_ELEMENTS}
  * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
  */
+
 export function genEnter(arg) {
   return genInput(arg, 'enter');
 }
@@ -57,6 +56,7 @@ export function genEnter(arg) {
  * @param {number} step - the step between two possible selections
  * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
  */
+
 export function genRange(arg) {
   let range = genInput(arg, 'range');
   range.min = arg.min;
@@ -65,6 +65,7 @@ export function genRange(arg) {
   range.value = arg.min;
   return range;
 }
+
 
 /**
  * generates a checkbox that can be (un)ticked to change a boolean value  
@@ -76,21 +77,32 @@ export function genRange(arg) {
  * should be executed when (un)ticking
  * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
  */
+
 export function genCheck(arg) {
   let check = genInput(arg, 'check');
   check.addEventListener('input', function() {window[this.name] = this.checked;});
   return check;
 }
 
+
 // generates an input element based on INPUT_ELEMENTS
 export function genInput(arg, inputName) {
+  //generate <input> with css class
   let input = gen('input', lulConfig.INPUT_ELEMENTS[inputName].className);
+
+  //assign type and name
   input.type = lulConfig.INPUT_ELEMENTS[inputName].inputType;
   input.name = arg.name;
-  input.addEventListener('input', function() {window[this.name] = this.value;});
-  if(arg.oninput != undefined)
-    input.addEventListener('input', arg.oninput);
+
+  //set the minWidth property
   if(arg.minWidth == undefined) arg.minWidth = lulConfig.INPUT_ELEMENTS[inputName].minWidth;
   input.style.minWidth = arg.minWidth + 'px';
+
+
+  //add eventListeners for updating the [name]-variable
+  //(and possibly the provided oninput)
+  input.addEventListener('input', function() {window[arg.name] = this.value;});
+  if(arg.oninput != undefined)
+    input.addEventListener('input', arg.oninput);
   return input;
 }

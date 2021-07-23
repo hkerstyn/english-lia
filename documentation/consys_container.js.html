@@ -39,9 +39,8 @@ import {TreeNode}
  * Furthermore, the functions have been written to be able to
  * eventually support resizing and moving of containers via some UI
  * (which would of course still have to be programmed).
- *
- * 
  */
+
 export class Container extends Sizeable {
 
   /**
@@ -51,20 +50,96 @@ export class Container extends Sizeable {
    * @param {Array} size - two numbers describing minimum **width** and **height** 
    * @param {Array} allowLengthChange - (optional) two bools describing whether **widht**  and **height**  may get expanded
    */
+
   constructor(id, size, allowLengthChange) {
     super(id + '.container', size, allowLengthChange);
     this.id = id;
   }
 
+  /**
+   * returns an array of all containers that were already placed using  
+   * [Container.setRoot]{@link Container#setRoot} or
+   * [Container.moveTo]{@link Container#moveTo}  
+   */
 
-  
+  static get all() {
+    return [...get('Root.container').youngestPredecessorGenerator()];
+  }
+
+  /**
+   * Use this to place the first container into the webpage.
+   * All future containers should be added using [Container.moveTo]{@link Container#moveTo} 
+   *
+   * @param {key} key - the {@tutorial key} referring to some HTML-Element, in this case  
+   * probably the id of some empty **div** on your page
+   */
+
+  setRoot(key) {
+    let root = new Container('Root');
+    this.setParent(root);
+    set(key, root.element);
+    get(key).className += ' lul-light';
+  }
+
+  /**
+   * Moves this **Container**  next to another container.  
+   * This (and [Container.setRoot]{@link Container#setRoot}) is the preferred way of
+   * placing a **Container**  somewhere (or moving it somewhere else)
+   *
+   * @param {'left'|'right'|'up'|'down'} orientationName - where to place this **Container** relative to the
+   * new one
+   * @param {...key} targetKeys - a {@tutorial key} to another Container.  
+   * If multiple are provided, it takes their smallest common Parent.
+   */
+
+  moveTo(orientationName, ...targetKeys) {
+    let targets = [];
+    targetKeys.forEach((targetKey) => {
+      targets.push(get(targetKey));
+    });
+
+    let commonAncestor = TreeNode.commonAncestor(...targets);
+
+    this.addNextTo(orientationName, commonAncestor);
+  }
+
+  /**
+   * Use this to change the size of a container (don't modify the **size** property directly).
+   * @param {Array} size - two numbers describing minimum **width** and **height** 
+   */
+
+  setSize(size) {
+    super.setSize(size);
+    this.element.style.width = size[0] + 'px';
+    this.element.style.height = size[1] + 'px';
+  }
+
+  /**
+   * this function allows you to change the look of a container,  
+   * simply change the css-class to something new
+   *
+   * @param {string} newClass - a css class name.
+   */
+
+  setClass(newClass) {
+    this.className = newClass;
+    if (this.parent != undefined) {
+      this.parent.render(); 
+    }
+  }
+
+
+
+
+  //nifty getter to avoid unnecessary recomputation
   get element() {
     if(this.internalElement == undefined) return this.render();
     else return this.internalElement;
   }
 
-
+  //(re-)draw the html-element
   render() {
+    //remember the old element
     let oldElement;
     let parentElement;
     if(this.internalElement != undefined) {
@@ -72,23 +147,30 @@ export class Container extends Sizeable {
       parentElement = this.internalElement.parentNode;
     }
 
+    //create table 
     let table = gen('table', 'consys-container');
     let row = gen('tr', 'consys-container');
     if(this.children.length > 0) {
+
+      //for every child, put its table inside a &lt;td>
       for(let child of this.children) {
+ 
         let cell = gen('td', 'consys-container');
         if (child.className != undefined) {
           cell.className += ' ' + child.className;
         }
-
+ 
         cell.appendChild(child.element);
         row.appendChild(cell);
         table.appendChild(row);
-
+ 
+        //1 or n rows depending on direction
         if(this.direction == 'column')
           row = gen('tr', 'consys-container') ;
       }
     } else {
+
+      //just a table with only one &lt;td>
       let cell = gen('td', 'consys-container');
       if(this.id != undefined)
         cell.setAttribute('id', this.id);
@@ -97,14 +179,20 @@ export class Container extends Sizeable {
       table.appendChild(row);
       store(cell, this.id);
     }
-    this.internalElement = table;
+
+    //put the new element where the remembered old one was
     if(oldElement != undefined) {
       parentElement.insertBefore(table, oldElement);
       oldElement.remove();
     }
+
+    this.internalElement = table;
     return table;
   }
 
+
+  //(internal) set container parent
+  //redraw
   setParent(parent, index) {
     let oldParent;
     if(this.parent != undefined)
@@ -119,44 +207,8 @@ export class Container extends Sizeable {
     Container.updateSizes();
   }
 
-  /**
-   * Use this to place the first container into the webpage.
-   * All future containers should be added using [Container.moveTo]{@link Container#moveTo} 
-   *
-   * @param {key} key - the {@tutorial key} referring to some HTML-Element, in this case  
-   * probably the id of some empty **div** on your page
-   */
-  setRoot(key) {
-    let root = new Container('Root');
-    this.setParent(root);
-    set(key, root.element);
-    get(key).className += ' lul-light';
-  }
 
-
-  /**
-   * use this to loop over all containers that were already placed using  
-   * [Container.setRoot]{@link Container#setRoot} or
-   * [Container.moveTo]{@link Container#moveTo}  
-   * like in
-    * ```
-   * for(let container of Container.all)
-   * container.setClass('lul-light');
-   *
-   * ```
-   * To get an array of all manually placed containers,  
-   * use
-   * ```
-   * let myArray = [...Container.all];
-   *
-   * ```
-   *
-   *
-   */
-  static get all() {
-    return get('Root.container').youngestPredecessorGenerator();
-  }
-
+  // recalculate container sizes
   static updateSizes() {
     let root = get('Root.container');
     if(root == undefined)
@@ -165,65 +217,11 @@ export class Container extends Sizeable {
     root.setSize(root.getMinSize());
   }
 
-  /**
-   * Use this to change the size of a container (don't modify the **size** property directly).
-   * @param {Array} size - two numbers describing minimum **width** and **height** 
-   */
-  setSize(size) {
-    super.setSize(size);
-    this.element.style.width = size[0] + 'px';
-    this.element.style.height = size[1] + 'px';
-  }
-
   split(direction) {
     let splitParent = new Container(uid());
     splitParent.direction = direction;
     super.split(direction, splitParent);
   }
-
-
-  /**
-   * this function allows you to change the look of a container,  
-   * simply change the css-class to something new
-   *
-   * **TIP:** to make all (already placed) containers visible, use:
-   * ```
-   * for(let container of Container.all)
-   * container.setClass('lul-light');
-   *
-   * ```
-   *
-   *
-   * @param {string} newClass - a css class name.
-   */
-  setClass(newClass) {
-    this.className = newClass;
-    if (this.parent != undefined) {
-      this.parent.render(); 
-    }
-  }
-
-  /**
-   * Moves this **Container**  next to another container.  
-   * This (and [Container.setRoot]{@link Container#setRoot}) is the preferred way of
-   * placing a **Container**  somewhere (or moving it somewhere else)
-   *
-   * @param {'left'|'right'|'up'|'down'} orientationName - where to place this **Container** relative to the
-   * new one
-   * @param {...key} targetKeys - a {@tutorial key} to another Container.  
-   * If multiple are provided, it takes their smallest common Parent.
-   */
-  moveTo(orientationName, ...targetKeys) {
-    let targets = [];
-    targetKeys.forEach((targetKey) => {
-      targets.push(get(targetKey));
-    });
-
-    let commonAncestor = TreeNode.commonAncestor(...targets);
-
-    this.addNextTo(orientationName, commonAncestor);
-  }
-
 }
   
 </code></pre>
@@ -236,13 +234,13 @@ export class Container extends Sizeable {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Container.html">Container</a></li><li><a href="GetStore.html">GetStore</a></li><li><a href="Insert.html">Insert</a></li><li><a href="LulConfig.html">LulConfig</a></li><li><a href="LulFunctions.html">LulFunctions</a></li><li><a href="Misc.html">Misc</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-PseudoClass.html">PseudoClass</a></li><li><a href="tutorial-README.html">README</a></li><li><a href="tutorial-arg.html">arg</a></li><li><a href="tutorial-key.html">key</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#gen">gen</a></li><li><a href="global.html#genBox">genBox</a></li><li><a href="global.html#genButton">genButton</a></li><li><a href="global.html#genButtonRadioArray">genButtonRadioArray</a></li><li><a href="global.html#genCheck">genCheck</a></li><li><a href="global.html#genCollapsible">genCollapsible</a></li><li><a href="global.html#genEnter">genEnter</a></li><li><a href="global.html#genEntry">genEntry</a></li><li><a href="global.html#genOverflow">genOverflow</a></li><li><a href="global.html#genRadioArray">genRadioArray</a></li><li><a href="global.html#genRange">genRange</a></li><li><a href="global.html#genSelection">genSelection</a></li><li><a href="global.html#genText">genText</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#make">make</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#truetypeof">truetypeof</a></li><li><a href="global.html#uid">uid</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Container.html">Container</a></li><li><a href="cssControl.html">cssControl</a></li><li><a href="GetStore.html">GetStore</a></li><li><a href="Insert.html">Insert</a></li><li><a href="LulConfig.html">LulConfig</a></li><li><a href="LulFunctions.html">LulFunctions</a></li><li><a href="Misc.html">Misc</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Options.html">Options</a></li><li><a href="tutorial-PseudoClass.html">PseudoClass</a></li><li><a href="tutorial-README.html">README</a></li><li><a href="tutorial-arg.html">arg</a></li><li><a href="tutorial-key.html">key</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#arrayToListingString">arrayToListingString</a></li><li><a href="global.html#gen">gen</a></li><li><a href="global.html#genBox">genBox</a></li><li><a href="global.html#genButton">genButton</a></li><li><a href="global.html#genButtonRadioArray">genButtonRadioArray</a></li><li><a href="global.html#genCheck">genCheck</a></li><li><a href="global.html#genCollapsible">genCollapsible</a></li><li><a href="global.html#genEnter">genEnter</a></li><li><a href="global.html#genEntry">genEntry</a></li><li><a href="global.html#genOverflow">genOverflow</a></li><li><a href="global.html#genRadioArray">genRadioArray</a></li><li><a href="global.html#genRange">genRange</a></li><li><a href="global.html#genSelection">genSelection</a></li><li><a href="global.html#genText">genText</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getCssProperty">getCssProperty</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#listingStringToArray">listingStringToArray</a></li><li><a href="global.html#make">make</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#setCssProperty">setCssProperty</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#truetypeof">truetypeof</a></li><li><a href="global.html#uid">uid</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Tue Jul 20 2021 12:39:24 GMT+0200 (Central European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Jul 23 2021 10:37:03 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

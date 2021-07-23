@@ -107,11 +107,10 @@ export class LulConfig {
      * @default
      */
     this.MAX_SELECTION_WIDTH = 500;
+  }
 
-    
-
-
-
+  apply() {
+    window['lulConfig'] = this;
   }
 
 }

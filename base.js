@@ -3,10 +3,10 @@
  * @classdesc A {@tutorial PseudoClass}. Provides several small
  * pieces of code
  *
- * @borrows uid
- * @borrows truetypeof
  * @borrows gen
  * @borrows genText
+ * @borrows uid
+ * @borrows truetypeof
  * @hideconstructor
  */
 
@@ -17,6 +17,7 @@
  * @param {string} name - The type of the element, like "span", "p", or "div"
  * @param {string} className - (optional) the className attribute (for css)
  */
+
 function gen(name, className) {
   let obj = document.createElement(name);
 
@@ -27,14 +28,16 @@ function gen(name, className) {
 }
 
 
+
 /**
  * returns a newly created HTML <span> containing **content**
  *
  * @param {string} content - the span's innerHTML
+ * @param {string} className - (optional) the className attribute (for css)
  */
 
-function genText(content) {
-  let text = gen('span');
+function genText(content, className) {
+  let text = gen('span', className);
   text.innerHTML = content;
 
   return text;
@@ -90,7 +93,10 @@ function truetypeof(value) {
  * @hideconstructor
  */
 
+//a global object containing all stored elements
 var STORED_ELEMENTS = {};
+
+
 
 /**
  * Returns the object associated with a {@tutorial key}.
@@ -113,6 +119,7 @@ function get(key) {
   let result =  document.getElementById(key);
   return result;
 }
+
 
 /**
  * Stores an **element** that can now be accessed using [get(**element**)]{@link GetStore.get}
@@ -162,6 +169,7 @@ function store(element, key) {
  * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
  * @tutorial key
  */
+
 function set(parentKey, ...elementKeys) {
   insert('set', parentKey, ...elementKeys);
 }
@@ -176,6 +184,7 @@ function set(parentKey, ...elementKeys) {
  * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
  * @tutorial key
  */
+
 function add(parentKey, ...elementKeys) {
   insert('add', parentKey, ...elementKeys);
 }
@@ -190,9 +199,11 @@ function add(parentKey, ...elementKeys) {
  * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
  * @tutorial key
  */
+
 function make(parentKey, ...elementKeys) {
   insert('make', parentKey, ...elementKeys);
 }
+
 
 
 /**
@@ -206,6 +217,7 @@ function make(parentKey, ...elementKeys) {
  * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
  * @tutorial key
  */
+
 function insert(mode, parentKey, ...elementKeys) {
   let parent = get(parentKey);
   if(mode == undefined) mode = 'set';
@@ -219,7 +231,98 @@ function insert(mode, parentKey, ...elementKeys) {
   });
 }
 
+/**
+ * @class cssControl
+ * @classdesc A {@tutorial PseudoClass}. Responsible for manipulating
+ * css parameters
+ * @borrows getCssProperty
+ * @borrows setCssProperty
+ * @borrows listingStringToArray
+ * @borrows arrayToListingString
+ * @hideconstructor
+ */
+
+
+
+var root = document.querySelector(':root');
+
+
+/**
+ * Returns a global css property.
+ *
+ * @param {string} propertyName - the name of the property, eg "--text-color"
+ */
+function getCssProperty(propertyName) {
+  let rootStyle = getComputedStyle(root);
+  let property = rootStyle.getPropertyValue(propertyName);
+  return property;
+}
+
+/**
+ * Sets a global css property.
+ *
+ * @param {string} propertyName - the name of the property, eg "--text-color"
+ * @param {string} propertyValue - the new value
+ */
+function setCssProperty(propertyName, propertyValue) {
+  root.style.setProperty(propertyName, propertyValue);
+}
+
+
+/**
+ * Converts a string like "1, 2, 3" into an array like [1, 2, 3]
+ *
+ * @param {string} listingString - the string to convert
+ */
+function listingStringToArray(listingString) {
+  return JSON.parse('[' + listingString + ']');
+}
+
+
+/**
+ * Converts an array like [1, 2, 3] into a string like "1, 2, 3"
+ *
+ * @param {Array} array - the array to convert
+ */
+function arrayToListingString(array) {
+  let listingString = '';
+  array.forEach((item, i) => {
+    listingString += item;
+    if(i + 1 != array.length)
+      listingString += ', ';
+  });
+  return listingString;
+}
+
+// {
+//   watchFunction: function () {
+//     return globalVarialbe;
+//   },
+//   reactFunction: function (newValue) {
+//     //blabla
+//   },
+//   interval: 1000
+// }
+
+function watch(watcher) {
+  let previousValue;
+  setInterval(function () {
+    let newValue = watcher.watchFunction().toString();
+    if(newValue == previousValue)
+      return;
+
+    previousValue = newValue;
+    watcher.reactFunction(newValue);
+  }, watcher.interval);
+}
+
+//import all api functions
+
+//log them so that rollup will include them
+//these functions will now be globally available
 console.log(
   get, store, set, add, make, insert,
-  gen, genText, uid, truetypeof
+  gen, genText, uid, truetypeof,
+  getCssProperty, setCssProperty, listingStringToArray, arrayToListingString,
+  watch
 );

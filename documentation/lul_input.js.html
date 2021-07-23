@@ -26,8 +26,7 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>
-/**
+            <pre class="prettyprint source linenums"><code>/**
  * Generates a button.  
  * Uses {@tutorial arg}
  *
@@ -38,8 +37,7 @@
  */
 
 export function genButton(arg) {
-  let button;
-  button = gen('button', lulConfig.DEFAULT_BUTTON_CLASS );
+  let button = gen('button', lulConfig.DEFAULT_BUTTON_CLASS );
 
   if(arg.onclick != undefined)
     button.addEventListener('click', arg.onclick);
@@ -65,6 +63,7 @@ export function genButton(arg) {
  * omit to use a [default value]{@link LulConfig#INPUT_ELEMENTS}
  * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
  */
+
 export function genEnter(arg) {
   return genInput(arg, 'enter');
 }
@@ -85,6 +84,7 @@ export function genEnter(arg) {
  * @param {number} step - the step between two possible selections
  * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
  */
+
 export function genRange(arg) {
   let range = genInput(arg, 'range');
   range.min = arg.min;
@@ -93,6 +93,7 @@ export function genRange(arg) {
   range.value = arg.min;
   return range;
 }
+
 
 /**
  * generates a checkbox that can be (un)ticked to change a boolean value  
@@ -104,22 +105,33 @@ export function genRange(arg) {
  * should be executed when (un)ticking
  * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
  */
+
 export function genCheck(arg) {
   let check = genInput(arg, 'check');
   check.addEventListener('input', function() {window[this.name] = this.checked;});
   return check;
 }
 
+
 // generates an input element based on INPUT_ELEMENTS
 export function genInput(arg, inputName) {
+  //generate &lt;input> with css class
   let input = gen('input', lulConfig.INPUT_ELEMENTS[inputName].className);
+
+  //assign type and name
   input.type = lulConfig.INPUT_ELEMENTS[inputName].inputType;
   input.name = arg.name;
-  input.addEventListener('input', function() {window[this.name] = this.value;});
-  if(arg.oninput != undefined)
-    input.addEventListener('input', arg.oninput);
+
+  //set the minWidth property
   if(arg.minWidth == undefined) arg.minWidth = lulConfig.INPUT_ELEMENTS[inputName].minWidth;
   input.style.minWidth = arg.minWidth + 'px';
+
+
+  //add eventListeners for updating the [name]-variable
+  //(and possibly the provided oninput)
+  input.addEventListener('input', function() {window[arg.name] = this.value;});
+  if(arg.oninput != undefined)
+    input.addEventListener('input', arg.oninput);
   return input;
 }
 </code></pre>
@@ -132,13 +144,13 @@ export function genInput(arg, inputName) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Container.html">Container</a></li><li><a href="GetStore.html">GetStore</a></li><li><a href="Insert.html">Insert</a></li><li><a href="LulConfig.html">LulConfig</a></li><li><a href="LulFunctions.html">LulFunctions</a></li><li><a href="Misc.html">Misc</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-PseudoClass.html">PseudoClass</a></li><li><a href="tutorial-README.html">README</a></li><li><a href="tutorial-arg.html">arg</a></li><li><a href="tutorial-key.html">key</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#gen">gen</a></li><li><a href="global.html#genBox">genBox</a></li><li><a href="global.html#genButton">genButton</a></li><li><a href="global.html#genButtonRadioArray">genButtonRadioArray</a></li><li><a href="global.html#genCheck">genCheck</a></li><li><a href="global.html#genCollapsible">genCollapsible</a></li><li><a href="global.html#genEnter">genEnter</a></li><li><a href="global.html#genEntry">genEntry</a></li><li><a href="global.html#genOverflow">genOverflow</a></li><li><a href="global.html#genRadioArray">genRadioArray</a></li><li><a href="global.html#genRange">genRange</a></li><li><a href="global.html#genSelection">genSelection</a></li><li><a href="global.html#genText">genText</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#make">make</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#truetypeof">truetypeof</a></li><li><a href="global.html#uid">uid</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Container.html">Container</a></li><li><a href="cssControl.html">cssControl</a></li><li><a href="GetStore.html">GetStore</a></li><li><a href="Insert.html">Insert</a></li><li><a href="LulConfig.html">LulConfig</a></li><li><a href="LulFunctions.html">LulFunctions</a></li><li><a href="Misc.html">Misc</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Options.html">Options</a></li><li><a href="tutorial-PseudoClass.html">PseudoClass</a></li><li><a href="tutorial-README.html">README</a></li><li><a href="tutorial-arg.html">arg</a></li><li><a href="tutorial-key.html">key</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#arrayToListingString">arrayToListingString</a></li><li><a href="global.html#gen">gen</a></li><li><a href="global.html#genBox">genBox</a></li><li><a href="global.html#genButton">genButton</a></li><li><a href="global.html#genButtonRadioArray">genButtonRadioArray</a></li><li><a href="global.html#genCheck">genCheck</a></li><li><a href="global.html#genCollapsible">genCollapsible</a></li><li><a href="global.html#genEnter">genEnter</a></li><li><a href="global.html#genEntry">genEntry</a></li><li><a href="global.html#genOverflow">genOverflow</a></li><li><a href="global.html#genRadioArray">genRadioArray</a></li><li><a href="global.html#genRange">genRange</a></li><li><a href="global.html#genSelection">genSelection</a></li><li><a href="global.html#genText">genText</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getCssProperty">getCssProperty</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#listingStringToArray">listingStringToArray</a></li><li><a href="global.html#make">make</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#setCssProperty">setCssProperty</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#truetypeof">truetypeof</a></li><li><a href="global.html#uid">uid</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Tue Jul 20 2021 12:39:24 GMT+0200 (Central European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Jul 23 2021 10:37:03 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

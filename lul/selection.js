@@ -1,55 +1,3 @@
-/*
-  genRadioArray({name, options, oninput})
-  genButtonRadioArray({name, options, oninput})
-  genSelection({type, button, name, options, oninput})
-
-  genRadioArray(arg):
-   the selected value is stored in a global variable named 'name'
-    'options' can have the following forms:
-
-      options = {
-        texts: ["some", "descriptions"]
-      }
-        in this case, the texts represent both the descriptions
-        as well as the values of the radio options
-
-      options = {
-        texts: ["Spanish", "German"],
-        values: ["es", "de"]
-      }
-        here, the texts and the values are different
-
-      options = {
-        objects: [{a: 4, b: 2}, {a: 2, b: 8}],
-        textFunction: function (object) {
-          return "Point (" + object.a + "," + object.b + ")";
-        }
-        valueFunction: function (object) {
-          return [a, b];
-        }
-          the result here would be texts "Point(4,2)" and "Point(2,8)"
-          and values [4,2] and [2,8]
-          (for example)
-      }
-
-
-  genButtonRadioArray(arg)
-    same with buttons instead of radios
-
-  genSelection(arg)
-    generates an entry (see genEntry at ./lul-entry.js)
-      containing a radio or buttonRadio,
-      depending on whether 'arg.type' is set to 'radio' or 'buttonRadio'
-    the direction is set to 'row',
-      unless the width exceeds MAX_SELECTION_WIDTH
-      (not including the button)
-    'arg.button' is used for genEntry
-
-
-
-*/
-
-
 import {genInput, genButton}
   from './input.js';
 import {genEntry}
@@ -61,8 +9,9 @@ import {genEntry}
  * * [radio]{@link LulFunctions.genRadioArray} or a
  * * [buttonRadio]{@link LulFunctions.genButtonRadioArray}
  *
- * @param {'radio'|'button-radio'} type - specifies whether a
- * **radio** or a **buttonRadio** should be used
+ * @param {'radio'|'button-radio'} type - (optional) specifies whether a
+ * **radio** or a **buttonRadio** should be used.  
+ * 'radio' by default.
  * @param {Array} button - the [button(s)]{@link LulFunctions.genButton} for the **entry**
  * @param {string} name - the name of the global variable  
  * that the selected value should always be stored in
@@ -75,6 +24,7 @@ import {genEntry}
  * it is set to 'column'
  * @see [MAX_SELECTION_WIDTH]{@link LulConfig#MAX_SELECTION_WIDTH }
  */
+
 export function genSelection(arg) {
   //retrieving genFunction and boxVisible depending on arg.type
   let genFunction;
@@ -91,7 +41,7 @@ export function genSelection(arg) {
 
   //trying out the width of the selection
   let array = genFunction(arg);
-
+ 
   let dummy = gen('span');
   dummy.style.visibility = 'hidden';
   document.body.appendChild(dummy);
@@ -134,13 +84,16 @@ export function genSelection(arg) {
 
 export function genRadioArray(arg) {
 
+  //getting texts and values out of arg.options
   if(arg.options == undefined)
     console.warn('Arg of Radio %s has no options', arg.name);
   let [texts, values] = genOptionArray(arg.options);
 
 
+  //generating the arrray
   let radioArray = [];
   for (var i = 0; i < texts.length; i++) {
+    //a span of a radio and a describing text
     let couple = gen('span');
     let radio = genInput(arg, 'radio');
 
@@ -170,6 +123,7 @@ export function genRadioArray(arg) {
 */
 export function genButtonRadioArray(arg) {
 
+  //getting texts and values out of arg.options
   if(arg.options == undefined)
     console.warn('Arg of ButtonRadio %s has no options', arg.name);
   let [texts, values] = genOptionArray(arg.options);
@@ -185,8 +139,10 @@ export function genButtonRadioArray(arg) {
   //applying selection behaviour on them
   buttonRadioArray.forEach((buttonRadio, i) => {
     buttonRadio.addEventListener('click', function () {
+      //store this value in the global variable
       window[arg.name] = values[i];
 
+      //making this visible as the selected one
       buttonRadioArray.forEach((otherButtonRadio) => {
         otherButtonRadio.className = lulConfig.UNSELECTED_BUTTON_RADIO_CLASSNAME;
       });
@@ -202,19 +158,36 @@ export function genButtonRadioArray(arg) {
 
 function genOptionArray(options)
 {
-  //assume objects, textFunction and valueFunction are provided
-  if(options.texts == undefined) {
-    let optionArray = [[], []];
+  //determine texts
+  let texts;
+  if (options.texts != undefined)
+    texts = options.texts;
+
+  if (options.objects != undefined && options.textFunction != undefined) {
+    texts = [];
     options.objects.forEach((object) => {
-      optionArray[0].push(options.textFunction(object));
-      optionArray[1].push(options.valueFunction(object));
+      texts.push(options.textFunction(object));
     });
-    return optionArray;
   }
-  //assume texts and values are provided
-  if(options.values != undefined) {
-    return [options.texts, options.values];
+
+  if (texts == undefined) 
+    console.warn('Options: no texts could be found');
+
+  //determine values
+  let values;
+  if (options.values != undefined)
+    values = options.values;
+
+  if (options.objects != undefined && options.valueFunction != undefined) {
+    values = [];
+    options.objects.forEach((object) => {
+      values.push(options.valueFunction(object));
+    });
   }
-  //assume only texts are provided
-  return [options.texts, options.texts];
+
+  if(values == undefined)
+    values = texts;
+
+  //return both
+  return [texts, values];
 }

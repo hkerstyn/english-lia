@@ -107,11 +107,10 @@ class LulConfig {
      * @default
      */
     this.MAX_SELECTION_WIDTH = 500;
+  }
 
-    
-
-
-
+  apply() {
+    window['lulConfig'] = this;
   }
 
 }
@@ -127,8 +126,7 @@ class LulConfig {
  */
 
 function genButton(arg) {
-  let button;
-  button = gen('button', lulConfig.DEFAULT_BUTTON_CLASS );
+  let button = gen('button', lulConfig.DEFAULT_BUTTON_CLASS );
 
   if(arg.onclick != undefined)
     button.addEventListener('click', arg.onclick);
@@ -154,6 +152,7 @@ function genButton(arg) {
  * omit to use a [default value]{@link LulConfig#INPUT_ELEMENTS}
  * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
  */
+
 function genEnter(arg) {
   return genInput(arg, 'enter');
 }
@@ -174,6 +173,7 @@ function genEnter(arg) {
  * @param {number} step - the step between two possible selections
  * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
  */
+
 function genRange(arg) {
   let range = genInput(arg, 'range');
   range.min = arg.min;
@@ -182,6 +182,7 @@ function genRange(arg) {
   range.value = arg.min;
   return range;
 }
+
 
 /**
  * generates a checkbox that can be (un)ticked to change a boolean value  
@@ -193,22 +194,33 @@ function genRange(arg) {
  * should be executed when (un)ticking
  * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
  */
+
 function genCheck(arg) {
   let check = genInput(arg, 'check');
   check.addEventListener('input', function() {window[this.name] = this.checked;});
   return check;
 }
 
+
 // generates an input element based on INPUT_ELEMENTS
 function genInput(arg, inputName) {
+  //generate <input> with css class
   let input = gen('input', lulConfig.INPUT_ELEMENTS[inputName].className);
+
+  //assign type and name
   input.type = lulConfig.INPUT_ELEMENTS[inputName].inputType;
   input.name = arg.name;
-  input.addEventListener('input', function() {window[this.name] = this.value;});
-  if(arg.oninput != undefined)
-    input.addEventListener('input', arg.oninput);
+
+  //set the minWidth property
   if(arg.minWidth == undefined) arg.minWidth = lulConfig.INPUT_ELEMENTS[inputName].minWidth;
   input.style.minWidth = arg.minWidth + 'px';
+
+
+  //add eventListeners for updating the [name]-variable
+  //(and possibly the provided oninput)
+  input.addEventListener('input', function() {window[arg.name] = this.value;});
+  if(arg.oninput != undefined)
+    input.addEventListener('input', arg.oninput);
   return input;
 }
 
@@ -223,33 +235,45 @@ function genInput(arg, inputName) {
  */
 
 function genOverflow(arg) {
+  //the parent always retains its size
   let parent = gen('div', lulConfig.DEFAULT_OVERFLOW_PARENT_CLASS);
+
+  //the box changes its size (getting bigger than parent)
   let box = gen('div', lulConfig.DEFAULT_OVERFLOW_CLASS);
   if(arg.direction == 'column')
     box.style.flexDirection = 'column';
 
   parent.appendChild(box);
 
+  //after placing the overflow, the parent should freeze its size using that of the box
   requestAnimationFrame(function () {
     setTimeout(function () {
+      recalculateOverflowIndices();
       parent.style.height = window.getComputedStyle(box).height;
       parent.style.width = window.getComputedStyle(box).width;
       box.style.position = 'absolute';
     }, 10);
   });
+
   store(box, arg.innerId);
   return parent;
 
 }
 
+//call this every time you change any overflow's position
+//this puts overflows on the left and on the top in front
 function recalculateOverflowIndices () {
+  //store all overflows on the page into an array
   let overflows = document.getElementsByClassName(lulConfig.DEFAULT_OVERFLOW_CLASS); 
   let overflowArray = [];
   for (let overflow of overflows) {
     overflowArray.push(overflow);
   }
 
+  //sort them to prioritize those on the left and on the top
   overflowArray.sort(overlapTest);
+
+  //set the z-Indices accordingly
   let i = 1;
   overflowArray.forEach((overflow) => {
     overflow.style.zIndex = i;
@@ -258,6 +282,8 @@ function recalculateOverflowIndices () {
 }
 
 // returns a positive value if overflow1 should overlap overflow2
+// this is the case if overflow1 could not possibly be inside overflow2's 'expand area'
+// ie all points below or right of overflow2's top left corner
 function overlapTest (overflow1, overflow2) {
  
   //Calculate positions and sizes
@@ -306,11 +332,15 @@ function calculateElementPosition(element) {
  */
 
 function genBox(arg) {
+  //create box as inline-flex div
   let box = gen('div', lulConfig.BOX_CLASS);
+  box.style.display = 'inline-flex';
+  
+  //set classname according to arg.visible
   if(arg.visible == 'false')
     box.className = '';
 
-  box.style.display = 'inline-flex';
+  //sets flexDirection and size according to arg.direction
   box.style.flexDirection = arg.direction;
   if(arg.direction == 'column')
     box.style.width = '100%';
@@ -319,11 +349,12 @@ function genBox(arg) {
   return box;
 }
 
-//dictionaries for equating values of different properties
+//map direction onto size attribute
 var directionSizeAttributeMap = {
   row: 'width',
   column: 'height'
 };
+//map size onto scrollSize
 var scrollSizeAttributeMap = {
   width: 'scrollWidth',
   height: 'scrollHeight'
@@ -355,8 +386,9 @@ var scrollSizeAttributeMap = {
  * [HOVER_COLLAPSE_DELAY]{@link LulConfig#HOVER_COLLAPSE_DELAY}  
  * [HOVER_INITIAL_DELAY_MS]{@link LulConfig#HOVER_INITIAL_DELAY_MS}
  */
+
 function genCollapsible(arg) {
-  recalculateOverflowIndices();
+  
   //determine sizeAttribute from arg.direction
   sizeAttribute = directionSizeAttributeMap[arg.direction];
   if(sizeAttribute == undefined)
@@ -375,7 +407,8 @@ function genCollapsible(arg) {
   if(arg.collapsed == 'true')
     collapsible.style[sizeAttribute] = 0;
 
-  //sets toggle, hover and functions (if present)
+  //sets toggle and hover (if present)
+  //use a timeout to avoid some weird bugs
   setTimeout(function () {
     let toggle = get(arg.toggle);
     if(toggle != undefined)
@@ -393,6 +426,7 @@ function genCollapsible(arg) {
       });}
   }, lulConfig.HOVER_INITIAL_DELAY_MS);
 
+  //sets functions
   if(arg.functions != undefined) {
     arg.functions['toggleFunction'] = function () {
       toggleElement(collapsible);
@@ -465,23 +499,6 @@ function expandElement(collapsible) {
   collapsible.setAttribute('collapsed', 'false');
 }
 
-/*
-  genEntry({direction, content, button})
-
-
-  genEntry(arg):
-      Creates a collapsible inside an overflow
-    arg.direction: 'row' or 'column'
-      the direction of the overflow
-    arg.content:
-      array of HTML-Elements to be put
-      inside the collapsible
-    arg.button:
-      array of HTML-Elements to be put
-      inside the overflow, after the collapsible
-*/
-
-
 /**
  * generates a [collapsible]{@link LulFunctions.genCollapsible} next to a
  * [button]{@link LulFunctions.genButton} inside an
@@ -495,12 +512,14 @@ function expandElement(collapsible) {
  */
 
 function genEntry(arg) {
+  //generate an overflow with some inner id
   let overflowId = uid();
   let overflow = genOverflow({
     innerId: overflowId,
     ...arg
   });
 
+  //generate a collapsible with some inner id
   let contentId = uid();
   let collapsible = genCollapsible({
     hover: overflowId,
@@ -508,70 +527,20 @@ function genEntry(arg) {
     ...arg
   });
 
+  //put everything together using the ids
   set(contentId, ...(arg.content));
   set(overflowId, collapsible, ...(arg.button));
   return overflow;
 }
-
-/*
-  genRadioArray({name, options, oninput})
-  genButtonRadioArray({name, options, oninput})
-  genSelection({type, button, name, options, oninput})
-
-  genRadioArray(arg):
-   the selected value is stored in a global variable named 'name'
-    'options' can have the following forms:
-
-      options = {
-        texts: ["some", "descriptions"]
-      }
-        in this case, the texts represent both the descriptions
-        as well as the values of the radio options
-
-      options = {
-        texts: ["Spanish", "German"],
-        values: ["es", "de"]
-      }
-        here, the texts and the values are different
-
-      options = {
-        objects: [{a: 4, b: 2}, {a: 2, b: 8}],
-        textFunction: function (object) {
-          return "Point (" + object.a + "," + object.b + ")";
-        }
-        valueFunction: function (object) {
-          return [a, b];
-        }
-          the result here would be texts "Point(4,2)" and "Point(2,8)"
-          and values [4,2] and [2,8]
-          (for example)
-      }
-
-
-  genButtonRadioArray(arg)
-    same with buttons instead of radios
-
-  genSelection(arg)
-    generates an entry (see genEntry at ./lul-entry.js)
-      containing a radio or buttonRadio,
-      depending on whether 'arg.type' is set to 'radio' or 'buttonRadio'
-    the direction is set to 'row',
-      unless the width exceeds MAX_SELECTION_WIDTH
-      (not including the button)
-    'arg.button' is used for genEntry
-
-
-
-*/
-
 
 /**
  * generates an [entry]{@link LulFunctions.genEntry} containing either a  
  * * [radio]{@link LulFunctions.genRadioArray} or a
  * * [buttonRadio]{@link LulFunctions.genButtonRadioArray}
  *
- * @param {'radio'|'button-radio'} type - specifies whether a
- * **radio** or a **buttonRadio** should be used
+ * @param {'radio'|'button-radio'} type - (optional) specifies whether a
+ * **radio** or a **buttonRadio** should be used.  
+ * 'radio' by default.
  * @param {Array} button - the [button(s)]{@link LulFunctions.genButton} for the **entry**
  * @param {string} name - the name of the global variable  
  * that the selected value should always be stored in
@@ -584,6 +553,7 @@ function genEntry(arg) {
  * it is set to 'column'
  * @see [MAX_SELECTION_WIDTH]{@link LulConfig#MAX_SELECTION_WIDTH }
  */
+
 function genSelection(arg) {
   //retrieving genFunction and boxVisible depending on arg.type
   let genFunction;
@@ -600,7 +570,7 @@ function genSelection(arg) {
 
   //trying out the width of the selection
   let array = genFunction(arg);
-
+ 
   let dummy = gen('span');
   dummy.style.visibility = 'hidden';
   document.body.appendChild(dummy);
@@ -643,13 +613,16 @@ function genSelection(arg) {
 
 function genRadioArray(arg) {
 
+  //getting texts and values out of arg.options
   if(arg.options == undefined)
     console.warn('Arg of Radio %s has no options', arg.name);
   let [texts, values] = genOptionArray(arg.options);
 
 
+  //generating the arrray
   let radioArray = [];
   for (var i = 0; i < texts.length; i++) {
+    //a span of a radio and a describing text
     let couple = gen('span');
     let radio = genInput(arg, 'radio');
 
@@ -679,6 +652,7 @@ function genRadioArray(arg) {
 */
 function genButtonRadioArray(arg) {
 
+  //getting texts and values out of arg.options
   if(arg.options == undefined)
     console.warn('Arg of ButtonRadio %s has no options', arg.name);
   let [texts, values] = genOptionArray(arg.options);
@@ -694,8 +668,10 @@ function genButtonRadioArray(arg) {
   //applying selection behaviour on them
   buttonRadioArray.forEach((buttonRadio, i) => {
     buttonRadio.addEventListener('click', function () {
+      //store this value in the global variable
       window[arg.name] = values[i];
 
+      //making this visible as the selected one
       buttonRadioArray.forEach((otherButtonRadio) => {
         otherButtonRadio.className = lulConfig.UNSELECTED_BUTTON_RADIO_CLASSNAME;
       });
@@ -711,21 +687,38 @@ function genButtonRadioArray(arg) {
 
 function genOptionArray(options)
 {
-  //assume objects, textFunction and valueFunction are provided
-  if(options.texts == undefined) {
-    let optionArray = [[], []];
+  //determine texts
+  let texts;
+  if (options.texts != undefined)
+    texts = options.texts;
+
+  if (options.objects != undefined && options.textFunction != undefined) {
+    texts = [];
     options.objects.forEach((object) => {
-      optionArray[0].push(options.textFunction(object));
-      optionArray[1].push(options.valueFunction(object));
+      texts.push(options.textFunction(object));
     });
-    return optionArray;
   }
-  //assume texts and values are provided
-  if(options.values != undefined) {
-    return [options.texts, options.values];
+
+  if (texts == undefined) 
+    console.warn('Options: no texts could be found');
+
+  //determine values
+  let values;
+  if (options.values != undefined)
+    values = options.values;
+
+  if (options.objects != undefined && options.valueFunction != undefined) {
+    values = [];
+    options.objects.forEach((object) => {
+      values.push(options.valueFunction(object));
+    });
   }
-  //assume only texts are provided
-  return [options.texts, options.texts];
+
+  if(values == undefined)
+    values = texts;
+
+  //return both
+  return [texts, values];
 }
 
 /**
@@ -751,7 +744,8 @@ function genOptionArray(options)
  */
 
 
-//tell rollup that all of these functions are in fact necessary
+//log them so that rollup will include them
+//these functions will now be globally available
 console.log(
   LulConfig,
   genButton, genEnter, genRange, genCheck,

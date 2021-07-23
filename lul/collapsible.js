@@ -1,14 +1,15 @@
-
 import {recalculateOverflowIndices}
   from './overflow.js';
 import {genBox}
   from './box.js';
 
-//dictionaries for equating values of different properties
+
+//map direction onto size attribute
 var directionSizeAttributeMap = {
   row: 'width',
   column: 'height'
 };
+//map size onto scrollSize
 var scrollSizeAttributeMap = {
   width: 'scrollWidth',
   height: 'scrollHeight'
@@ -40,8 +41,9 @@ var scrollSizeAttributeMap = {
  * [HOVER_COLLAPSE_DELAY]{@link LulConfig#HOVER_COLLAPSE_DELAY}  
  * [HOVER_INITIAL_DELAY_MS]{@link LulConfig#HOVER_INITIAL_DELAY_MS}
  */
+
 export function genCollapsible(arg) {
-  recalculateOverflowIndices();
+  
   //determine sizeAttribute from arg.direction
   sizeAttribute = directionSizeAttributeMap[arg.direction];
   if(sizeAttribute == undefined)
@@ -60,7 +62,8 @@ export function genCollapsible(arg) {
   if(arg.collapsed == 'true')
     collapsible.style[sizeAttribute] = 0;
 
-  //sets toggle, hover and functions (if present)
+  //sets toggle and hover (if present)
+  //use a timeout to avoid some weird bugs
   setTimeout(function () {
     let toggle = get(arg.toggle);
     if(toggle != undefined)
@@ -78,6 +81,7 @@ export function genCollapsible(arg) {
       });}
   }, lulConfig.HOVER_INITIAL_DELAY_MS);
 
+  //sets functions
   if(arg.functions != undefined) {
     arg.functions['toggleFunction'] = function () {
       toggleElement(collapsible);

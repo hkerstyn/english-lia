@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: lul/entry.js</title>
+    <title>JSDoc: Source: base/css-control.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: lul/entry.js</h1>
+    <h1 class="page-title">Source: base/css-control.js</h1>
 
     
 
@@ -26,44 +26,67 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>import {genOverflow}
-  from './overflow.js';
-import {genCollapsible}
-  from './collapsible.js';
+            <pre class="prettyprint source linenums"><code>/**
+ * @class cssControl
+ * @classdesc A {@tutorial PseudoClass}. Responsible for manipulating
+ * css parameters
+ * @borrows getCssProperty
+ * @borrows setCssProperty
+ * @borrows listingStringToArray
+ * @borrows arrayToListingString
+ * @hideconstructor
+ */
+
+
+
+var root = document.querySelector(':root');
 
 
 /**
- * generates a [collapsible]{@link LulFunctions.genCollapsible} next to a
- * [button]{@link LulFunctions.genButton} inside an
- * [overflow]{@link LulFunctions.genOverflow}.  
- * Uses {@tutorial arg}
+ * Returns a global css property.
  *
- * @param {'row'|'column'} direction - specifies whether the **collapsible**  
- * and the **button(s)** should be next to or on top of one another
- * @param {Array} content - array of HTML-Elements to be put inside the **collapsible** 
- * @param {Array} button - array of HTML-Elements to be used as **buttons** 
+ * @param {string} propertyName - the name of the property, eg "--text-color"
  */
+export function getCssProperty(propertyName) {
+  let rootStyle = getComputedStyle(root);
+  let property = rootStyle.getPropertyValue(propertyName);
+  return property;
+}
 
-export function genEntry(arg) {
-  //generate an overflow with some inner id
-  let overflowId = uid();
-  let overflow = genOverflow({
-    innerId: overflowId,
-    ...arg
+/**
+ * Sets a global css property.
+ *
+ * @param {string} propertyName - the name of the property, eg "--text-color"
+ * @param {string} propertyValue - the new value
+ */
+export function setCssProperty(propertyName, propertyValue) {
+  root.style.setProperty(propertyName, propertyValue);
+}
+
+
+/**
+ * Converts a string like "1, 2, 3" into an array like [1, 2, 3]
+ *
+ * @param {string} listingString - the string to convert
+ */
+export function listingStringToArray(listingString) {
+  return JSON.parse('[' + listingString + ']');
+}
+
+
+/**
+ * Converts an array like [1, 2, 3] into a string like "1, 2, 3"
+ *
+ * @param {Array} array - the array to convert
+ */
+export function arrayToListingString(array) {
+  let listingString = '';
+  array.forEach((item, i) => {
+    listingString += item;
+    if(i + 1 != array.length)
+      listingString += ', ';
   });
-
-  //generate a collapsible with some inner id
-  let contentId = uid();
-  let collapsible = genCollapsible({
-    hover: overflowId,
-    innerId: contentId,
-    ...arg
-  });
-
-  //put everything together using the ids
-  set(contentId, ...(arg.content));
-  set(overflowId, collapsible, ...(arg.button));
-  return overflow;
+  return listingString;
 }
 </code></pre>
         </article>

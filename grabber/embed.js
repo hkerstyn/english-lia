@@ -1,3 +1,8 @@
+import {initalizeUI}
+  from './interface.js';
+import {loadYTAPI}
+  from './youtube.js';
+
 export class Grabber {
 
   constructor() {
@@ -25,14 +30,12 @@ export class Grabber {
     this.TABLE_ROW_CLASS = 'lul-light lul-medium-hover';
     this.TABLE_CELL_CLASS = ' lul-text lul-highlight-text-hover';
     this.TABLE_TEXT_CLASS = '';
-
-
-
-
-
-
   }
 
-
+  start() {
+    window['grabber'] = this;
+    loadYTAPI();
+    initalizeUI();
+  }
 
 }

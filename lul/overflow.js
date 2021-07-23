@@ -10,33 +10,45 @@
  */
 
 export function genOverflow(arg) {
+  //the parent always retains its size
   let parent = gen('div', lulConfig.DEFAULT_OVERFLOW_PARENT_CLASS);
+
+  //the box changes its size (getting bigger than parent)
   let box = gen('div', lulConfig.DEFAULT_OVERFLOW_CLASS);
   if(arg.direction == 'column')
     box.style.flexDirection = 'column';
 
   parent.appendChild(box);
 
+  //after placing the overflow, the parent should freeze its size using that of the box
   requestAnimationFrame(function () {
     setTimeout(function () {
+      recalculateOverflowIndices();
       parent.style.height = window.getComputedStyle(box).height;
       parent.style.width = window.getComputedStyle(box).width;
       box.style.position = 'absolute';
     }, 10);
   });
+
   store(box, arg.innerId);
   return parent;
 
 }
 
+//call this every time you change any overflow's position
+//this puts overflows on the left and on the top in front
 export function recalculateOverflowIndices () {
+  //store all overflows on the page into an array
   let overflows = document.getElementsByClassName(lulConfig.DEFAULT_OVERFLOW_CLASS); 
   let overflowArray = [];
   for (let overflow of overflows) {
     overflowArray.push(overflow);
   }
 
+  //sort them to prioritize those on the left and on the top
   overflowArray.sort(overlapTest);
+
+  //set the z-Indices accordingly
   let i = 1;
   overflowArray.forEach((overflow) => {
     overflow.style.zIndex = i;
@@ -45,6 +57,8 @@ export function recalculateOverflowIndices () {
 }
 
 // returns a positive value if overflow1 should overlap overflow2
+// this is the case if overflow1 could not possibly be inside overflow2's 'expand area'
+// ie all points below or right of overflow2's top left corner
 function overlapTest (overflow1, overflow2) {
  
   //Calculate positions and sizes

@@ -1,3 +1,6 @@
+import {truetypeof, uid}
+  from './misc.js';
+
 /**
  * @class GetStore
  * @classdesc A {@tutorial PseudoClass}. Responsible for retrieving and
@@ -8,10 +11,10 @@
  * @hideconstructor
  */
 
+//a global object containing all stored elements
 var STORED_ELEMENTS = {};
 
-import {truetypeof, uid}
-  from './misc.js';
+
 
 /**
  * Returns the object associated with a {@tutorial key}.
@@ -34,6 +37,7 @@ export function get(key) {
   let result =  document.getElementById(key);
   return result;
 }
+
 
 /**
  * Stores an **element** that can now be accessed using [get(**element**)]{@link GetStore.get}

@@ -26,7 +26,10 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>/**
+            <pre class="prettyprint source linenums"><code>import {get, store}
+  from './get-store.js';
+
+/**
  * @class Insert
  * @classdesc A {@tutorial PseudoClass}. Resposible for inserting
  * Elements into the HTML-page
@@ -36,9 +39,6 @@
  * @borrows insert
  * @hideconstructor
  */
-
-import {get, store}
-  from './get-store.js';
 
 
 
@@ -52,6 +52,7 @@ import {get, store}
  * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
  * @tutorial key
  */
+
 export function set(parentKey, ...elementKeys) {
   insert('set', parentKey, ...elementKeys);
 }
@@ -66,6 +67,7 @@ export function set(parentKey, ...elementKeys) {
  * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
  * @tutorial key
  */
+
 export function add(parentKey, ...elementKeys) {
   insert('add', parentKey, ...elementKeys);
 }
@@ -80,9 +82,11 @@ export function add(parentKey, ...elementKeys) {
  * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
  * @tutorial key
  */
+
 export function make(parentKey, ...elementKeys) {
   insert('make', parentKey, ...elementKeys);
 }
+
 
 
 /**
@@ -96,6 +100,7 @@ export function make(parentKey, ...elementKeys) {
  * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
  * @tutorial key
  */
+
 export function insert(mode, parentKey, ...elementKeys) {
   let parent = get(parentKey);
   if(mode == undefined) mode = 'set';
@@ -118,13 +123,13 @@ export function insert(mode, parentKey, ...elementKeys) {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Container.html">Container</a></li><li><a href="GetStore.html">GetStore</a></li><li><a href="Insert.html">Insert</a></li><li><a href="LulConfig.html">LulConfig</a></li><li><a href="LulFunctions.html">LulFunctions</a></li><li><a href="Misc.html">Misc</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-PseudoClass.html">PseudoClass</a></li><li><a href="tutorial-README.html">README</a></li><li><a href="tutorial-arg.html">arg</a></li><li><a href="tutorial-key.html">key</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#gen">gen</a></li><li><a href="global.html#genBox">genBox</a></li><li><a href="global.html#genButton">genButton</a></li><li><a href="global.html#genButtonRadioArray">genButtonRadioArray</a></li><li><a href="global.html#genCheck">genCheck</a></li><li><a href="global.html#genCollapsible">genCollapsible</a></li><li><a href="global.html#genEnter">genEnter</a></li><li><a href="global.html#genEntry">genEntry</a></li><li><a href="global.html#genOverflow">genOverflow</a></li><li><a href="global.html#genRadioArray">genRadioArray</a></li><li><a href="global.html#genRange">genRange</a></li><li><a href="global.html#genSelection">genSelection</a></li><li><a href="global.html#genText">genText</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#make">make</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#truetypeof">truetypeof</a></li><li><a href="global.html#uid">uid</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Container.html">Container</a></li><li><a href="cssControl.html">cssControl</a></li><li><a href="GetStore.html">GetStore</a></li><li><a href="Insert.html">Insert</a></li><li><a href="LulConfig.html">LulConfig</a></li><li><a href="LulFunctions.html">LulFunctions</a></li><li><a href="Misc.html">Misc</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Options.html">Options</a></li><li><a href="tutorial-PseudoClass.html">PseudoClass</a></li><li><a href="tutorial-README.html">README</a></li><li><a href="tutorial-arg.html">arg</a></li><li><a href="tutorial-key.html">key</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#arrayToListingString">arrayToListingString</a></li><li><a href="global.html#gen">gen</a></li><li><a href="global.html#genBox">genBox</a></li><li><a href="global.html#genButton">genButton</a></li><li><a href="global.html#genButtonRadioArray">genButtonRadioArray</a></li><li><a href="global.html#genCheck">genCheck</a></li><li><a href="global.html#genCollapsible">genCollapsible</a></li><li><a href="global.html#genEnter">genEnter</a></li><li><a href="global.html#genEntry">genEntry</a></li><li><a href="global.html#genOverflow">genOverflow</a></li><li><a href="global.html#genRadioArray">genRadioArray</a></li><li><a href="global.html#genRange">genRange</a></li><li><a href="global.html#genSelection">genSelection</a></li><li><a href="global.html#genText">genText</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getCssProperty">getCssProperty</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#listingStringToArray">listingStringToArray</a></li><li><a href="global.html#make">make</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#setCssProperty">setCssProperty</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#truetypeof">truetypeof</a></li><li><a href="global.html#uid">uid</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Tue Jul 20 2021 12:39:24 GMT+0200 (Central European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Fri Jul 23 2021 10:37:03 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

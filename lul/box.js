@@ -10,11 +10,15 @@
  */
 
 export function genBox(arg) {
+  //create box as inline-flex div
   let box = gen('div', lulConfig.BOX_CLASS);
+  box.style.display = 'inline-flex';
+  
+  //set classname according to arg.visible
   if(arg.visible == 'false')
     box.className = '';
 
-  box.style.display = 'inline-flex';
+  //sets flexDirection and size according to arg.direction
   box.style.flexDirection = arg.direction;
   if(arg.direction == 'column')
     box.style.width = '100%';

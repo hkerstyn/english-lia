@@ -1,3 +1,6 @@
+import {get, store}
+  from './get-store.js';
+
 /**
  * @class Insert
  * @classdesc A {@tutorial PseudoClass}. Resposible for inserting
@@ -8,9 +11,6 @@
  * @borrows insert
  * @hideconstructor
  */
-
-import {get, store}
-  from './get-store.js';
 
 
 
@@ -24,6 +24,7 @@ import {get, store}
  * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
  * @tutorial key
  */
+
 export function set(parentKey, ...elementKeys) {
   insert('set', parentKey, ...elementKeys);
 }
@@ -38,6 +39,7 @@ export function set(parentKey, ...elementKeys) {
  * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
  * @tutorial key
  */
+
 export function add(parentKey, ...elementKeys) {
   insert('add', parentKey, ...elementKeys);
 }
@@ -52,9 +54,11 @@ export function add(parentKey, ...elementKeys) {
  * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
  * @tutorial key
  */
+
 export function make(parentKey, ...elementKeys) {
   insert('make', parentKey, ...elementKeys);
 }
+
 
 
 /**
@@ -68,6 +72,7 @@ export function make(parentKey, ...elementKeys) {
  * @param {...key} elementKeys - the [keys]{@tutorial key} to one or multiple **elements**
  * @tutorial key
  */
+
 export function insert(mode, parentKey, ...elementKeys) {
   let parent = get(parentKey);
   if(mode == undefined) mode = 'set';

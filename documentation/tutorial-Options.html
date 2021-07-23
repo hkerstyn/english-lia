@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: lul/entry.js</title>
+    <title>JSDoc: Tutorial: Options</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,60 +17,47 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: lul/entry.js</h1>
+    <h1 class="page-title">Tutorial: Options</h1>
 
-    
-
-
-
-    
     <section>
-        <article>
-            <pre class="prettyprint source linenums"><code>import {genOverflow}
-  from './overflow.js';
-import {genCollapsible}
-  from './collapsible.js';
 
+<header>
+    
 
-/**
- * generates a [collapsible]{@link LulFunctions.genCollapsible} next to a
- * [button]{@link LulFunctions.genButton} inside an
- * [overflow]{@link LulFunctions.genOverflow}.  
- * Uses {@tutorial arg}
- *
- * @param {'row'|'column'} direction - specifies whether the **collapsible**  
- * and the **button(s)** should be next to or on top of one another
- * @param {Array} content - array of HTML-Elements to be put inside the **collapsible** 
- * @param {Array} button - array of HTML-Elements to be used as **buttons** 
- */
+    <h2>Options</h2>
+</header>
 
-export function genEntry(arg) {
-  //generate an overflow with some inner id
-  let overflowId = uid();
-  let overflow = genOverflow({
-    innerId: overflowId,
-    ...arg
-  });
+<article>
+    <pre><code>'options' can have the following forms:
 
-  //generate a collapsible with some inner id
-  let contentId = uid();
-  let collapsible = genCollapsible({
-    hover: overflowId,
-    innerId: contentId,
-    ...arg
-  });
+  options = {
+    texts: [&quot;some&quot;, &quot;descriptions&quot;]
+  }
+    in this case, the texts represent both the descriptions
+    as well as the values of the radio options
 
-  //put everything together using the ids
-  set(contentId, ...(arg.content));
-  set(overflowId, collapsible, ...(arg.button));
-  return overflow;
-}
+  options = {
+    texts: [&quot;Spanish&quot;, &quot;German&quot;],
+    values: [&quot;es&quot;, &quot;de&quot;]
+  }
+    here, the texts and the values are different
+
+  options = {
+    objects: [{a: 4, b: 2}, {a: 2, b: 8}],
+    textFunction: function (object) {
+      return &quot;Point (&quot; + object.a + &quot;,&quot; + object.b + &quot;)&quot;;
+    }
+    valueFunction: function (object) {
+      return [a, b];
+    }
+      the result here would be texts &quot;Point(4,2)&quot; and &quot;Point(2,8)&quot;
+      and values [4,2] and [2,8]
+      (for example)
+  }
 </code></pre>
-        </article>
-    </section>
+</article>
 
-
-
+</section>
 
 </div>
 

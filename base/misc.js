@@ -3,10 +3,10 @@
  * @classdesc A {@tutorial PseudoClass}. Provides several small
  * pieces of code
  *
- * @borrows uid
- * @borrows truetypeof
  * @borrows gen
  * @borrows genText
+ * @borrows uid
+ * @borrows truetypeof
  * @hideconstructor
  */
 
@@ -17,6 +17,7 @@
  * @param {string} name - The type of the element, like "span", "p", or "div"
  * @param {string} className - (optional) the className attribute (for css)
  */
+
 export function gen(name, className) {
   let obj = document.createElement(name);
 
@@ -27,14 +28,16 @@ export function gen(name, className) {
 }
 
 
+
 /**
  * returns a newly created HTML <span> containing **content**
  *
  * @param {string} content - the span's innerHTML
+ * @param {string} className - (optional) the className attribute (for css)
  */
 
-export function genText(content) {
-  let text = gen('span');
+export function genText(content, className) {
+  let text = gen('span', className);
   text.innerHTML = content;
 
   return text;
