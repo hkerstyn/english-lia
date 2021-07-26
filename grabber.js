@@ -280,7 +280,8 @@ function setSortSelection() {
 
   getFullText();
   getWordGroups();
-  setStatsTable('sortAmountDown');
+  window.selectedSort = 'sortAmountDown';
+  setStatsTable(window['selectedSort']);
 }
 
 

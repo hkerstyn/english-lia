@@ -43,8 +43,10 @@ function startGrabber () {
     },
     reactFunction: function (newWidth) {
       arrangeContainers(newWidth);
+      if(get('statsTableDummy').innerHTML != '')
+        setStatsTable(window['selectedSort']);
     },
-    interval: 2000
+    interval: 1000
   });
 
   
