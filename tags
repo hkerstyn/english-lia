@@ -94,6 +94,7 @@ alphabetZtoA	grabber/wordHandler.js	/^COMPARE_FUNKTIONS.alphabetZtoA = function(
 ancestorGenerator	consys/tree.js	/^  *ancestorGenerator() {$/;"	g	class:TreeNode
 ancestors	consys/tree.js	/^  get ancestors() {return [...this.ancestorGenerator()];}$/;"	G	class:TreeNode
 apply	lul/embed.js	/^  apply() {$/;"	m	class:LulConfig
+arrangeContainers	grabber/container.js	/^export function arrangeContainers(availableWidth) {$/;"	f
 arrayToListingString	base/css-control.js	/^export function arrayToListingString(array) {$/;"	f
 calculateElementPosition	lul/overflow.js	/^function calculateElementPosition(element) {$/;"	f
 calculateElementSize	lul/overflow.js	/^function calculateElementSize (element) {$/;"	f
@@ -151,6 +152,7 @@ getLanguageList	grabber/youtube.js	/^export async function getLanguageList() {$/
 getMinSize	consys/sizeable.js	/^  getMinSize() {$/;"	m	class:Sizeable
 getThicknessAndLengthIndex	consys/sizeable.js	/^function getThicknessAndLengthIndex(direction) {$/;"	f
 getTranscript	grabber/youtube.js	/^export async function getTranscript(language) {$/;"	f
+getTreeLines	consys/container.js	/^  getTreeLines() {$/;"	m	class:Container
 getWordGroups	grabber/wordHandler.js	/^export function getWordGroups() {$/;"	f
 height	lul/collapsible.js	/^  height: 'scrollHeight'$/;"	p	class:scrollSizeAttributeMap
 height	lul/embed.js	/^      height: 'lul-collapsible-height'$/;"	p	class:LulConfig.constructor.COLLAPSIBLE_CLASS_MAP
@@ -182,16 +184,20 @@ onYouTubeIframeAPIReady	grabber/youtube.js	/^  onYouTubeIframeAPIReady = functio
 onYouTubeIframeAPIReady	grabber/youtube.js	/^var onYouTubeIframeAPIReady = function() {$/;"	f
 onclick	grabber/interface.js	/^  let onclick = async function() {$/;"	f	function:setLanguageSelection
 onload	grabber/youtube.js	/^    request.onload = function () {$/;"	f	function:request
+options	grabber/container.js	/^var options;$/;"	v
 overlapTest	lul/overflow.js	/^function overlapTest (overflow1, overflow2) {$/;"	f
 parseLanguageList	grabber/youtube.js	/^function parseLanguageList(xmldoc) {$/;"	f
+player	grabber/container.js	/^var player;$/;"	v
 player	grabber/youtube.js	/^var player;$/;"	v
 playerDummy	grabber/interface.js	/^var playerDummy;$/;"	v
 presets	consys/.babelrc.json	/^  "presets": [$/;"	a
 previousIndex	grabber/wordRenderer.js	/^var previousIndex = -1;$/;"	v
+printTree	consys/container.js	/^  static printTree() {$/;"	m	class:Container
 radio	lul/embed.js	/^      radio: {$/;"	c	class:LulConfig.constructor.INPUT_ELEMENTS
 range	lul/embed.js	/^      range: {$/;"	c	class:LulConfig.constructor.INPUT_ELEMENTS
 recalculateIndices	consys/tree.js	/^  recalculateIndices() {$/;"	m	class:TreeNode
 recalculateOverflowIndices	lul/overflow.js	/^export function recalculateOverflowIndices () {$/;"	f
+removeIfChildless	consys/orientable.js	/^  removeIfChildless() {$/;"	m	class:Orientable
 render	consys/container.js	/^  render() {$/;"	m	class:Container
 result	base/get-store.js	/^  let result =  document.getElementById(key);$/;"	v
 root	base/css-control.js	/^var root = document.querySelector(':root');$/;"	v
@@ -222,11 +228,13 @@ split	consys/container.js	/^  split(direction) {$/;"	m	class:Container
 split	consys/orientable.js	/^  split(direction, splitParent) {$/;"	m	class:Orientable
 splitByWords	grabber/wordHandler.js	/^export function splitByWords(text) {$/;"	f
 start	grabber/embed.js	/^  start() {$/;"	m	class:Grabber
+statsTable	grabber/container.js	/^var statsTable;$/;"	v
 statsTableDummy	grabber/wordRenderer.js	/^var statsTableDummy;$/;"	v
 store	base/get-store.js	/^export function store(element, key) {$/;"	f
 targets	consys/.babelrc.json	/^        "targets": {$/;"	o	object:presets.0.1
 textDummy	grabber/wordRenderer.js	/^var textDummy;$/;"	v
 toggleElement	lul/collapsible.js	/^function toggleElement(collapsible) {$/;"	f
+transcript	grabber/container.js	/^var transcript;$/;"	v
 transcript	grabber/wordHandler.js	/^export var transcript;$/;"	v
 transcriptSpans	grabber/wordRenderer.js	/^var transcriptSpans;$/;"	v
 trueType	base/get-store.js	/^  let trueType = truetypeof(key);$/;"	v

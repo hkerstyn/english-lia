@@ -23,13 +23,13 @@ class TreeNode {
       this.parent.children.splice(this.index, 1);
       this.parent.recalculateIndices();
     }
+    if(parent == undefined) return;
 
     //add to new parent
-    if(parent != undefined)
-      if(index == undefined)
-        parent.children.push(this);
-      else
-        parent.children.splice(index, 0, this);
+    if(index == undefined)
+      parent.children.push(this);
+    else
+      parent.children.splice(index, 0, this);
 
     this.parent = parent;
     parent.recalculateIndices();
@@ -206,13 +206,27 @@ class Orientable extends TreeNode {
     case 'pos': this.addAfter(target); break;
     }
 
-    //if former sibling is single child,
-    //move it up a generation
-    if(oldParent != undefined)
+    if(oldParent != undefined) {
+      //if former sibling is single child,
+      //move it up a generation
       if(oldParent.children.length == 1) {
         oldParent.children[0].addAfter(oldParent);
         oldParent.setParent();
       }
+
+      //if this was a single child,
+      //oldParent.removeIfChildless();
+    }
+  }
+
+  removeIfChildless() {
+    if(this.children.length > 0)
+      return;
+
+    let parent = this.parent;
+    this.setParent();
+    if(parent != undefined)
+      parent.removeIfChildless();
   }
 }
 
@@ -257,7 +271,7 @@ class Sizeable extends Orientable {
 
   //gives resizes all children to fit this size
   setSize(size) {
-    //calculate minimum size
+    //calculate minimum size from children
     let minSize = this.getMinSize();
 
     //map width and height onto thickness and lenght
@@ -489,7 +503,11 @@ class Container extends Sizeable {
       let cell = gen('td', 'consys-container');
       if(this.id != undefined)
         cell.setAttribute('id', this.id);
-      cell.appendChild(genText(this.id));
+      if (oldElement != undefined) {
+        let oldContent = oldElement.firstChild.firstChild.firstChild;
+        if(oldContent != undefined)
+          cell.appendChild(oldContent);
+      }
       row.appendChild(cell);
       table.appendChild(row);
       store(cell, this.id);
@@ -514,7 +532,9 @@ class Container extends Sizeable {
       oldParent = this.parent;
 
     super.setParent(parent, index);
-    parent.render();
+
+    if(parent !=undefined)
+      parent.render();
     
     if(oldParent != undefined)
       oldParent.render();
@@ -536,6 +556,32 @@ class Container extends Sizeable {
     let splitParent = new Container(uid());
     splitParent.direction = direction;
     super.split(direction, splitParent);
+  }
+
+  static printTree() {
+    let treeLines = get('Root.container').getTreeLines();
+    let resultString = '';
+    treeLines.forEach((treeLine) => {
+      resultString += treeLine + '\n';
+    });
+    console.log(resultString);
+  }
+  getTreeLines() {
+    let treeLines = [];
+    let prefix = '  ';
+    
+    //adding own node to tree
+    treeLines.push(prefix + this.id);
+    
+    this.children.forEach((child) => {
+      let childTreeLines = child.getTreeLines();
+      for(let i = 0; i < childTreeLines.length; i++)
+        childTreeLines[i] = prefix + childTreeLines[i];
+
+      treeLines = treeLines.concat(childTreeLines);
+    });
+
+    return treeLines;
   }
 }
 

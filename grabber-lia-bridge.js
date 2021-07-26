@@ -3,8 +3,15 @@ const liaColorBackground = '--color-background';
 const liaColorHighlight = '--color-highlight';
 const liaColorText = '--color-text';
 const mediumTransparency = 0.2;
-function startGrabber () {
 
+
+function startGrabber () {
+  let lulConfig = new LulConfig();
+  lulConfig.apply();
+
+  let grabber = new Grabber();
+  grabber.start();
+ 
 
   //when background or highlight color change, the color palette should change accordingly
   watch({
@@ -29,13 +36,18 @@ function startGrabber () {
     interval: 1000
   });
 
+  watch({
+    watchFunction: function () {
+      let header = get('frame').parentNode.firstChild;
+      return parseFloat(getComputedStyle(header).width.slice(0, -2));
+    },
+    reactFunction: function (newWidth) {
+      arrangeContainers(newWidth);
+    },
+    interval: 2000
+  });
 
-  let lulConfig = new LulConfig();
-  lulConfig.apply();
-
-  let grabber = new Grabber();
-  grabber.start();
-   
+  
 }
 
 function updateColorPalette () {

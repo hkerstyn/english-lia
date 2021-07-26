@@ -100,7 +100,12 @@ function setStatsTable(comparator) {
   let wordGroupIndex = 0;
 
   let columnCount = Math.floor( get('statsTable.container').size[0] / grabber.TABLE_COLUMN_WIDTH);
-  console.log(columnCount);
+
+  if(columnCount == 0) {
+    console.log('columnCount is zero. returning...');
+    return;
+  }
+
   let rowCount = Math.ceil(wordGroups.length / columnCount);
 
   let table = gen('table', grabber.TABLE_CLASS);

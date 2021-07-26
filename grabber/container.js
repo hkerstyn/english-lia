@@ -1,17 +1,18 @@
+var player;
+var transcript;
+var statsTable;
+var options;
+
 export function initializeContainers () {
   //generate containers of given size
-  let player = new Container('player', [600, 337.5]);
-  let transcript = new Container('transcript', [400, 0]);
-  let statsTable = new Container('statsTable', [0, 212.5]);
-  let options = new Container('options', [0, 100], [true, false]);
+  player = new Container('player');
+  transcript = new Container('transcript');
+  statsTable = new Container('statsTable');
+  options = new Container('options', [500, 100], [true, false]);
 
 
-
-  //arranging containers
   options.setRoot('frame');
-  player.moveTo('down', options);
-  transcript.moveTo('right', options, player);
-  statsTable.moveTo('down', player, transcript);
+  arrangeContainers(813);
   for(let container of Container.all)
     container.setClass('lul-light');
 
@@ -20,6 +21,29 @@ export function initializeContainers () {
 
 }
 
+export function arrangeContainers(availableWidth) {
+
+  player.moveTo('down', options);
+
+  if(availableWidth >= 1000) {
+    transcript.moveTo('right', options, player);
+    player.minSize =  [600, 337.5];
+    transcript.minSize = [availableWidth - 600, 0];
+  } else {
+    transcript.moveTo('down', options, player);
+    player.minSize = ( [availableWidth, 337.5]);
+    transcript.minSize = [0, 400];
+  }
+
+  statsTable.moveTo('down', player, transcript);
+  statsTable.minSize = [0, 212.5];
+  Container.updateSizes();
+
+  constrainDummy(get('textDummy'), 'transcript');
+  constrainDummy(get('statsTableDummy'), 'statsTable');
+
+  Container.printTree();
+}
 
 
 function fillContainers () {
@@ -56,6 +80,7 @@ function genDummy(dummyName) {
   return dummy;
 }
 function constrainDummy(dummy, containerName) {
+  if(dummy == undefined) return;
   dummy.style.display = 'block';
   dummy.style.whiteSpace = 'normal';
   dummy.style.overflowY = 'auto';

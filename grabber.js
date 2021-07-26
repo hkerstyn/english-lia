@@ -1,6 +1,6 @@
 const YTAPI = 'https://www.youtube.com/iframe_api';
 var videoId;
-var player;
+var player$1;
 
 
 /*call this in the beginning*/
@@ -20,8 +20,8 @@ async function loadYTAPI() {
 
 async function setPlayerVideo(playerDummyID, newId, width, height) {
   videoId = newId;
-  if(player === undefined)
-    player = await createYTPlayer(playerDummyID, width, height);
+  if(player$1 === undefined)
+    player$1 = await createYTPlayer(playerDummyID, width, height);
   else
     await changeYTVideo();
 }
@@ -117,23 +117,23 @@ function parseLanguageList(xmldoc) {
 
 /*interacts with the youtube player*/
 async function changeYTVideo() {
-  player.loadVideoById(videoId);
+  player$1.loadVideoById(videoId);
 }
 
 async function jumpInVideo(position) {
-  player.seekTo(position, true);
+  player$1.seekTo(position, true);
 }
 
 function currentPosition() {
-  return player.getCurrentTime();
+  return player$1.getCurrentTime();
 }
 
-var transcript;
+var transcript$1;
 var fullText;
 var wordGroups;
 var wordInstances;
 
-function setTranscript(newTranscript) {transcript = newTranscript;}
+function setTranscript(newTranscript) {transcript$1 = newTranscript;}
 const COMPARE_FUNKTIONS = {};
 COMPARE_FUNKTIONS.sortAmountUp = function(a,b) {
   return a.amount - b.amount;
@@ -158,7 +158,7 @@ COMPARE_FUNKTIONS.alphabetZtoA = function(a,b) {
 
 function getFullText() {
   fullText = '';
-  for(let transcriptEntry of transcript) {
+  for(let transcriptEntry of transcript$1) {
 
     let textArea = document.createElement('textarea');
     textArea.innerHTML = transcriptEntry.text;
@@ -216,12 +216,12 @@ function clearTextRemainders() {
 
 var previousIndex = -1;
 function highlightText() {
-  if(transcript === undefined) 
+  if(transcript$1 === undefined) 
     return;
 
   let newIndex;
-  for(let i = 0; i < transcript.length; i++) {
-    let tsmp = transcript[i];
+  for(let i = 0; i < transcript$1.length; i++) {
+    let tsmp = transcript$1[i];
     let currentpos = currentPosition();
 
     if(tsmp.start < currentpos && tsmp.start + tsmp.duration > currentpos){
@@ -243,7 +243,7 @@ function highlightText() {
 function setText() {
   transcriptSpans = [];
 
-  for(let transcriptEntry of transcript) {
+  for(let transcriptEntry of transcript$1) {
     let span = genText(transcriptEntry.text + ' ');
 
     span.addEventListener('click', async function(e) {
@@ -297,7 +297,12 @@ function setStatsTable(comparator) {
   let wordGroupIndex = 0;
 
   let columnCount = Math.floor( get('statsTable.container').size[0] / grabber.TABLE_COLUMN_WIDTH);
-  console.log(columnCount);
+
+  if(columnCount == 0) {
+    console.log('columnCount is zero. returning...');
+    return;
+  }
+
   let rowCount = Math.ceil(wordGroups.length / columnCount);
 
   let table = gen('table', grabber.TABLE_CLASS);
@@ -326,8 +331,8 @@ function setStatsTable(comparator) {
 }
 
 function highlightWord(suchword) {
-  for(let i = 0; i < transcript.length; i++) {
-    let textToCheck = transcript[i].text;
+  for(let i = 0; i < transcript$1.length; i++) {
+    let textToCheck = transcript$1[i].text;
     let words = textToCheck.split(/[ \n]/g);
     transcriptSpans[i].innerHTML = '';
     for(let word of words) {
@@ -357,20 +362,21 @@ function highlightWord(suchword) {
   }
 }
 
+var player;
+var transcript;
+var statsTable;
+var options;
+
 function initializeContainers () {
   //generate containers of given size
-  let player = new Container('player', [600, 337.5]);
-  let transcript = new Container('transcript', [400, 0]);
-  let statsTable = new Container('statsTable', [0, 212.5]);
-  let options = new Container('options', [0, 100], [true, false]);
+  player = new Container('player');
+  transcript = new Container('transcript');
+  statsTable = new Container('statsTable');
+  options = new Container('options', [500, 100], [true, false]);
 
 
-
-  //arranging containers
   options.setRoot('frame');
-  player.moveTo('down', options);
-  transcript.moveTo('right', options, player);
-  statsTable.moveTo('down', player, transcript);
+  arrangeContainers(813);
   for(let container of Container.all)
     container.setClass('lul-light');
 
@@ -379,6 +385,29 @@ function initializeContainers () {
 
 }
 
+function arrangeContainers(availableWidth) {
+
+  player.moveTo('down', options);
+
+  if(availableWidth >= 1000) {
+    transcript.moveTo('right', options, player);
+    player.minSize =  [600, 337.5];
+    transcript.minSize = [availableWidth - 600, 0];
+  } else {
+    transcript.moveTo('down', options, player);
+    player.minSize = ( [availableWidth, 337.5]);
+    transcript.minSize = [0, 400];
+  }
+
+  statsTable.moveTo('down', player, transcript);
+  statsTable.minSize = [0, 212.5];
+  Container.updateSizes();
+
+  constrainDummy(get('textDummy'), 'transcript');
+  constrainDummy(get('statsTableDummy'), 'statsTable');
+
+  Container.printTree();
+}
 
 
 function fillContainers () {
@@ -415,6 +444,7 @@ function genDummy(dummyName) {
   return dummy;
 }
 function constrainDummy(dummy, containerName) {
+  if(dummy == undefined) return;
   dummy.style.display = 'block';
   dummy.style.whiteSpace = 'normal';
   dummy.style.overflowY = 'auto';
@@ -547,4 +577,4 @@ class Grabber {
 
 }
 
-console.log(initalizeUI, loadYTAPI, Grabber);
+console.log(initalizeUI, loadYTAPI, Grabber, arrangeContainers);

@@ -23,13 +23,13 @@ export class TreeNode {
       this.parent.children.splice(this.index, 1);
       this.parent.recalculateIndices();
     }
+    if(parent == undefined) return;
 
     //add to new parent
-    if(parent != undefined)
-      if(index == undefined)
-        parent.children.push(this);
-      else
-        parent.children.splice(index, 0, this);
+    if(index == undefined)
+      parent.children.push(this);
+    else
+      parent.children.splice(index, 0, this);
 
     this.parent = parent;
     parent.recalculateIndices();

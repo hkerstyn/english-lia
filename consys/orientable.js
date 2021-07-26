@@ -51,12 +51,26 @@ export class Orientable extends TreeNode {
     case 'pos': this.addAfter(target); break;
     }
 
-    //if former sibling is single child,
-    //move it up a generation
-    if(oldParent != undefined)
+    if(oldParent != undefined) {
+      //if former sibling is single child,
+      //move it up a generation
       if(oldParent.children.length == 1) {
         oldParent.children[0].addAfter(oldParent);
         oldParent.setParent();
       }
+
+      //if this was a single child,
+      //oldParent.removeIfChildless();
+    }
+  }
+
+  removeIfChildless() {
+    if(this.children.length > 0)
+      return;
+
+    let parent = this.parent;
+    this.setParent();
+    if(parent != undefined)
+      parent.removeIfChildless();
   }
 }

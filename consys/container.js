@@ -146,7 +146,11 @@ export class Container extends Sizeable {
       let cell = gen('td', 'consys-container');
       if(this.id != undefined)
         cell.setAttribute('id', this.id);
-      cell.appendChild(genText(this.id));
+      if (oldElement != undefined) {
+        let oldContent = oldElement.firstChild.firstChild.firstChild;
+        if(oldContent != undefined)
+          cell.appendChild(oldContent);
+      }
       row.appendChild(cell);
       table.appendChild(row);
       store(cell, this.id);
@@ -171,7 +175,9 @@ export class Container extends Sizeable {
       oldParent = this.parent;
 
     super.setParent(parent, index);
-    parent.render();
+
+    if(parent !=undefined)
+      parent.render();
     
     if(oldParent != undefined)
       oldParent.render();
@@ -193,6 +199,32 @@ export class Container extends Sizeable {
     let splitParent = new Container(uid());
     splitParent.direction = direction;
     super.split(direction, splitParent);
+  }
+
+  static printTree() {
+    let treeLines = get('Root.container').getTreeLines();
+    let resultString = '';
+    treeLines.forEach((treeLine) => {
+      resultString += treeLine + '\n';
+    });
+    console.log(resultString);
+  }
+  getTreeLines() {
+    let treeLines = [];
+    let prefix = '  ';
+    
+    //adding own node to tree
+    treeLines.push(prefix + this.id);
+    
+    this.children.forEach((child) => {
+      let childTreeLines = child.getTreeLines();
+      for(let i = 0; i < childTreeLines.length; i++)
+        childTreeLines[i] = prefix + childTreeLines[i];
+
+      treeLines = treeLines.concat(childTreeLines);
+    });
+
+    return treeLines;
   }
 }
   

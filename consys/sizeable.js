@@ -42,7 +42,7 @@ export class Sizeable extends Orientable {
 
   //gives resizes all children to fit this size
   setSize(size) {
-    //calculate minimum size
+    //calculate minimum size from children
     let minSize = this.getMinSize();
 
     //map width and height onto thickness and lenght
