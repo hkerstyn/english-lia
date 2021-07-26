@@ -234,8 +234,8 @@ store	base/get-store.js	/^export function store(element, key) {$/;"	f
 targets	consys/.babelrc.json	/^        "targets": {$/;"	o	object:presets.0.1
 textDummy	grabber/wordRenderer.js	/^var textDummy;$/;"	v
 toggleElement	lul/collapsible.js	/^function toggleElement(collapsible) {$/;"	f
-transcript	grabber/container.js	/^var transcript;$/;"	v
 transcript	grabber/wordHandler.js	/^export var transcript;$/;"	v
+transcriptContainer	grabber/container.js	/^var transcriptContainer;$/;"	v
 transcriptSpans	grabber/wordRenderer.js	/^var transcriptSpans;$/;"	v
 trueType	base/get-store.js	/^  let trueType = truetypeof(key);$/;"	v
 truetypeof	base/misc.js	/^export function truetypeof(value) {$/;"	f

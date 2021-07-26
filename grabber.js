@@ -128,12 +128,12 @@ function currentPosition() {
   return player$1.getCurrentTime();
 }
 
-var transcript$1;
+var transcript;
 var fullText;
 var wordGroups;
 var wordInstances;
 
-function setTranscript(newTranscript) {transcript$1 = newTranscript;}
+function setTranscript(newTranscript) {transcript = newTranscript;}
 const COMPARE_FUNKTIONS = {};
 COMPARE_FUNKTIONS.sortAmountUp = function(a,b) {
   return a.amount - b.amount;
@@ -158,7 +158,7 @@ COMPARE_FUNKTIONS.alphabetZtoA = function(a,b) {
 
 function getFullText() {
   fullText = '';
-  for(let transcriptEntry of transcript$1) {
+  for(let transcriptEntry of transcript) {
 
     let textArea = document.createElement('textarea');
     textArea.innerHTML = transcriptEntry.text;
@@ -216,26 +216,27 @@ function clearTextRemainders() {
 
 var previousIndex = -1;
 function highlightText() {
-  if(transcript$1 === undefined) 
+  if(transcript == undefined) 
     return;
 
-  let newIndex;
-  for(let i = 0; i < transcript$1.length; i++) {
-    let tsmp = transcript$1[i];
-    let currentpos = currentPosition();
-
+  let currentpos = currentPosition();
+  let newIndex = -1;
+  for(let i = 0; i < transcript.length; i++) {
+    let tsmp = transcript[i];
     if(tsmp.start < currentpos && tsmp.start + tsmp.duration > currentpos){
       newIndex = i;
       break;
     }
   }
-  if(newIndex == undefined)
-    newIndex = 0;
-  if(newIndex != previousIndex) {
-    if(previousIndex != -1)
-      transcriptSpans[previousIndex].className = grabber.DEFAULT_SPAN_CLASS;
 
-    transcriptSpans[newIndex].className = grabber.HIGHLIGHT_SPAN_CLASS;
+  if(newIndex != previousIndex && newIndex != -1) {
+    if(previousIndex != -1)
+      for(let oldWordSpan of transcriptSpans[previousIndex].children)
+        oldWordSpan.className = grabber.DEFAULT_SPAN_CLASS;
+
+    for (let newWordSpan of transcriptSpans[newIndex].children) 
+      newWordSpan.className = grabber.HIGHLIGHT_SPAN_CLASS;
+
     previousIndex = newIndex;
   }
 }
@@ -243,7 +244,7 @@ function highlightText() {
 function setText() {
   transcriptSpans = [];
 
-  for(let transcriptEntry of transcript$1) {
+  for(let transcriptEntry of transcript) {
     let span = genText(transcriptEntry.text + ' ');
 
     span.addEventListener('click', async function(e) {
@@ -254,6 +255,9 @@ function setText() {
     add('textDummy', span);
     transcriptSpans.push(span);
   }
+  highlightWord('');
+  for (let beginningWordSpan of transcriptSpans[0].children) 
+    beginningWordSpan.className = grabber.HIGHLIGHT_SPAN_CLASS;
 }
 
 function setSortSelection() {
@@ -332,19 +336,17 @@ function setStatsTable(comparator) {
 }
 
 function highlightWord(suchword) {
-  for(let i = 0; i < transcript$1.length; i++) {
-    let textToCheck = transcript$1[i].text;
+  for(let i = 0; i < transcript.length; i++) {
+    let textToCheck = transcript[i].text;
     let words = textToCheck.split(/[ \n]/g);
     transcriptSpans[i].innerHTML = '';
     for(let word of words) {
-      console.log('word: ', word);
       let wordSpan = gen('span');
       wordSpan.innerHTML = word + ' ';
 
       let match = false;
       let wordNames = splitByWords(word);
       for (let wordName of wordNames) {
-        console.log('wordName: ', wordName);
         if(wordName.toLowerCase() != suchword.toLowerCase()) 
           continue;
 
@@ -364,14 +366,14 @@ function highlightWord(suchword) {
 }
 
 var player;
-var transcript;
+var transcriptContainer;
 var statsTable;
 var options;
 
 function initializeContainers () {
   //generate containers of given size
   player = new Container('player');
-  transcript = new Container('transcript');
+  transcriptContainer = new Container('transcript');
   statsTable = new Container('statsTable');
   options = new Container('options', [500, 100], [true, false]);
 
@@ -391,16 +393,16 @@ function arrangeContainers(availableWidth) {
   player.moveTo('down', options);
 
   if(availableWidth >= 1000) {
-    transcript.moveTo('right', options, player);
+    transcriptContainer.moveTo('right', options, player);
     player.minSize =  [600, 337.5];
-    transcript.minSize = [availableWidth - 600, 0];
+    transcriptContainer.minSize = [availableWidth - 600, 0];
   } else {
-    transcript.moveTo('down', options, player);
+    transcriptContainer.moveTo('down', options, player);
     player.minSize = ( [availableWidth, 337.5]);
-    transcript.minSize = [0, 400];
+    transcriptContainer.minSize = [0, 400];
   }
 
-  statsTable.moveTo('down', player, transcript);
+  statsTable.moveTo('down', player, transcriptContainer);
   statsTable.minSize = [0, 212.5];
   Container.updateSizes();
 
@@ -500,6 +502,12 @@ function castToId(enteredString) {
   //ensures that the entered String is a proper Youtube id
   if(enteredString == undefined || enteredString == null || enteredString == '')
     return grabber.DEFAULT_ID;
+
+  //converts links to ids
+  if(enteredString.includes('youtube')) {
+    let vIndex = enteredString.indexOf('v=');
+    return enteredString.slice(vIndex + 2);
+  }
 
   return enteredString;
 }

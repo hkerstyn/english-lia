@@ -1,12 +1,12 @@
 var player;
-var transcript;
+var transcriptContainer;
 var statsTable;
 var options;
 
 export function initializeContainers () {
   //generate containers of given size
   player = new Container('player');
-  transcript = new Container('transcript');
+  transcriptContainer = new Container('transcript');
   statsTable = new Container('statsTable');
   options = new Container('options', [500, 100], [true, false]);
 
@@ -26,16 +26,16 @@ export function arrangeContainers(availableWidth) {
   player.moveTo('down', options);
 
   if(availableWidth >= 1000) {
-    transcript.moveTo('right', options, player);
+    transcriptContainer.moveTo('right', options, player);
     player.minSize =  [600, 337.5];
-    transcript.minSize = [availableWidth - 600, 0];
+    transcriptContainer.minSize = [availableWidth - 600, 0];
   } else {
-    transcript.moveTo('down', options, player);
+    transcriptContainer.moveTo('down', options, player);
     player.minSize = ( [availableWidth, 337.5]);
-    transcript.minSize = [0, 400];
+    transcriptContainer.minSize = [0, 400];
   }
 
-  statsTable.moveTo('down', player, transcript);
+  statsTable.moveTo('down', player, transcriptContainer);
   statsTable.minSize = [0, 212.5];
   Container.updateSizes();
 

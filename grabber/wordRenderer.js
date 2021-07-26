@@ -19,26 +19,27 @@ export function clearTextRemainders() {
 
 var previousIndex = -1;
 export function highlightText() {
-  if(transcript === undefined) 
+  if(transcript == undefined) 
     return;
 
-  let newIndex;
+  let currentpos = currentPosition();
+  let newIndex = -1;
   for(let i = 0; i < transcript.length; i++) {
     let tsmp = transcript[i];
-    let currentpos = currentPosition();
-
     if(tsmp.start < currentpos && tsmp.start + tsmp.duration > currentpos){
       newIndex = i;
       break;
     }
   }
-  if(newIndex == undefined)
-    newIndex = 0;
-  if(newIndex != previousIndex) {
-    if(previousIndex != -1)
-      transcriptSpans[previousIndex].className = grabber.DEFAULT_SPAN_CLASS;
 
-    transcriptSpans[newIndex].className = grabber.HIGHLIGHT_SPAN_CLASS;
+  if(newIndex != previousIndex && newIndex != -1) {
+    if(previousIndex != -1)
+      for(let oldWordSpan of transcriptSpans[previousIndex].children)
+        oldWordSpan.className = grabber.DEFAULT_SPAN_CLASS;
+
+    for (let newWordSpan of transcriptSpans[newIndex].children) 
+      newWordSpan.className = grabber.HIGHLIGHT_SPAN_CLASS;
+
     previousIndex = newIndex;
   }
 }
@@ -57,6 +58,9 @@ export function setText() {
     add('textDummy', span);
     transcriptSpans.push(span);
   }
+  highlightWord('');
+  for (let beginningWordSpan of transcriptSpans[0].children) 
+    beginningWordSpan.className = grabber.HIGHLIGHT_SPAN_CLASS;
 }
 
 export function setSortSelection() {
@@ -140,14 +144,12 @@ function highlightWord(suchword) {
     let words = textToCheck.split(/[ \n]/g);
     transcriptSpans[i].innerHTML = '';
     for(let word of words) {
-      console.log('word: ', word);
       let wordSpan = gen('span');
       wordSpan.innerHTML = word + ' ';
 
       let match = false;
       let wordNames = splitByWords(word);
       for (let wordName of wordNames) {
-        console.log('wordName: ', wordName);
         if(wordName.toLowerCase() != suchword.toLowerCase()) 
           continue;
 

@@ -56,6 +56,12 @@ function castToId(enteredString) {
   if(enteredString == undefined || enteredString == null || enteredString == '')
     return grabber.DEFAULT_ID;
 
+  //converts links to ids
+  if(enteredString.includes('youtube')) {
+    let vIndex = enteredString.indexOf('v=');
+    return enteredString.slice(vIndex + 2);
+  }
+
   return enteredString;
 }
 
