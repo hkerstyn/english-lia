@@ -1,6 +1,6 @@
 <!--
 author:   Daniel Hoffmann
-version:  0.1.0
+version:  0.2.0
 language: en
 narrator: US English Female
 
@@ -19,8 +19,8 @@ link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/consys.css
 Please select a <a href="https://www.youtube.com/results?search_query=science&sp=EgIoAQ%253D%253D" target="_blank">youtube video with captions!</a> 
 
 <script input="hidden" defer>
-startGrabber();
+  startGrabber();
 </script>
 
-<div id='frame'></div>
+<div id='grabber-frame'></div>
 

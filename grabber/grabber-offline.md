@@ -16,39 +16,28 @@ link: http://localhost:3000/home/english-lia/consys.css
 
 # Youtube Script Grabber 
 
-Please select a <a href="https://www.youtube.com/results?search_query=science&sp=EgIoAQ%253D%253D" target="_blank">youtube video with captions!</a> 
-
 <script input="hidden" defer>
-startGrabber();
+  startGrabber();
 </script>
 
-<div id='frame'></div>
-<script input="button">
-let allElements = document.getElementsByTagName("*");
-for(let element of allElements) {
-  element.dispatchEvent(new Event("mouseleave")); 
-}
+<div id='grabber-frame'></div>
 
-"defocus all"
-</script>
 # TODO
 
 To Do next:
-* compatibility:
-  * darkmode, colors
-  * config object
-  * resize (responsive design)
-* support of youtube links
 * clean up & prettify codebase
 
 ------
 Bugs to fix:
 * loading video does not work after hopping slides
 * fix some languaes not working
-* awkwardness when selecting stuff
 
 
 To maybe Do at some point:
+* config
+  * video id
+  * language
+  * start point
 * implement message at top
 * search for keywords
 * jump to section

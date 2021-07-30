@@ -297,7 +297,7 @@ function arrayToListingString(array) {
 function watch(watcher) {
   let previousValue;
   setInterval(function () {
-    let newValue = watcher.watchFunction().toString();
+    let newValue = watcher.watchFunction();
     if(newValue == previousValue)
       return;
 

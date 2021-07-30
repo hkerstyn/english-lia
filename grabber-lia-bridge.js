@@ -5,13 +5,22 @@ const liaColorText = '--color-text';
 const mediumTransparency = 0.2;
 
 
-function startGrabber () {
+function startGrabber() {
   let lulConfig = new LulConfig();
   lulConfig.apply();
 
-  let grabber = new Grabber();
-  grabber.start();
+  Grabber.start();
  
+  //adjust the container layout
+  watch({
+    watchFunction: function () {
+      let referenceNode = get('grabber-frame').parentNode;
+      let computedStyle = getComputedStyle(referenceNode);
+      return asNumber(computedStyle.width) - asNumber(computedStyle.paddingLeft) - asNumber(computedStyle.paddingRight) - 18;
+    },
+    reactFunction: Grabber.adjustLayout,
+    interval: 1000
+  });
 
   //when background or highlight color change, the color palette should change accordingly
   watch({
@@ -19,9 +28,7 @@ function startGrabber () {
       return getCssProperty(liaColorHighlight)
       + getCssProperty(liaColorBackground);
     },
-    reactFunction: function () {
-      updateColorPalette();
-    },
+    reactFunction: updateColorPalette,
     interval: 300
   });
 
@@ -36,20 +43,10 @@ function startGrabber () {
     interval: 1000
   });
 
-  watch({
-    watchFunction: function () {
-      let header = get('frame').parentNode.firstChild;
-      return parseFloat(getComputedStyle(header).width.slice(0, -2));
-    },
-    reactFunction: function (newWidth) {
-      arrangeContainers(newWidth);
-      if(get('statsTableDummy').innerHTML != '')
-        setStatsTable(window['selectedSort']);
-    },
-    interval: 1000
-  });
+}
 
-  
+function asNumber(stringPx) {
+  return parseFloat(stringPx.slice(0, -2));
 }
 
 function updateColorPalette () {

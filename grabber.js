@@ -1,61 +1,65 @@
-const YTAPI = 'https://www.youtube.com/iframe_api';
-var videoId;
-var player$1;
+const defaultConfig = {
+  ID_ENTER_TEXT: 'Enter Link',
+  ID_ENTER_ENTRY_DIRECTION: 'row',
 
+  DEFAULT_ID: '8TUK-M41hGI',
 
-/*call this in the beginning*/
-async function loadYTAPI() {
-  var tag = document.createElement('script');
-  tag.src = YTAPI;
+  LANGUAGE_SELECT_TEXT: 'Select language',
+  LANGUAGE_SELECT_ENTRY_DIRECTION: 'column',
+  LANGUAGE_SELECT_RADIO_TYPE: 'radio',
 
-  var firstScriptTag = document.getElementsByTagName('script')[0];
-  firstScriptTag.parentNode.insertBefore(tag, firstScriptTag);
+  SORT_SELECT_BUTTON_CLASS: 'lul-dark lul-norm-height',
+  SORT_SELECT_TEXT: 'Sort criterium',
+  SORT_SELECT_OPTION_TEXTS: ['By frequency', 'By length', 'Alphabetically'],
+  SORT_SELECT_ENTRY_DIRECTION: 'column',
+  SORT_SELECT_RADIO_TYPE: 'radio',
 
-  await new Promise(function(resolve,reject) {
-    setTimeout(() => {
-      reject('Failed to load YT API');
-    }, 100000);
-  });
-}
+  DEFAULT_SPAN_CLASS: 'lul-text',
+  HIGHLIGHT_SPAN_CLASS: 'lul-highlight-text',
+  HIGHLIGHT_TEXT_INTERVAL: 500,
 
-async function setPlayerVideo(playerDummyID, newId, width, height) {
-  videoId = newId;
-  if(player$1 === undefined)
-    player$1 = await createYTPlayer(playerDummyID, width, height);
-  else
-    await changeYTVideo();
-}
+  TABLE_COLUMN_WIDTH: 130,
+  TABLE_CLASS: 'lul-full-width',
+  TABLE_ROW_CLASS: 'lul-light lul-medium-hover',
+  TABLE_CELL_CLASS: ' lul-text lul-highlight-text-hover',
+  TABLE_TEXT_CLASS: ''
+};
 
-
-
-/*returns a youtube player element*/
-async function createYTPlayer(playerID, width, height) {
-  let ret;
-  let vidID = videoId;
-  await new Promise(function(resolve,reject) {
-    ret = new YT.Player(playerID, {
-      width: width,
-      height: height,
-      videoId:vidID,
-      events:{
-        onReady:resolve,
-        onStateChange: function(e) {ret.onPlayerStateChange(e);}
-      }
-    });
-  });
-  ret.onPlayerStateChange = function() {};
-  return ret;
-}
-
-/*returns the transcript*/
 const VIDEOLINK = 'https://video.google.com/timedtext?v=';
 const VIDEOLANGUAGE = 'https://video.google.com/timedtext?type=list&v=';
 const LANGUAGEADD = '&lang=';
 
-async function loadTranscript(language){
+class YoutubeTranscriptHandler {
+
+  static async getLanguageList(videoId) {
+    let xmlDoc = await getXMLDocFromLink(VIDEOLANGUAGE + videoId);
+    let rawLanguageList = xmlDoc.childNodes[0].childNodes;
+
+    let languageList = [];
+    for(let rawLanguage of rawLanguageList)
+      languageList.push({code: rawLanguage.attributes.lang_code.value, name: rawLanguage.attributes.lang_translated.value});
+    return languageList;
+  }
+
+  static async getTranscript(videoId, languageCode) {
+    let xmlDoc = await getXMLDocFromLink(VIDEOLINK + videoId + LANGUAGEADD + languageCode);
+    let rawTranscript = xmlDoc.childNodes[0].childNodes;
+
+    let transcript = [];
+    for(let rawTranscriptEntry of rawTranscript)
+      transcript.push({
+        start: rawTranscriptEntry.attributes.start.value * 1,
+        duration: rawTranscriptEntry.attributes.dur.value * 1,
+        text: rawTranscriptEntry.childNodes[0].data
+      });
+    return transcript;
+  }
+
+} 
+
+async function getXMLDocFromLink(link) {
   var request = new XMLHttpRequest();
-  console.log(VIDEOLINK + videoId + LANGUAGEADD + language);
-  request.open('GET', VIDEOLINK + videoId + LANGUAGEADD + language, true);
+  request.open('GET', link, true);
   request.responseType = 'document';
   request.overrideMimeType('text/xml');
   return new Promise(function(resolve, reject) {
@@ -72,372 +76,67 @@ async function loadTranscript(language){
     request.send(null);
   });
 }
-async function getTranscript(language) {
-  let xmldoc = await loadTranscript(language);
-  let textList = xmldoc.childNodes[0];
-  let TimeStamps = textList.childNodes;
-  let newTranscript = [];
-  for(let timeStamp of TimeStamps){
-    newTranscript.push(
-      {start: timeStamp.attributes.start.value * 1,
-        duration: timeStamp.attributes.dur.value * 1,
-        text: timeStamp.childNodes[0].data});
-  }
-  return newTranscript;
-}
-async function getLanguageList() {
-  var request = new XMLHttpRequest();
-  request.open('GET', VIDEOLANGUAGE + videoId, true);
-  request.responseType = 'document';
-  request.overrideMimeType('text/xml');
-  return new Promise(function(resolve, reject) {
-    request.onload = function () {
-      if (request.readyState === request.DONE) {
-        if (request.status === 200) {
-          resolve(parseLanguageList(request.responseXML));
-        }
-        else {
-          reject(request.status);
-        }
-      }
-    };
-    request.send(null);
-  });
-}
-function parseLanguageList(xmldoc) {
-  let transcriptList = xmldoc.childNodes[0];
-  let XMLTracks = transcriptList.childNodes;
 
-  let ret = [];
-  for(let t of XMLTracks){
-    ret.push({code: t.attributes.lang_code.value, languageName: t.attributes.lang_translated.value});
-  }
-  return ret;
-}
+const YOUTUBE_API_LINK = 'https://www.youtube.com/iframe_api';
 
-/*interacts with the youtube player*/
-async function changeYTVideo() {
-  player$1.loadVideoById(videoId);
-}
+class YoutubeHandler extends YoutubeTranscriptHandler {
 
-async function jumpInVideo(position) {
-  player$1.seekTo(position, true);
-}
+  static async loadYTAPI() {
+    let newScriptTag = document.createElement('script');
+    newScriptTag.src = YOUTUBE_API_LINK;
 
-function currentPosition() {
-  return player$1.getCurrentTime();
-}
+    let firstScriptTag = document.getElementsByTagName('script')[0];
+    firstScriptTag.parentNode.insertBefore(newScriptTag, firstScriptTag);
 
-var transcript;
-var fullText;
-var wordGroups;
-var wordInstances;
-
-function setTranscript(newTranscript) {transcript = newTranscript;}
-const COMPARE_FUNKTIONS = {};
-COMPARE_FUNKTIONS.sortAmountUp = function(a,b) {
-  return a.amount - b.amount;
-};
-COMPARE_FUNKTIONS.sortAmountDown = function(a,b) {
-  return b.amount - a.amount;
-};
-COMPARE_FUNKTIONS.sortLengthUp = function(a,b) {
-  return a.name.length - b.name.length;
-};
-COMPARE_FUNKTIONS.sortLengthDown = function(a,b) {
-  return b.name.length - a.name.length;
-};
-COMPARE_FUNKTIONS.alphabetAtoZ = function(a,b) {
-  return a.name.localeCompare(b.name);
-};
-COMPARE_FUNKTIONS.alphabetZtoA = function(a,b) {
-  return b.name.localeCompare(a.name);
-};
-
-
-
-function getFullText() {
-  fullText = '';
-  for(let transcriptEntry of transcript) {
-
-    let textArea = document.createElement('textarea');
-    textArea.innerHTML = transcriptEntry.text;
-    transcriptEntry.text = textArea.value;
-    textArea.remove();
-    fullText += transcriptEntry.text + ' ';
-  }
-  //html zeug entfernen
-}
-
-function splitByWords(text) {
-  //seperates string 'fullText' into array of strings 'wordInstances'
-  text = text.replaceAll(/\d/g, ' ');
-  text = text.replaceAll(/'/g, '0');
-  text = text.replaceAll(/\W/g, ' ');
-  text = text.replaceAll(/0+/g, "'");
-  
-  return text.trim().split(/ +/g);
-}
-function getWordGroups() {
-  
-  wordInstances = splitByWords(fullText);
-  //groups wordInstances into wordGroups
-  wordGroups = [];
-  for(wordInstance of wordInstances) {
-
-    let matchingWordGroupFound = false;
-    for(existingWordGroup of wordGroups) {
-      if(existingWordGroup.name.toLowerCase() === wordInstance.toLowerCase()){
-        existingWordGroup.amount++;
-        if(wordInstance == wordInstance.toLowerCase())
-          existingWordGroup.name = wordInstance;
-        matchingWordGroupFound = true;
-        break;
-      }
-    }
-    if(!matchingWordGroupFound) wordGroups.push({name: wordInstance, amount: 1});
-  }
-  return wordGroups;
-}
-function sortWordGroups(comparator) {
-  wordGroups.sort(COMPARE_FUNKTIONS[comparator]);
-}
-
-var transcriptSpans;
-
-function clearTextRemainders() {
-  get('sortSelectDummy').innerHTML = '';
-  get('textDummy').innerHTML = '';
-  get('statsTableDummy').innerHTML = '';
-  setTranscript(undefined);
-}
-
-
-
-var previousIndex = -1;
-function highlightText() {
-  if(transcript == undefined) 
-    return;
-
-  let currentpos = currentPosition();
-  let newIndex = -1;
-  for(let i = 0; i < transcript.length; i++) {
-    let tsmp = transcript[i];
-    if(tsmp.start < currentpos && tsmp.start + tsmp.duration > currentpos){
-      newIndex = i;
-      break;
-    }
-  }
-
-  if(newIndex != previousIndex && newIndex != -1) {
-    if(previousIndex != -1)
-      for(let oldWordSpan of transcriptSpans[previousIndex].children)
-        oldWordSpan.className = grabber.DEFAULT_SPAN_CLASS;
-
-    for (let newWordSpan of transcriptSpans[newIndex].children) 
-      newWordSpan.className = grabber.HIGHLIGHT_SPAN_CLASS;
-
-    previousIndex = newIndex;
-  }
-}
-
-function setText() {
-  transcriptSpans = [];
-
-  for(let transcriptEntry of transcript) {
-    let span = genText(transcriptEntry.text + ' ');
-
-    span.addEventListener('click', async function(e) {
-      console.log(e);
-      jumpInVideo(transcriptEntry.start);
+    await new Promise(function(resolve,reject) {
+      window.onYouTubeIframeAPIReady = resolve; 
+      setTimeout(() => {
+        reject('Failed to load YT API');
+      }, 100000);
     });
-
-    add('textDummy', span);
-    transcriptSpans.push(span);
   }
-  highlightWord('');
-  for (let beginningWordSpan of transcriptSpans[0].children) 
-    beginningWordSpan.className = grabber.HIGHLIGHT_SPAN_CLASS;
-}
+  
+  //ensures that the entered String is a proper Youtube id
+  static castToId(enteredString, defaultId) {
+    //return default in case of no submitted string
+    if(enteredString == undefined || enteredString == null || enteredString == '')
+      return defaultId;
 
-function setSortSelection() {
-  let selectedSortButton = genButton({
-    text: grabber.SORT_SELECT_TEXT
-  });
-  selectedSortButton.className = grabber.SORT_SELECT_BUTTON_CLASS; 
+    //converts links to ids
+    if(enteredString.includes('youtube')) {
+      let vIndex = enteredString.indexOf('v=');
+      return enteredString.slice(vIndex + 2);
+    }
 
-  let selectedSortRadio = genSelection({
-    name: 'selectedSort',
-    oninput: function () {
-      setStatsTable(window['selectedSort']);
-    },
-    options: {
-      texts: grabber.SORT_SELECT_OPTION_TEXTS,
-      values: ['sortAmountDown', 'sortLengthDown', 'alphabetAtoZ']
-    },
-    button: [selectedSortButton],
-    direction: grabber.SORT_SELECT_ENTRY_DIRECTION,
-    type: grabber.SORT_SELECT_RADIO_TYPE
-  });
-  set('sortSelectDummy', selectedSortRadio);
-
-
-  getFullText();
-  getWordGroups();
-  window.selectedSort = 'sortAmountDown';
-  setStatsTable(window['selectedSort']);
-}
-
-
-
-
-
-
-
-
-
-function setStatsTable(comparator) {
-
-  sortWordGroups(comparator);
-  let wordGroupIndex = 0;
-
-  let columnCount = Math.floor( get('statsTable.container').size[0] / grabber.TABLE_COLUMN_WIDTH);
-
-  if(columnCount == 0) {
-    console.log('columnCount is zero. returning...');
-    return;
+    //return id as-is
+    return enteredString;
   }
 
-  let rowCount = Math.ceil(wordGroups.length / columnCount);
+  static async setPlayerVideo(playerDummyID, videoId, width, height) {
+    if(YoutubeHandler.player != undefined) {
+      YoutubeHandler.player.loadVideoById(videoId);
+      return;
+    }
 
-  let table = gen('table', grabber.TABLE_CLASS);
-  for(let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
-    let row = gen('tr', grabber.TABLE_ROW_CLASS);
-    for(let columnIndex = 0; columnIndex < columnCount; columnIndex++) {
-      if(wordGroupIndex >= wordGroups.length)
-        break;
-      let wordGroup = wordGroups[wordGroupIndex];
-      wordGroupIndex++;
-
-      let text = gen('a', grabber.TABLE_TEXT_CLASS);
-      text.innerHTML = wordGroup.name;
-
-      let cell = gen('td', grabber.TABLE_CELL_CLASS);
-      cell.style.textAlign = 'center';
-      cell.addEventListener('click', function () {
-        highlightWord(wordGroup.name);
+    await new Promise(function(resolve,reject) {
+      YoutubeHandler.player = new YT.Player(playerDummyID, {
+        width: width,
+        height: height,
+        videoId: videoId,
+        events:{
+          onReady:resolve,
+        }
       });
-      cell.appendChild(text);
-      row.appendChild(cell);
-    }
-    table.appendChild(row);
-  }
-  set('statsTableDummy', table);
-}
-
-function highlightWord(suchword) {
-  for(let i = 0; i < transcript.length; i++) {
-    let textToCheck = transcript[i].text;
-    let words = textToCheck.split(/[ \n]/g);
-    transcriptSpans[i].innerHTML = '';
-    for(let word of words) {
-      let wordSpan = gen('span');
-      wordSpan.innerHTML = word + ' ';
-
-      let match = false;
-      let wordNames = splitByWords(word);
-      for (let wordName of wordNames) {
-        if(wordName.toLowerCase() != suchword.toLowerCase()) 
-          continue;
-
-        match = true;
-        break;
-      }
-
-      if(match){
-        wordSpan.className = grabber.HIGHLIGHT_SPAN_CLASS;
-      } else {
-        wordSpan.className = grabber.DEFAULT_SPAN_CLASS;
-      }
-      transcriptSpans[i].appendChild(wordSpan);
-    }
-
-  }
-}
-
-var player;
-var transcriptContainer;
-var statsTable;
-var options;
-
-function initializeContainers () {
-  //generate containers of given size
-  player = new Container('player');
-  transcriptContainer = new Container('transcript');
-  statsTable = new Container('statsTable');
-  options = new Container('options', [500, 100], [true, false]);
-
-
-  options.setRoot('frame');
-  arrangeContainers(813);
-  for(let container of Container.all)
-    container.setClass('lul-light');
-
-
-  fillContainers();
-
-}
-
-function arrangeContainers(availableWidth) {
-
-  player.moveTo('down', options);
-
-  if(availableWidth >= 1000) {
-    transcriptContainer.moveTo('right', options, player);
-    player.minSize =  [600, 337.5];
-    transcriptContainer.minSize = [availableWidth - 600, 0];
-  } else {
-    transcriptContainer.moveTo('down', options, player);
-    player.minSize = ( [availableWidth, 337.5]);
-    transcriptContainer.minSize = [0, 400];
+    });
   }
 
-  statsTable.moveTo('down', player, transcriptContainer);
-  statsTable.minSize = [0, 212.5];
-  Container.updateSizes();
+  static async jumpInVideo(position) {
+    YoutubeHandler.player.seekTo(position, true);
+  }
 
-  constrainDummy(get('textDummy'), 'transcript');
-  constrainDummy(get('statsTableDummy'), 'statsTable');
-
-  Container.printTree();
-}
-
-
-function fillContainers () {
-  
-  //filling options
-  set('options',
-    genDummy('sortSelectDummy'),
-    genDummy('languageSelectDummy'),
-    genDummy('idEnterDummy')
-  );
-  
-  //filling player
-  set('player',
-    genDummy('playerDummy')
-  );
-
-  //filling transcript
-  let textDummy = genDummy('textDummy');
-  constrainDummy(textDummy, 'transcript');
-  set('transcript', textDummy);
-
-
-
-  //filling statsTable
-  let statsTableDummy = genDummy('statsTableDummy');
-  constrainDummy(statsTableDummy, 'statsTable');
-  set('statsTable', statsTableDummy);
+  static getCurrentTime() {
+    return YoutubeHandler.player.getCurrentTime();
+  }
 }
 
 function genDummy(dummyName) {
@@ -446,6 +145,7 @@ function genDummy(dummyName) {
   store(dummy, dummyName);
   return dummy;
 }
+
 function constrainDummy(dummy, containerName) {
   if(dummy == undefined) return;
   dummy.style.display = 'block';
@@ -455,135 +155,578 @@ function constrainDummy(dummy, containerName) {
   dummy.style.width = get(containerName + '.container').size[0] + 'px';
 }
 
-var highlightInterval;
+class ContainerLayoutHandler {
 
-//called by an inline script
-function initalizeUI() {
-  get('frame').style.display = 'inline-block';
-  initializeContainers();
-  let idEnter = genEnter({
-    name: 'enteredId'
-  });
-  let idButton = genButton({
-    text: grabber.ID_ENTER_TEXT,
-    onclick: function(){setVideo(window['enteredId']);}
-  });
-  let idEntry = genEntry({
-    content: [ idEnter ],
-    button: [ idButton ],
-    direction: grabber.ID_ENTER_ENTRY_DIRECTION
-  });
-  set('idEnterDummy', idEntry);
+  static arrangeContainers(availableWidth) {
+    let optionsContainer = get('options.container');
+    let playerContainer = get('player.container');
+    let transcriptContainer = get('transcript.container');
+    let statsTableContainer = get('statsTable.container');
+
+    playerContainer.moveTo('down', optionsContainer);
+
+    if(availableWidth >= 800) {
+      //800 - inf
+      playerContainer.minSize =  [600, 337.5];
+
+      transcriptContainer.moveTo('right', optionsContainer, playerContainer);
+
+      if (availableWidth >= 1000) {
+        //1000 - inf
+        let coupleWidth = (availableWidth - 600) / 2;
+        transcriptContainer.minSize = [coupleWidth, 0];
+
+        statsTableContainer.moveTo('right', playerContainer, transcriptContainer);
+        statsTableContainer.minSize = [coupleWidth, 0];
+      } else {
+        //800 - 1000
+        transcriptContainer.minSize = [availableWidth - 600, 0];
+
+        statsTableContainer.moveTo('down', playerContainer, transcriptContainer);
+        statsTableContainer.minSize = [0, 170];
+      }
+    } else {
+      //0 - 800
+      playerContainer.minSize = ( [availableWidth, 337.5]);
+
+      transcriptContainer.moveTo('down', optionsContainer, playerContainer);
+      transcriptContainer.minSize = [0, 300];
+
+      statsTableContainer.moveTo('down', playerContainer, transcriptContainer);
+      statsTableContainer.minSize = [0, 170];
+    }
+
+    Container.updateSizes();
+
+    constrainDummy(get('transcriptDummy'), 'transcript');
+    constrainDummy(get('statsTableDummy'), 'statsTable');
+  }
 }
 
+class ContainerHandler extends ContainerLayoutHandler {
 
+  static initializeContainers () {
+    let optionsContainer = new Container('options', [500, 100], [true, false]);
+    new Container('player');
+    new Container('transcript');
+    new Container('statsTable');
 
-//handles the selection of a video id
-async function setVideo(enteredString) {
+    optionsContainer.setRoot('grabber-frame');
+    ContainerLayoutHandler.arrangeContainers(813);
+    for(let container of Container.all)
+      container.setClass('lul-light');
 
-  //clear possible remainders the previous video
-  clearTextRemainders();
+    set('options',
+      genDummy('sortSelectDummy'),
+      genDummy('languageSelectDummy'),
+      genDummy('idEnterDummy')
+    );
 
-  let newId = castToId(enteredString);
+    set('player',
+      genDummy('playerDummy')
+    );
 
-  let playerWidth = get('player.container').size[0];
-  let playerHeight = get('player.container').size[1] - 7;
-  await setPlayerVideo('playerDummy', newId, playerWidth, playerHeight);
-  get('playerDummy');
+    let transcriptDummy = genDummy('transcriptDummy');
+    constrainDummy(transcriptDummy, 'transcript');
+    set('transcript', transcriptDummy);
 
-
-  //sets Interval to frequently call highlightText()
-  dispatchHighlightText();
-
-  await setLanguageSelection();
-}
-
-function castToId(enteredString) {
-  //ensures that the entered String is a proper Youtube id
-  if(enteredString == undefined || enteredString == null || enteredString == '')
-    return grabber.DEFAULT_ID;
-
-  //converts links to ids
-  if(enteredString.includes('youtube')) {
-    let vIndex = enteredString.indexOf('v=');
-    return enteredString.slice(vIndex + 2);
+    let statsTableDummy = genDummy('statsTableDummy');
+    constrainDummy(statsTableDummy, 'statsTable');
+    set('statsTable', statsTableDummy);
   }
 
-  return enteredString;
 }
 
-function dispatchHighlightText() {
-  if(highlightInterval != undefined) clearInterval(highlightInterval);
-  highlightInterval = setInterval(function() {
-    highlightText();
-  }, grabber.HIGHLIGHT_TEXT_INTERVAL);
+class InterfaceHandler {
+  static genIdEntry({text, direction, onConfirm}) {
+    let idEnter = genEnter({
+      name: 'enteredId'
+    });
+    let idButton = genButton({
+      text: text,
+      onclick: function(){
+        onConfirm(window['enteredId']);
+      }
+    });
+    let idEntry = genEntry({
+      content: [ idEnter ],
+      button: [ idButton ],
+      direction: direction
+    });
+    return idEntry;
+  }
+
+  static genLanguageSelection({text, direction, onConfirm, languageList, radioType}) {
+
+    let languageSelectButton = genButton({
+      text: text,
+      onclick: function () {onConfirm(window['selectedLanguageCode']);}
+    });
+
+    let languageSelectRadio = genSelection({
+      name: 'selectedLanguageCode',
+      options: {
+        objects: languageList,
+        textFunction: (language) => (language.name),
+        valueFunction: (language) => (language.code)
+      },
+      button: [languageSelectButton],
+      type: radioType,
+      direction: direction
+    });
+    return languageSelectRadio;
+  }
+
+  static genSortSelection({text, direction, onConfirm, options, buttonClass, radioType}) {
+    let selectedSortButton = genButton({
+      text: text
+    });
+    selectedSortButton.className = buttonClass;
+
+    let selectedSortRadio = genSelection({
+      name: 'selectedSort',
+      oninput: function () {
+        onConfirm(window['selectedSort']);
+      },
+      options: options,
+      button: [selectedSortButton],
+      direction: direction,
+      type: radioType
+    });
+    return selectedSortRadio;
+  }
 }
 
-async function setLanguageSelection() {
+class WordAnalyzer {
 
-  let onclick = async function() {
-    newTranscript = await getTranscript(window['selectedLanguageCode']);
-    setTranscript(newTranscript);
-    setText();
-    setSortSelection();
-  };
+  static splitIntoRawWords(text) {
+    let shitlessText = WordAnalyzer.removeHtmlShit(text);
+    let words = shitlessText.split(/[ \n]/g);
+    for (let word of words)
+      word.trim();
 
-  let languageList = await getLanguageList();
+    return words;
+  }
 
-  let languageSelectButton = genButton({
-    text: grabber.LANGUAGE_SELECT_TEXT,
-    onclick: onclick
-  });
+  static removeHtmlShit(text) {
+    let textArea = gen('textarea');
+    textArea.innerHTML = text;
+    let shitlessText = textArea.value;
+    textArea.remove();
+    return shitlessText;
+  }
 
-  let languageSelectRadio = genSelection({
-    name: 'selectedLanguageCode',
-    options: {
-      objects: languageList,
-      textFunction: function(obj) {return obj.languageName;},
-      valueFunction: function(obj) {return obj.code;}
-    },
-    button: [languageSelectButton],
-    type: grabber.LANGUAGE_SELECT_RADIO_TYPE,
-    direction: grabber.LANGUAGE_SELECT_ENTRY_DIRECTION
-  });
-  set('languageSelectDummy', languageSelectRadio);
+  static prettify(word) {
+    let prettyWord = word.replaceAll(/\d/g, ' ');
+    prettyWord = prettyWord.replaceAll(/'/g, '0');
+    prettyWord = prettyWord.replaceAll(/\W/g, ' ');
+    prettyWord = prettyWord.replaceAll(/0+/g, "'");
+    
+    return prettyWord.trim();
+  }
+}
+
+class WordInstance {
+
+  constructor(text) {
+    this.text = text;
+    this.span = undefined;
+    this.timeWordGroup = undefined;
+    this.nameWordGroup = undefined;
+  }
+}
+
+class WordGroup {
+  constructor() {
+    this.wordInstances = [];
+  }
+
+}
+
+class TimeWordGroup extends WordGroup {
+  constructor() {
+    super();
+    this.start = undefined;
+    this.duration = undefined;
+  }
+}
+
+class TranscriptAnalyzer {
+
+  //converts transcript into timeWordGroups
+  static analyzeTranscript(transcript) {
+    TranscriptAnalyzer.timeWordGroups = [];
+
+    for(let transcriptEntry of transcript) {
+      let words = WordAnalyzer.splitIntoRawWords(transcriptEntry.text);
+
+      let timeWordGroup = new TimeWordGroup();
+      timeWordGroup.start = transcriptEntry.start;
+      timeWordGroup.duration = transcriptEntry.duration;
+
+      for (let word of words) {
+        let wordInstance = new WordInstance(word);
+        wordInstance.timeWordGroup = timeWordGroup;
+        timeWordGroup.wordInstances.push(wordInstance);
+      }
+
+      TranscriptAnalyzer.timeWordGroups.push(timeWordGroup);
+    }
+  }
+
+  static *allWordInstances() {
+    for (let timeWordGroup of TranscriptAnalyzer.timeWordGroups)
+      yield* timeWordGroup.wordInstances;
+  }
+
+
+
+}
+
+class TranscriptSpanHandler {
+  static createSpan(wordInstance) {
+    let span = gen('span', TranscriptSpanHandler.config.defaultSpanClass);
+    span.innerHTML = wordInstance.text + ' ';
+    wordInstance.span = span;
+
+    add(TranscriptSpanHandler.config.transcriptDummy, span);
+  }
+
+  static highlightSpan(wordInstance) {
+    let span = wordInstance.span;
+    span.className = TranscriptSpanHandler.config.highlightSpanClass;
+  }
+
+  static unHighlightSpan(wordInstance) {
+    let span = wordInstance.span;
+    span.className = TranscriptSpanHandler.config.defaultSpanClass;
+  }
+}
+
+class HighlightHandler {
+
+  static highlightTimeWordGroup(timeWordGroup) {
+    let oldTimeSet = HighlightHandler.timeSet;
+    let nameSet = HighlightHandler.nameSet;
+    let newTimeSet = new Set(timeWordGroup.wordInstances);
+
+    HighlightHandler.highlightGenericSet({
+      newSet: newTimeSet,
+      oldSet: oldTimeSet,
+      persistingSet: nameSet
+    });
+
+    HighlightHandler.timeSet = newTimeSet;
+  }
+
+  static highlightNameWordGroup(nameWordGroup) {
+    let oldNameSet = HighlightHandler.nameSet;
+    let timeSet = HighlightHandler.timeSet;
+    let newNameSet = new Set(nameWordGroup.wordInstances);
+
+    HighlightHandler.highlightGenericSet({
+      newSet: newNameSet,
+      oldSet: oldNameSet,
+      persistingSet: timeSet
+    });
+
+    HighlightHandler.nameSet = newNameSet;
+  }
+
+  static highlightGenericSet({newSet, oldSet, persistingSet}) {
+    let oldUnionSet = union(oldSet, persistingSet);
+    let newUnionSet = union(newSet, persistingSet);
+
+    let addedWordInstances = difference(newSet, oldUnionSet);
+    let removedWordInstances = difference(oldSet, newUnionSet);
+
+    for(let addedWordInstance of addedWordInstances)
+      TranscriptSpanHandler.highlightSpan(addedWordInstance);
+
+    for(let removedWordInstance of removedWordInstances)
+      TranscriptSpanHandler.unHighlightSpan(removedWordInstance);
+  }
+}
+
+HighlightHandler.timeSet = new Set();
+HighlightHandler.nameSet = new Set();
+
+function union(setA, setB) {
+  let unionSet = new Set(setA);
+  for(let item of setB)
+    unionSet.add(item);
+  return unionSet;
+}
+
+function difference(setA, setB) {
+  let differenceSet = new Set(setA);
+  for(let item of setB)
+    differenceSet.delete(item);
+  return differenceSet;
+}
+
+class TranscriptHandler extends TranscriptAnalyzer {
+
+  static setConfig(config) {
+    TranscriptHandler.config = config;
+    TranscriptSpanHandler.config = config;
+  }
+
+  static createTranscript(transcript) {
+    TranscriptHandler.analyzeTranscript(transcript);
+
+    for (let wordInstance of TranscriptHandler.allWordInstances()) {
+      TranscriptSpanHandler.createSpan(wordInstance);
+      wordInstance.span.addEventListener('click', function () {
+        HighlightHandler.highlightTimeWordGroup(wordInstance.timeWordGroup);
+        YoutubeHandler.jumpInVideo(wordInstance.timeWordGroup.start);
+      });
+    }
+
+    HighlightHandler.highlightTimeWordGroup(TranscriptHandler.timeWordGroups[0]);
+
+    watch({
+      watchFunction: function () {
+        let currentTime = YoutubeHandler.getCurrentTime();
+        return TranscriptHandler.getCurrentTimeWordGroup(currentTime);
+      },
+      reactFunction: function (currentTimeWordGroup) {
+        if(currentTimeWordGroup == undefined)
+          return;
+        HighlightHandler.highlightTimeWordGroup(currentTimeWordGroup);
+      },
+      interval: TranscriptHandler.config.highlightInterval
+    });
+  }
+
+  static getCurrentTimeWordGroup(currentTime) {
+    for(let timeWordGroup of TranscriptHandler.timeWordGroups) {
+      if(currentTime >= timeWordGroup.start
+      && currentTime < timeWordGroup.start + timeWordGroup.duration) {
+        return timeWordGroup;
+      }
+    }
+  }
+
+
+
+}
+
+class NameWordGroup extends WordGroup {
+  constructor(name) {
+    super();
+    this.name = name;
+  }
+}
+
+class NameAnalyzer {
+
+  static analyzeNameGroups(wordInstances) {
+    let nameWordGroups = [];
+  
+    for(let currentWordInstance of wordInstances) {
+      let currentNames = WordAnalyzer.prettify(currentWordInstance.text).split(/ +/g);
+
+      for(let currentName of currentNames) {
+        let matchingWordGroupFound = false;
+
+        //look for matching existing WordGroup  
+        for(let existingWordGroup of nameWordGroups) {
+          if(existingWordGroup.name.toLowerCase() == currentName.toLowerCase()){
+            existingWordGroup.wordInstances.push(currentWordInstance); 
+            currentWordInstance.nameWordGroup = existingWordGroup;
+
+            if(currentName == currentName.toLowerCase())
+              existingWordGroup.name = currentName;
+            matchingWordGroupFound = true;
+            break;
+          }
+        }
+
+        //create new WordGroup
+        if(!matchingWordGroupFound) {
+          let newWordGroup = new NameWordGroup(currentName);
+          newWordGroup.wordInstances.push(currentWordInstance);
+          currentWordInstance.nameWordGroup = newWordGroup;
+          nameWordGroups.push(newWordGroup);
+        }
+      }
+    }
+
+    NameAnalyzer.nameWordGroups = nameWordGroups;
+  }
+
+}
+
+const COMPATATORS = {
+  byFrequency: function(nameWordGroupA, nameWordGroupB) {
+    return nameWordGroupB.wordInstances.length - nameWordGroupA.wordInstances.length;
+  },
+  byLength: function(nameWordGroupA, nameWordGroupB) {
+    return nameWordGroupB.name.length - nameWordGroupA.name.length;
+  },
+  alphabetically: function(nameWordGroupA, nameWordGroupB) {
+    return nameWordGroupA.name.localeCompare(nameWordGroupB.name);
+  }
+};
+
+class NameSorter extends NameAnalyzer {
+  
+  static sortNamedWordGroups(comparator) {
+    NameAnalyzer.nameWordGroups.sort(COMPATATORS[comparator]);
+  }
+
+}
+
+class StatsTableHandler extends NameSorter {
+
+  static genStatsTable({
+    tableClass, tableRowClass, tableCellClass, tableTextClass,
+    rowCount, columnCount,
+    clickFunction, wordGroups}) {
+
+    let table = gen('table', tableClass);
+
+    let wordGroupIndex = 0;
+
+    for(let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
+      let row = gen('tr', tableRowClass);
+
+      for(let columnIndex = 0; columnIndex < columnCount; columnIndex++) {
+        if(wordGroupIndex >= wordGroups.length)
+          break;
+        let wordGroup = wordGroups[wordGroupIndex];
+        wordGroupIndex++;
+
+        let text = gen('a', tableTextClass);
+        text.innerHTML = wordGroup.name;
+
+        let cell = gen('td', tableCellClass);
+        cell.style.textAlign = 'center';
+        cell.addEventListener('click', function () {
+          clickFunction(wordGroup); 
+        });
+        cell.appendChild(text);
+        row.appendChild(cell);
+      }
+      table.appendChild(row);
+    }
+    return table;
+  }
 }
 
 class Grabber {
+  
+  static async start() {
+    YoutubeHandler.loadYTAPI();
 
-  constructor() {
-    this.ID_ENTER_TEXT = 'Select YTid';
-    this.ID_ENTER_ENTRY_DIRECTION = 'row';
-
-    this.DEFAULT_ID = '8TUK-M41hGI';
-
-    this.LANGUAGE_SELECT_TEXT = 'Select language';
-    this.LANGUAGE_SELECT_ENTRY_DIRECTION = 'column';
-    this.LANGUAGE_SELECT_RADIO_TYPE = 'radio';
-
-    this.SORT_SELECT_BUTTON_CLASS = 'lul-dark lul-norm-height';
-    this.SORT_SELECT_TEXT = 'Sort criterium';
-    this.SORT_SELECT_OPTION_TEXTS = ['By frequency', 'By length', 'Alphabetically'];
-    this.SORT_SELECT_ENTRY_DIRECTION = 'column';
-    this.SORT_SELECT_RADIO_TYPE = 'radio';
-
-    this.DEFAULT_SPAN_CLASS = 'lul-text';
-    this.HIGHLIGHT_SPAN_CLASS = 'lul-highlight-text';
-    this.HIGHLIGHT_TEXT_INTERVAL = 500;
-
-    this.TABLE_COLUMN_WIDTH = 130;
-    this.TABLE_CLASS = 'lul-full-width';
-    this.TABLE_ROW_CLASS = 'lul-light lul-medium-hover';
-    this.TABLE_CELL_CLASS = ' lul-text lul-highlight-text-hover';
-    this.TABLE_TEXT_CLASS = '';
+    get('grabber-frame').style.display = 'inline-flex';
+    ContainerHandler.initializeContainers();
+    
+    Grabber.setIdEntry();
   }
 
-  start() {
-    window['grabber'] = this;
-    loadYTAPI();
-    initalizeUI();
+  static setIdEntry() {
+    set('idEnterDummy', InterfaceHandler.genIdEntry({
+      text: Grabber.config.ID_ENTER_TEXT,
+      direction: Grabber.config.ID_ENTER_ENTRY_DIRECTION,
+      onConfirm: Grabber.setVideo
+    }));
   }
 
+  static async setVideo(videoLink) {
+    get('sortSelectDummy').innerHTML = '';
+    get('transcriptDummy').innerHTML = '';
+    get('statsTableDummy').innerHTML = '';
+      
+    let videoId = YoutubeHandler.castToId(videoLink, Grabber.config.DEFAULT_ID);
+
+    let playerSize = get('player.container').size;
+    playerSize = [playerSize[0], playerSize[1] - 7];
+    await YoutubeHandler.setPlayerVideo('playerDummy', videoId, ...playerSize);
+
+    Grabber.setLanguageSelection(videoId);
+  }
+
+  static async setLanguageSelection(videoId) {
+    let languageList = await YoutubeHandler.getLanguageList(videoId);
+    set('languageSelectDummy', InterfaceHandler.genLanguageSelection({
+      text: Grabber.config.LANGUAGE_SELECT_TEXT,
+      radioType: Grabber.config.LANGUAGE_SELECT_RADIO_TYPE,
+      direction: Grabber.config.LANGUAGE_SELECT_ENTRY_DIRECTION,
+      languageList: languageList, 
+      onConfirm: function(languageCode) {Grabber.setLanguage(videoId, languageCode);}
+    }));
+  }
+
+  static async setLanguage(videoId, languageCode) {
+    let transcript = await YoutubeHandler.getTranscript(videoId, languageCode);
+    Grabber.setTranscript(transcript);
+    StatsTableHandler.analyzeNameGroups([...TranscriptHandler.allWordInstances()]);
+    Grabber.setStatsTable('byFrequency');
+    window['selectedSort'] = 'byFrequency';
+    Grabber.setSortSelection();
+  }
+
+  static setTranscript(transcript) {
+    TranscriptHandler.setConfig({
+      defaultSpanClass: Grabber.config.DEFAULT_SPAN_CLASS,
+      highlightSpanClass: Grabber.config.HIGHLIGHT_SPAN_CLASS,
+      transcriptDummy: 'transcriptDummy',
+      highlightInterval: Grabber.config.HIGHLIGHT_TEXT_INTERVAL
+    });
+
+    TranscriptHandler.createTranscript(transcript);
+  }
+
+  static setStatsTable(comparator) {
+    if(comparator != undefined)
+      StatsTableHandler.sortNamedWordGroups(comparator);
+    let wordGroups = StatsTableHandler.nameWordGroups;
+
+
+    let columnCount = Math.floor( get('statsTable.container').size[0] / Grabber.config.TABLE_COLUMN_WIDTH);
+    if(columnCount == 0) throw new Error('columnCount is zero');
+    let rowCount = Math.ceil(wordGroups.length / columnCount);
+
+    set('statsTableDummy', StatsTableHandler.genStatsTable({
+      wordGroups: wordGroups,
+      columnCount: columnCount,
+      rowCount: rowCount,
+      tableClass: Grabber.config.TABLE_CLASS,
+      tableRowClass: Grabber.config.TABLE_ROW_CLASS,
+      tableCellClass: Grabber.config.TABLE_CELL_CLASS,
+      tableTextClass: Grabber.config.TABLE_TEXT_CLASS,
+      clickFunction:  function (nameWordGroup) {
+        HighlightHandler.highlightNameWordGroup(nameWordGroup);
+      }
+    }));
+
+  }
+
+  static setSortSelection() {
+
+    set('sortSelectDummy', InterfaceHandler.genSortSelection({
+      text: Grabber.config.SORT_SELECT_TEXT,
+      direction: Grabber.config.SORT_SELECT_ENTRY_DIRECTION,
+      buttonClass: Grabber.config.SORT_SELECT_BUTTON_CLASS,
+      radioType: Grabber.config.SORT_SELECT_RADIO_TYPE,
+      options: {
+        texts: Grabber.config.SORT_SELECT_OPTION_TEXTS, 
+        values: ['byFrequency', 'byLength', 'alphabetically']
+      },
+      onConfirm: function (comparator) {
+        Grabber.setStatsTable(comparator);
+      }
+    }));
+  }
+
+  static adjustLayout(availableWidth) {
+    ContainerHandler.arrangeContainers(availableWidth);
+    if(get('statsTableDummy').innerHTML != '')
+      Grabber.setStatsTable(window['selectedSort']);
+  }
 }
 
-console.log(initalizeUI, loadYTAPI, Grabber, arrangeContainers);
+Grabber.config = defaultConfig;
+console.log(Grabber);
