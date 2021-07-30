@@ -10,6 +10,8 @@
 !_TAG_PROGRAM_URL	https://ctags.io/	/official site/
 !_TAG_PROGRAM_VERSION	5.9.0	/p5.9.20210110.0/
 .lia-radio	lul/styles/lul-generic.css	/^.lia-radio {$/;"	c
+.lul-background-text	lul/styles/lul-generic.css	/^.lul-background-text, .lul-background-text-hover:hover {$/;"	c
+.lul-background-text-hover:hover	lul/styles/lul-generic.css	/^.lul-background-text, .lul-background-text-hover:hover {$/;"	c
 .lul-collapsible-height	lul/styles/lul-collapsible.css	/^.lul-collapsible-height {$/;"	c
 .lul-collapsible-width	lul/styles/lul-collapsible.css	/^.lul-collapsible-width {$/;"	c
 .lul-dark	lul/styles/lul-generic.css	/^.lul-dark, .lul-dark-hover:hover {$/;"	c
@@ -90,7 +92,7 @@ Orientable	consys/orientable.js	/^export class Orientable extends TreeNode {$/;"
 Orientation	consys/orientation.js	/^export class Orientation {$/;"	c
 SORT_SELECT_BUTTON_CLASS	grabber/default-config.js	/^  SORT_SELECT_BUTTON_CLASS: 'lul-dark lul-norm-height',$/;"	p	class:defaultConfig
 SORT_SELECT_ENTRY_DIRECTION	grabber/default-config.js	/^  SORT_SELECT_ENTRY_DIRECTION: 'column',$/;"	p	class:defaultConfig
-SORT_SELECT_OPTION_TEXTS	grabber/default-config.js	/^  SORT_SELECT_OPTION_TEXTS: ['By frequency', 'By length', 'Alphabetically'],$/;"	p	class:defaultConfig
+SORT_SELECT_OPTION_TEXTS	grabber/default-config.js	/^  SORT_SELECT_OPTION_TEXTS: ['By frequency', 'By length', 'Alphabetically', 'By Occurrence'],$/;"	p	class:defaultConfig
 SORT_SELECT_RADIO_TYPE	grabber/default-config.js	/^  SORT_SELECT_RADIO_TYPE: 'radio',$/;"	p	class:defaultConfig
 SORT_SELECT_TEXT	grabber/default-config.js	/^  SORT_SELECT_TEXT: 'Sort criterium',$/;"	p	class:defaultConfig
 STORED_ELEMENTS	base/get-store.js	/^var STORED_ELEMENTS = {};$/;"	v
@@ -100,8 +102,10 @@ TABLE_CELL_CLASS	grabber/default-config.js	/^  TABLE_CELL_CLASS: ' lul-text lul-
 TABLE_CLASS	grabber/default-config.js	/^  TABLE_CLASS: 'lul-full-width',$/;"	p	class:defaultConfig
 TABLE_COLUMN_WIDTH	grabber/default-config.js	/^  TABLE_COLUMN_WIDTH: 130,$/;"	p	class:defaultConfig
 TABLE_ROW_CLASS	grabber/default-config.js	/^  TABLE_ROW_CLASS: 'lul-light lul-medium-hover',$/;"	p	class:defaultConfig
-TABLE_TEXT_CLASS	grabber/default-config.js	/^  TABLE_TEXT_CLASS: ''$/;"	p	class:defaultConfig
+TABLE_SCROLL_OFFSET	grabber/default-config.js	/^  TABLE_SCROLL_OFFSET: 50$/;"	p	class:defaultConfig
+TABLE_TEXT_CLASS	grabber/default-config.js	/^  TABLE_TEXT_CLASS: '',$/;"	p	class:defaultConfig
 TODO	grabber/grabber-offline.md	/^# TODO$/;"	c
+TRANSCRIPT_SCROLL_OFFSET	grabber/default-config.js	/^  TRANSCRIPT_SCROLL_OFFSET: 70,$/;"	p	class:defaultConfig
 TimeWordGroup	grabber/word/time-word-group.js	/^export class TimeWordGroup extends WordGroup {$/;"	c
 TranscriptAnalyzer	grabber/transcript/transcript-analyzer.js	/^export class TranscriptAnalyzer {$/;"	c
 TranscriptHandler	grabber/transcript/transcript.js	/^export class TranscriptHandler extends TranscriptAnalyzer {$/;"	c
@@ -114,6 +118,7 @@ WordGroup	grabber/word/word-group.js	/^export class WordGroup {$/;"	c
 WordInstance	grabber/word/word-instance.js	/^export class WordInstance {$/;"	c
 YOUTUBE_API_LINK	grabber/youtube/youtube.js	/^const YOUTUBE_API_LINK = 'https:\/\/www.youtube.com\/iframe_api';$/;"	C
 Youtube Script Grabber	grabber/grabber-offline.md	/^# Youtube Script Grabber $/;"	c
+Youtube Script Grabber	grabber/grabber.md	/^# Youtube Script Grabber $/;"	c
 YoutubeHandler	grabber/youtube/youtube.js	/^export class YoutubeHandler extends YoutubeTranscriptHandler {$/;"	c
 YoutubeTranscriptHandler	grabber/youtube/transcript.js	/^export class YoutubeTranscriptHandler {$/;"	c
 [Symbol.iterator]	consys/tree.js	/^  *[Symbol.iterator]() {$/;"	g	class:TreeNode
@@ -136,6 +141,7 @@ arrangeContainers	grabber/container/layout.js	/^  static arrangeContainers(avail
 arrayToListingString	base/css-control.js	/^export function arrayToListingString(array) {$/;"	f
 byFrequency	grabber/table/sort.js	/^  byFrequency: function(nameWordGroupA, nameWordGroupB) {$/;"	m	class:COMPATATORS
 byLength	grabber/table/sort.js	/^  byLength: function(nameWordGroupA, nameWordGroupB) {$/;"	m	class:COMPATATORS
+byOccurrence	grabber/table/sort.js	/^  byOccurrence: function(nameWordGroupA, nameWordGroupB) {$/;"	m	class:COMPATATORS
 calculateElementPosition	lul/overflow.js	/^function calculateElementPosition(element) {$/;"	f
 calculateElementSize	lul/overflow.js	/^function calculateElementSize (element) {$/;"	f
 castToId	grabber/youtube/youtube.js	/^  static castToId(enteredString, defaultId) {$/;"	m	class:YoutubeHandler
@@ -226,6 +232,7 @@ nameSet	grabber/transcript/highlight.js	/^HighlightHandler.nameSet = new Set();$
 ofName	consys/orientation.js	/^  static ofName(name) {$/;"	m	class:Orientation
 onload	grabber/youtube/transcript.js	/^    request.onload = function () {$/;"	f	function:request
 overlapTest	lul/overflow.js	/^function overlapTest (overflow1, overflow2) {$/;"	f
+position	grabber/transcript/transcript.js	/^    function position(indexNumber) {$/;"	f	function:TranscriptHandler.scrollToGroup
 presets	consys/.babelrc.json	/^  "presets": [$/;"	a
 prettify	grabber/word/word-analyzer.js	/^  static prettify(word) {$/;"	m	class:WordAnalyzer
 printTree	consys/container.js	/^  static printTree() {$/;"	m	class:Container
@@ -241,6 +248,8 @@ root	base/css-control.js	/^var root = document.querySelector(':root');$/;"	v
 row	lul/collapsible.js	/^  row: 'width',$/;"	p	class:directionSizeAttributeMap
 safari	consys/.babelrc.json	/^          "safari": "11.1"$/;"	s	object:presets.0.1.targets
 scrollSizeAttributeMap	lul/collapsible.js	/^var scrollSizeAttributeMap = {$/;"	c
+scrollToGroup	grabber/transcript/transcript.js	/^  static scrollToGroup(wordGroup, scrollOffset) {$/;"	m	class:TranscriptHandler
+scrollToInstance	grabber/transcript/transcript.js	/^  static scrollToInstance(wordInstance, scrollOffset) {$/;"	m	class:TranscriptHandler
 setClass	consys/container.js	/^  setClass(newClass) {$/;"	m	class:Container
 setConfig	grabber/transcript/transcript.js	/^  static setConfig(config) {$/;"	m	class:TranscriptHandler
 setCssProperty	base/css-control.js	/^export function setCssProperty(propertyName, propertyValue) {$/;"	f

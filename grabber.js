@@ -10,19 +10,21 @@ const defaultConfig = {
 
   SORT_SELECT_BUTTON_CLASS: 'lul-dark lul-norm-height',
   SORT_SELECT_TEXT: 'Sort criterium',
-  SORT_SELECT_OPTION_TEXTS: ['By frequency', 'By length', 'Alphabetically'],
+  SORT_SELECT_OPTION_TEXTS: ['By frequency', 'By length', 'Alphabetically', 'By Occurrence'],
   SORT_SELECT_ENTRY_DIRECTION: 'column',
   SORT_SELECT_RADIO_TYPE: 'radio',
 
   DEFAULT_SPAN_CLASS: 'lul-text',
   HIGHLIGHT_SPAN_CLASS: 'lul-highlight-text',
   HIGHLIGHT_TEXT_INTERVAL: 500,
+  TRANSCRIPT_SCROLL_OFFSET: 70,
 
   TABLE_COLUMN_WIDTH: 130,
   TABLE_CLASS: 'lul-full-width',
   TABLE_ROW_CLASS: 'lul-light lul-medium-hover',
   TABLE_CELL_CLASS: ' lul-text lul-highlight-text-hover',
-  TABLE_TEXT_CLASS: ''
+  TABLE_TEXT_CLASS: '',
+  TABLE_SCROLL_OFFSET: 50
 };
 
 const VIDEOLINK = 'https://video.google.com/timedtext?v=';
@@ -470,6 +472,7 @@ class TranscriptHandler extends TranscriptAnalyzer {
   static setConfig(config) {
     TranscriptHandler.config = config;
     TranscriptSpanHandler.config = config;
+    get(config.transcriptDummy).style.scrollBehavior = 'smooth';
   }
 
   static createTranscript(transcript) {
@@ -494,6 +497,7 @@ class TranscriptHandler extends TranscriptAnalyzer {
         if(currentTimeWordGroup == undefined)
           return;
         HighlightHandler.highlightTimeWordGroup(currentTimeWordGroup);
+        TranscriptHandler.scrollToInstance(currentTimeWordGroup.wordInstances[0], TranscriptHandler.config.scrollOffset);
       },
       interval: TranscriptHandler.config.highlightInterval
     });
@@ -508,8 +512,43 @@ class TranscriptHandler extends TranscriptAnalyzer {
     }
   }
 
+  static scrollToInstance(wordInstance, scrollOffset) {
+    let scrollPosition = wordInstance.span.offsetTop;
+    let scrollParent = get(TranscriptHandler.config.transcriptDummy);
+    scrollParent.scrollTop = scrollPosition - scrollOffset;
+  }
 
+  static scrollToGroup(wordGroup, scrollOffset) {
+    let scrollNumber;
+    function position(indexNumber) {
+      if(indexNumber >= wordGroup.wordInstances.length) return 1000000;
+      let scrollPosition = wordGroup.wordInstances[indexNumber].span.offsetTop;
+      if(scrollPosition < scrollOffset)
+        scrollPosition = scrollOffset;
+      return scrollPosition;
+    }
 
+    if(wordGroup != get('scrollGroup')) {
+      store(wordGroup, 'scrollGroup');
+      store(0, 'scrollNumber');
+      scrollNumber = 0;
+    } else {
+      scrollNumber = get('scrollNumber');
+
+      let currentPosition = position(scrollNumber);
+      while(position(scrollNumber + 1) - currentPosition < scrollOffset) {
+        scrollNumber++;
+      }
+
+      scrollNumber++;
+      if(scrollNumber >= wordGroup.wordInstances.length)
+        scrollNumber = 0;
+
+      store(scrollNumber, 'scrollNumber');
+    }
+
+    TranscriptHandler.scrollToInstance(wordGroup.wordInstances[scrollNumber], scrollOffset);
+  }
 }
 
 class NameWordGroup extends WordGroup {
@@ -567,13 +606,18 @@ const COMPATATORS = {
   },
   alphabetically: function(nameWordGroupA, nameWordGroupB) {
     return nameWordGroupA.name.localeCompare(nameWordGroupB.name);
+  },
+  byOccurrence: function(nameWordGroupA, nameWordGroupB) {
+    return 0;
   }
 };
 
 class NameSorter extends NameAnalyzer {
   
   static sortNamedWordGroups(comparator) {
-    NameAnalyzer.nameWordGroups.sort(COMPATATORS[comparator]);
+    let sortedArray = [...NameSorter.nameWordGroups];
+    sortedArray.sort(COMPATATORS[comparator]);
+    return sortedArray;
   }
 
 }
@@ -598,21 +642,29 @@ class StatsTableHandler extends NameSorter {
         let wordGroup = wordGroups[wordGroupIndex];
         wordGroupIndex++;
 
-        let text = gen('a', tableTextClass);
-        text.innerHTML = wordGroup.name;
-
         let cell = gen('td', tableCellClass);
         cell.style.textAlign = 'center';
         cell.addEventListener('click', function () {
           clickFunction(wordGroup); 
         });
+
+        let text = gen('a', tableTextClass);
+        text.innerHTML = wordGroup.name;
         cell.appendChild(text);
+
+        if(wordGroup.wordInstances.length > 1) {
+          let number = genText('  ' + wordGroup.wordInstances.length);
+          number.className = 'lul-background-text';
+          cell.appendChild(number);
+        }
+
         row.appendChild(cell);
       }
       table.appendChild(row);
     }
     return table;
   }
+
 }
 
 class Grabber {
@@ -673,16 +725,15 @@ class Grabber {
       defaultSpanClass: Grabber.config.DEFAULT_SPAN_CLASS,
       highlightSpanClass: Grabber.config.HIGHLIGHT_SPAN_CLASS,
       transcriptDummy: 'transcriptDummy',
-      highlightInterval: Grabber.config.HIGHLIGHT_TEXT_INTERVAL
+      highlightInterval: Grabber.config.HIGHLIGHT_TEXT_INTERVAL,
+      scrollOffset: Grabber.config.TRANSCRIPT_SCROLL_OFFSET
     });
 
     TranscriptHandler.createTranscript(transcript);
   }
 
   static setStatsTable(comparator) {
-    if(comparator != undefined)
-      StatsTableHandler.sortNamedWordGroups(comparator);
-    let wordGroups = StatsTableHandler.nameWordGroups;
+    let wordGroups = StatsTableHandler.sortNamedWordGroups(comparator);
 
 
     let columnCount = Math.floor( get('statsTable.container').size[0] / Grabber.config.TABLE_COLUMN_WIDTH);
@@ -699,6 +750,7 @@ class Grabber {
       tableTextClass: Grabber.config.TABLE_TEXT_CLASS,
       clickFunction:  function (nameWordGroup) {
         HighlightHandler.highlightNameWordGroup(nameWordGroup);
+        TranscriptHandler.scrollToGroup(nameWordGroup, Grabber.config.TABLE_SCROLL_OFFSET);
       }
     }));
 
@@ -713,7 +765,7 @@ class Grabber {
       radioType: Grabber.config.SORT_SELECT_RADIO_TYPE,
       options: {
         texts: Grabber.config.SORT_SELECT_OPTION_TEXTS, 
-        values: ['byFrequency', 'byLength', 'alphabetically']
+        values: ['byFrequency', 'byLength', 'alphabetically', 'byOccurrence']
       },
       onConfirm: function (comparator) {
         Grabber.setStatsTable(comparator);

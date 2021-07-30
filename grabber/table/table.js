@@ -21,19 +21,27 @@ export class StatsTableHandler extends NameSorter {
         let wordGroup = wordGroups[wordGroupIndex];
         wordGroupIndex++;
 
-        let text = gen('a', tableTextClass);
-        text.innerHTML = wordGroup.name;
-
         let cell = gen('td', tableCellClass);
         cell.style.textAlign = 'center';
         cell.addEventListener('click', function () {
           clickFunction(wordGroup); 
         });
+
+        let text = gen('a', tableTextClass);
+        text.innerHTML = wordGroup.name;
         cell.appendChild(text);
+
+        if(wordGroup.wordInstances.length > 1) {
+          let number = genText('  ' + wordGroup.wordInstances.length);
+          number.className = 'lul-background-text';
+          cell.appendChild(number);
+        }
+
         row.appendChild(cell);
       }
       table.appendChild(row);
     }
     return table;
   }
+
 }

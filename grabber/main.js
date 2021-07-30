@@ -73,16 +73,15 @@ class Grabber {
       defaultSpanClass: Grabber.config.DEFAULT_SPAN_CLASS,
       highlightSpanClass: Grabber.config.HIGHLIGHT_SPAN_CLASS,
       transcriptDummy: 'transcriptDummy',
-      highlightInterval: Grabber.config.HIGHLIGHT_TEXT_INTERVAL
+      highlightInterval: Grabber.config.HIGHLIGHT_TEXT_INTERVAL,
+      scrollOffset: Grabber.config.TRANSCRIPT_SCROLL_OFFSET
     });
 
     TranscriptHandler.createTranscript(transcript);
   }
 
   static setStatsTable(comparator) {
-    if(comparator != undefined)
-      StatsTableHandler.sortNamedWordGroups(comparator);
-    let wordGroups = StatsTableHandler.nameWordGroups;
+    let wordGroups = StatsTableHandler.sortNamedWordGroups(comparator);
 
 
     let columnCount = Math.floor( get('statsTable.container').size[0] / Grabber.config.TABLE_COLUMN_WIDTH);
@@ -99,6 +98,7 @@ class Grabber {
       tableTextClass: Grabber.config.TABLE_TEXT_CLASS,
       clickFunction:  function (nameWordGroup) {
         HighlightHandler.highlightNameWordGroup(nameWordGroup);
+        TranscriptHandler.scrollToGroup(nameWordGroup, Grabber.config.TABLE_SCROLL_OFFSET);
       }
     }));
 
@@ -113,7 +113,7 @@ class Grabber {
       radioType: Grabber.config.SORT_SELECT_RADIO_TYPE,
       options: {
         texts: Grabber.config.SORT_SELECT_OPTION_TEXTS, 
-        values: ['byFrequency', 'byLength', 'alphabetically']
+        values: ['byFrequency', 'byLength', 'alphabetically', 'byOccurrence']
       },
       onConfirm: function (comparator) {
         Grabber.setStatsTable(comparator);

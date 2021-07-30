@@ -2,6 +2,7 @@
   --text-color: 75, 75, 75;
   --default-font-size: 1.5rem;
   --increased-font-size: 1.75rem;
+  --decreased-font-size: 1rem;
 
   --color-dark: 0, 0, 0;
   --color-medium: .2, .2, .2;
@@ -47,6 +48,13 @@
   transition-timing-function: ease;
   transition-property: color, font-size;
   font-size: var(--increased-font-size);
+}
+.lul-background-text, .lul-background-text-hover:hover {
+  color: rgb(var(--text-color));
+  transition-duration: .3s;
+  transition-timing-function: ease;
+  transition-property: color, font-size;
+  font-size: var(--decreased-font-size);
 }
 
 .lul-dark, .lul-medium, .lul-light {

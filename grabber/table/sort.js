@@ -10,13 +10,18 @@ const COMPATATORS = {
   },
   alphabetically: function(nameWordGroupA, nameWordGroupB) {
     return nameWordGroupA.name.localeCompare(nameWordGroupB.name);
+  },
+  byOccurrence: function(nameWordGroupA, nameWordGroupB) {
+    return 0;
   }
 };
 
 export class NameSorter extends NameAnalyzer {
   
   static sortNamedWordGroups(comparator) {
-    NameAnalyzer.nameWordGroups.sort(COMPATATORS[comparator]);
+    let sortedArray = [...NameSorter.nameWordGroups];
+    sortedArray.sort(COMPATATORS[comparator]);
+    return sortedArray;
   }
 
 }
