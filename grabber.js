@@ -299,6 +299,88 @@ class InterfaceHandler {
   }
 }
 
+class TranscriptSpanHandler {
+  static createSpan(wordInstance) {
+    let span = gen('span', TranscriptSpanHandler.config.defaultSpanClass);
+    span.innerHTML = wordInstance.text + ' ';
+    wordInstance.span = span;
+
+    add(TranscriptSpanHandler.config.transcriptDummy, span);
+  }
+
+  static highlightSpan(wordInstance) {
+    let span = wordInstance.span;
+    span.className = TranscriptSpanHandler.config.highlightSpanClass;
+  }
+
+  static unHighlightSpan(wordInstance) {
+    let span = wordInstance.span;
+    span.className = TranscriptSpanHandler.config.defaultSpanClass;
+  }
+}
+
+class HighlightHandler {
+
+  static highlightTimeWordGroup(timeWordGroup) {
+    let oldTimeSet = HighlightHandler.timeSet;
+    let nameSet = HighlightHandler.nameSet;
+    let newTimeSet = new Set(timeWordGroup.wordInstances);
+
+    HighlightHandler.highlightGenericSet({
+      newSet: newTimeSet,
+      oldSet: oldTimeSet,
+      persistingSet: nameSet
+    });
+
+    HighlightHandler.timeSet = newTimeSet;
+  }
+
+  static highlightNameWordGroup(nameWordGroup) {
+    let oldNameSet = HighlightHandler.nameSet;
+    let timeSet = HighlightHandler.timeSet;
+    let newNameSet = new Set(nameWordGroup.wordInstances);
+
+    HighlightHandler.highlightGenericSet({
+      newSet: newNameSet,
+      oldSet: oldNameSet,
+      persistingSet: timeSet
+    });
+
+    HighlightHandler.nameSet = newNameSet;
+  }
+
+  static highlightGenericSet({newSet, oldSet, persistingSet}) {
+    let oldUnionSet = union(oldSet, persistingSet);
+    let newUnionSet = union(newSet, persistingSet);
+
+    let addedWordInstances = difference(newSet, oldUnionSet);
+    let removedWordInstances = difference(oldSet, newUnionSet);
+
+    for(let addedWordInstance of addedWordInstances)
+      TranscriptSpanHandler.highlightSpan(addedWordInstance);
+
+    for(let removedWordInstance of removedWordInstances)
+      TranscriptSpanHandler.unHighlightSpan(removedWordInstance);
+  }
+}
+
+HighlightHandler.timeSet = new Set();
+HighlightHandler.nameSet = new Set();
+
+function union(setA, setB) {
+  let unionSet = new Set(setA);
+  for(let item of setB)
+    unionSet.add(item);
+  return unionSet;
+}
+
+function difference(setA, setB) {
+  let differenceSet = new Set(setA);
+  for(let item of setB)
+    differenceSet.delete(item);
+  return differenceSet;
+}
+
 class WordAnalyzer {
 
   static splitIntoRawWords(text) {
@@ -385,92 +467,52 @@ class TranscriptAnalyzer {
 
 }
 
-class TranscriptSpanHandler {
-  static createSpan(wordInstance) {
-    let span = gen('span', TranscriptSpanHandler.config.defaultSpanClass);
-    span.innerHTML = wordInstance.text + ' ';
-    wordInstance.span = span;
+class TranscriptScrollHandler extends TranscriptAnalyzer {
 
-    add(TranscriptSpanHandler.config.transcriptDummy, span);
+  static scrollToInstance(wordInstance, scrollOffset) {
+    let scrollPosition = wordInstance.span.offsetTop;
+    let scrollParent = get(TranscriptScrollHandler.config.transcriptDummy);
+    scrollParent.scrollTop = scrollPosition - scrollOffset;
   }
 
-  static highlightSpan(wordInstance) {
-    let span = wordInstance.span;
-    span.className = TranscriptSpanHandler.config.highlightSpanClass;
-  }
+  static scrollToGroup(wordGroup, scrollOffset) {
+    let scrollNumber;
+    function position(indexNumber) {
+      if(indexNumber >= wordGroup.wordInstances.length) return 1000000;
+      let scrollPosition = wordGroup.wordInstances[indexNumber].span.offsetTop;
+      if(scrollPosition < scrollOffset)
+        scrollPosition = scrollOffset;
+      return scrollPosition;
+    }
 
-  static unHighlightSpan(wordInstance) {
-    let span = wordInstance.span;
-    span.className = TranscriptSpanHandler.config.defaultSpanClass;
-  }
-}
+    if(wordGroup != get('scrollGroup')) {
+      store(wordGroup, 'scrollGroup');
+      store(0, 'scrollNumber');
+      scrollNumber = 0;
+    } else {
+      scrollNumber = get('scrollNumber');
 
-class HighlightHandler {
+      let currentPosition = position(scrollNumber);
+      while(position(scrollNumber + 1) - currentPosition < scrollOffset) {
+        scrollNumber++;
+      }
 
-  static highlightTimeWordGroup(timeWordGroup) {
-    let oldTimeSet = HighlightHandler.timeSet;
-    let nameSet = HighlightHandler.nameSet;
-    let newTimeSet = new Set(timeWordGroup.wordInstances);
+      scrollNumber++;
+      if(scrollNumber >= wordGroup.wordInstances.length)
+        scrollNumber = 0;
 
-    HighlightHandler.highlightGenericSet({
-      newSet: newTimeSet,
-      oldSet: oldTimeSet,
-      persistingSet: nameSet
-    });
+      store(scrollNumber, 'scrollNumber');
+    }
 
-    HighlightHandler.timeSet = newTimeSet;
-  }
-
-  static highlightNameWordGroup(nameWordGroup) {
-    let oldNameSet = HighlightHandler.nameSet;
-    let timeSet = HighlightHandler.timeSet;
-    let newNameSet = new Set(nameWordGroup.wordInstances);
-
-    HighlightHandler.highlightGenericSet({
-      newSet: newNameSet,
-      oldSet: oldNameSet,
-      persistingSet: timeSet
-    });
-
-    HighlightHandler.nameSet = newNameSet;
-  }
-
-  static highlightGenericSet({newSet, oldSet, persistingSet}) {
-    let oldUnionSet = union(oldSet, persistingSet);
-    let newUnionSet = union(newSet, persistingSet);
-
-    let addedWordInstances = difference(newSet, oldUnionSet);
-    let removedWordInstances = difference(oldSet, newUnionSet);
-
-    for(let addedWordInstance of addedWordInstances)
-      TranscriptSpanHandler.highlightSpan(addedWordInstance);
-
-    for(let removedWordInstance of removedWordInstances)
-      TranscriptSpanHandler.unHighlightSpan(removedWordInstance);
+    TranscriptScrollHandler.scrollToInstance(wordGroup.wordInstances[scrollNumber], scrollOffset);
   }
 }
 
-HighlightHandler.timeSet = new Set();
-HighlightHandler.nameSet = new Set();
-
-function union(setA, setB) {
-  let unionSet = new Set(setA);
-  for(let item of setB)
-    unionSet.add(item);
-  return unionSet;
-}
-
-function difference(setA, setB) {
-  let differenceSet = new Set(setA);
-  for(let item of setB)
-    differenceSet.delete(item);
-  return differenceSet;
-}
-
-class TranscriptHandler extends TranscriptAnalyzer {
+class TranscriptHandler extends TranscriptScrollHandler {
 
   static setConfig(config) {
     TranscriptHandler.config = config;
+    TranscriptScrollHandler.config = config;
     TranscriptSpanHandler.config = config;
     get(config.transcriptDummy).style.scrollBehavior = 'smooth';
   }
@@ -510,44 +552,6 @@ class TranscriptHandler extends TranscriptAnalyzer {
         return timeWordGroup;
       }
     }
-  }
-
-  static scrollToInstance(wordInstance, scrollOffset) {
-    let scrollPosition = wordInstance.span.offsetTop;
-    let scrollParent = get(TranscriptHandler.config.transcriptDummy);
-    scrollParent.scrollTop = scrollPosition - scrollOffset;
-  }
-
-  static scrollToGroup(wordGroup, scrollOffset) {
-    let scrollNumber;
-    function position(indexNumber) {
-      if(indexNumber >= wordGroup.wordInstances.length) return 1000000;
-      let scrollPosition = wordGroup.wordInstances[indexNumber].span.offsetTop;
-      if(scrollPosition < scrollOffset)
-        scrollPosition = scrollOffset;
-      return scrollPosition;
-    }
-
-    if(wordGroup != get('scrollGroup')) {
-      store(wordGroup, 'scrollGroup');
-      store(0, 'scrollNumber');
-      scrollNumber = 0;
-    } else {
-      scrollNumber = get('scrollNumber');
-
-      let currentPosition = position(scrollNumber);
-      while(position(scrollNumber + 1) - currentPosition < scrollOffset) {
-        scrollNumber++;
-      }
-
-      scrollNumber++;
-      if(scrollNumber >= wordGroup.wordInstances.length)
-        scrollNumber = 0;
-
-      store(scrollNumber, 'scrollNumber');
-    }
-
-    TranscriptHandler.scrollToInstance(wordGroup.wordInstances[scrollNumber], scrollOffset);
   }
 }
 

@@ -108,7 +108,8 @@ TODO	grabber/grabber-offline.md	/^# TODO$/;"	c
 TRANSCRIPT_SCROLL_OFFSET	grabber/default-config.js	/^  TRANSCRIPT_SCROLL_OFFSET: 70,$/;"	p	class:defaultConfig
 TimeWordGroup	grabber/word/time-word-group.js	/^export class TimeWordGroup extends WordGroup {$/;"	c
 TranscriptAnalyzer	grabber/transcript/transcript-analyzer.js	/^export class TranscriptAnalyzer {$/;"	c
-TranscriptHandler	grabber/transcript/transcript.js	/^export class TranscriptHandler extends TranscriptAnalyzer {$/;"	c
+TranscriptHandler	grabber/transcript/transcript.js	/^export class TranscriptHandler extends TranscriptScrollHandler {$/;"	c
+TranscriptScrollHandler	grabber/transcript/transcript-scroll.js	/^export class TranscriptScrollHandler extends TranscriptAnalyzer {$/;"	c
 TranscriptSpanHandler	grabber/transcript/transcript-span.js	/^export class TranscriptSpanHandler {$/;"	c
 TreeNode	consys/tree.js	/^export class TreeNode {$/;"	c
 VIDEOLANGUAGE	grabber/youtube/transcript.js	/^const VIDEOLANGUAGE = 'https:\/\/video.google.com\/timedtext?type=list&v=';$/;"	C
@@ -232,7 +233,7 @@ nameSet	grabber/transcript/highlight.js	/^HighlightHandler.nameSet = new Set();$
 ofName	consys/orientation.js	/^  static ofName(name) {$/;"	m	class:Orientation
 onload	grabber/youtube/transcript.js	/^    request.onload = function () {$/;"	f	function:request
 overlapTest	lul/overflow.js	/^function overlapTest (overflow1, overflow2) {$/;"	f
-position	grabber/transcript/transcript.js	/^    function position(indexNumber) {$/;"	f	function:TranscriptHandler.scrollToGroup
+position	grabber/transcript/transcript-scroll.js	/^    function position(indexNumber) {$/;"	f	function:TranscriptScrollHandler.scrollToGroup
 presets	consys/.babelrc.json	/^  "presets": [$/;"	a
 prettify	grabber/word/word-analyzer.js	/^  static prettify(word) {$/;"	m	class:WordAnalyzer
 printTree	consys/container.js	/^  static printTree() {$/;"	m	class:Container
@@ -248,8 +249,8 @@ root	base/css-control.js	/^var root = document.querySelector(':root');$/;"	v
 row	lul/collapsible.js	/^  row: 'width',$/;"	p	class:directionSizeAttributeMap
 safari	consys/.babelrc.json	/^          "safari": "11.1"$/;"	s	object:presets.0.1.targets
 scrollSizeAttributeMap	lul/collapsible.js	/^var scrollSizeAttributeMap = {$/;"	c
-scrollToGroup	grabber/transcript/transcript.js	/^  static scrollToGroup(wordGroup, scrollOffset) {$/;"	m	class:TranscriptHandler
-scrollToInstance	grabber/transcript/transcript.js	/^  static scrollToInstance(wordInstance, scrollOffset) {$/;"	m	class:TranscriptHandler
+scrollToGroup	grabber/transcript/transcript-scroll.js	/^  static scrollToGroup(wordGroup, scrollOffset) {$/;"	m	class:TranscriptScrollHandler
+scrollToInstance	grabber/transcript/transcript-scroll.js	/^  static scrollToInstance(wordInstance, scrollOffset) {$/;"	m	class:TranscriptScrollHandler
 setClass	consys/container.js	/^  setClass(newClass) {$/;"	m	class:Container
 setConfig	grabber/transcript/transcript.js	/^  static setConfig(config) {$/;"	m	class:TranscriptHandler
 setCssProperty	base/css-control.js	/^export function setCssProperty(propertyName, propertyValue) {$/;"	f

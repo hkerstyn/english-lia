@@ -1,16 +1,17 @@
-import {TranscriptAnalyzer}
-  from './transcript-analyzer.js';
 import {TranscriptSpanHandler}
   from './transcript-span.js';
 import {HighlightHandler}
   from './highlight.js';
 import {YoutubeHandler}
   from './../youtube/youtube.js';
+import {TranscriptScrollHandler}
+  from './transcript-scroll.js';
 
-export class TranscriptHandler extends TranscriptAnalyzer {
+export class TranscriptHandler extends TranscriptScrollHandler {
 
   static setConfig(config) {
     TranscriptHandler.config = config;
+    TranscriptScrollHandler.config = config;
     TranscriptSpanHandler.config = config;
     get(config.transcriptDummy).style.scrollBehavior = 'smooth';
   }
@@ -50,44 +51,6 @@ export class TranscriptHandler extends TranscriptAnalyzer {
         return timeWordGroup;
       }
     }
-  }
-
-  static scrollToInstance(wordInstance, scrollOffset) {
-    let scrollPosition = wordInstance.span.offsetTop;
-    let scrollParent = get(TranscriptHandler.config.transcriptDummy);
-    scrollParent.scrollTop = scrollPosition - scrollOffset;
-  }
-
-  static scrollToGroup(wordGroup, scrollOffset) {
-    let scrollNumber;
-    function position(indexNumber) {
-      if(indexNumber >= wordGroup.wordInstances.length) return 1000000;
-      let scrollPosition = wordGroup.wordInstances[indexNumber].span.offsetTop;
-      if(scrollPosition < scrollOffset)
-        scrollPosition = scrollOffset;
-      return scrollPosition;
-    }
-
-    if(wordGroup != get('scrollGroup')) {
-      store(wordGroup, 'scrollGroup');
-      store(0, 'scrollNumber');
-      scrollNumber = 0;
-    } else {
-      scrollNumber = get('scrollNumber');
-
-      let currentPosition = position(scrollNumber);
-      while(position(scrollNumber + 1) - currentPosition < scrollOffset) {
-        scrollNumber++;
-      }
-
-      scrollNumber++;
-      if(scrollNumber >= wordGroup.wordInstances.length)
-        scrollNumber = 0;
-
-      store(scrollNumber, 'scrollNumber');
-    }
-
-    TranscriptHandler.scrollToInstance(wordGroup.wordInstances[scrollNumber], scrollOffset);
   }
 }
 
