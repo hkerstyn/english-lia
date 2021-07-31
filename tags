@@ -71,6 +71,7 @@ ContainerHandler	grabber/container/container.js	/^export class ContainerHandler 
 ContainerLayoutHandler	grabber/container/layout.js	/^export class ContainerLayoutHandler {$/;"	c
 DEFAULT_ID	grabber/default-config.js	/^  DEFAULT_ID: '8TUK-M41hGI',$/;"	p	class:defaultConfig
 DEFAULT_SPAN_CLASS	grabber/default-config.js	/^  DEFAULT_SPAN_CLASS: 'lul-text',$/;"	p	class:defaultConfig
+Get Language Code	grabber/other.md	/^# Get Language Code$/;"	c
 Grabber	grabber/main.js	/^class Grabber {$/;"	c
 HIGHLIGHT_SPAN_CLASS	grabber/default-config.js	/^  HIGHLIGHT_SPAN_CLASS: 'lul-highlight-text',$/;"	p	class:defaultConfig
 HIGHLIGHT_TEXT_INTERVAL	grabber/default-config.js	/^  HIGHLIGHT_TEXT_INTERVAL: 500,$/;"	p	class:defaultConfig
@@ -114,6 +115,8 @@ TranscriptSpanHandler	grabber/transcript/transcript-span.js	/^export class Trans
 TreeNode	consys/tree.js	/^export class TreeNode {$/;"	c
 VIDEOLANGUAGE	grabber/youtube/transcript.js	/^const VIDEOLANGUAGE = 'https:\/\/video.google.com\/timedtext?type=list&v=';$/;"	C
 VIDEOLINK	grabber/youtube/transcript.js	/^const VIDEOLINK = 'https:\/\/video.google.com\/timedtext?v=';$/;"	C
+With arguments	grabber/other.md	/^# With arguments$/;"	c
+Without arguments	grabber/other.md	/^# Without arguments$/;"	c
 WordAnalyzer	grabber/word/word-analyzer.js	/^export class WordAnalyzer {$/;"	c
 WordGroup	grabber/word/word-group.js	/^export class WordGroup {$/;"	c
 WordInstance	grabber/word/word-instance.js	/^export class WordInstance {$/;"	c
@@ -271,7 +274,7 @@ sortNamedWordGroups	grabber/table/sort.js	/^  static sortNamedWordGroups(compara
 split	consys/container.js	/^  split(direction) {$/;"	m	class:Container
 split	consys/orientable.js	/^  split(direction, splitParent) {$/;"	m	class:Orientable
 splitIntoRawWords	grabber/word/word-analyzer.js	/^  static splitIntoRawWords(text) {$/;"	m	class:WordAnalyzer
-start	grabber/main.js	/^  static async start() {$/;"	m	class:Grabber
+start	grabber/main.js	/^  static async start(arg) {$/;"	m	class:Grabber
 store	base/get-store.js	/^export function store(element, key) {$/;"	f
 targets	consys/.babelrc.json	/^        "targets": {$/;"	o	object:presets.0.1
 timeSet	grabber/transcript/highlight.js	/^HighlightHandler.timeSet = new Set();$/;"	v	class:HighlightHandler
@@ -285,4 +288,5 @@ updateSizes	consys/container.js	/^  static updateSizes() {$/;"	m	class:Container
 watch	base/watch.js	/^export function watch(watcher) {$/;"	f
 width	lul/collapsible.js	/^  width: 'scrollWidth',$/;"	p	class:scrollSizeAttributeMap
 width	lul/embed.js	/^      width: 'lul-collapsible-width',$/;"	p	class:LulConfig.constructor.COLLAPSIBLE_CLASS_MAP
+without arguments	grabber/grabber-offline.md	/^# without arguments$/;"	c
 youngestPredecessorGenerator	consys/tree.js	/^  *youngestPredecessorGenerator() {$/;"	g	class:TreeNode

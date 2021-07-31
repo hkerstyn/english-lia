@@ -5,11 +5,11 @@ const liaColorText = '--color-text';
 const mediumTransparency = 0.2;
 
 
-function startGrabber() {
+async function startGrabber(arg) {
   let lulConfig = new LulConfig();
   lulConfig.apply();
 
-  Grabber.start();
+  await Grabber.start(arg);
  
   //adjust the container layout
   watch({

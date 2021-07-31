@@ -12,11 +12,12 @@ script: http://localhost:3000/home/english-lia/lul.js
 link: http://localhost:3000/home/english-lia/lul.css
 link: http://localhost:3000/home/english-lia/consys.css
 
+@gr: @grabber({})
 @grabber
 Please select a <a href="https://www.youtube.com/results?search_query=science&sp=EgIoAQ%253D%253D" target="_blank">youtube video with captions!</a> 
 
 <script input="hidden" defer>
-  startGrabber();
+  startGrabber(@0);
 </script>
 
 <div id='grabber-frame'></div>
@@ -26,7 +27,12 @@ Please select a <a href="https://www.youtube.com/results?search_query=science&sp
 
 # Youtube Script Grabber 
 
-@grabber
+```json @grabber
+{
+  "videoId": "8TUK-M41hGI",
+  "languageCode": "en"
+}
+```
 
 # TODO
 

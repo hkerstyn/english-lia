@@ -12,11 +12,12 @@ script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/lul.js
 link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/lul.css
 link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/consys.css
 
+@gr: @grabber({})
 @grabber
 Please select a <a href="https://www.youtube.com/results?search_query=science&sp=EgIoAQ%253D%253D" target="_blank">youtube video with captions!</a> 
 
 <script input="hidden" defer>
-  startGrabber();
+  startGrabber(@0);
 </script>
 
 <div id='grabber-frame'></div>
@@ -25,4 +26,4 @@ Please select a <a href="https://www.youtube.com/results?search_query=science&sp
 
 # Youtube Script Grabber 
 
-@grabber
+@gr

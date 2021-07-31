@@ -17,13 +17,18 @@ import {HighlightHandler}
 
 class Grabber {
   
-  static async start() {
-    YoutubeHandler.loadYTAPI();
+  static async start(arg) {
+    Grabber.arg = arg;
+    await YoutubeHandler.loadYTAPI();
 
     get('grabber-frame').style.display = 'inline-flex';
     ContainerHandler.initializeContainers();
     
-    Grabber.setIdEntry();
+
+    if(Grabber.arg.videoId == undefined)
+      Grabber.setIdEntry();
+    else
+      Grabber.setVideo(arg.videoId);
   }
 
   static setIdEntry() {
@@ -45,7 +50,10 @@ class Grabber {
     playerSize = [playerSize[0], playerSize[1] - 7];
     await YoutubeHandler.setPlayerVideo('playerDummy', videoId, ...playerSize);
 
-    Grabber.setLanguageSelection(videoId);
+    if(Grabber.arg.languageCode == undefined)
+      Grabber.setLanguageSelection(videoId);
+    else
+      Grabber.setLanguage(videoId, Grabber.arg.languageCode);
   }
 
   static async setLanguageSelection(videoId) {
@@ -60,6 +68,8 @@ class Grabber {
   }
 
   static async setLanguage(videoId, languageCode) {
+    if(Grabber.arg.tellLanguageCode != undefined)
+      alert('Selected languageCode: ' + languageCode);
     let transcript = await YoutubeHandler.getTranscript(videoId, languageCode);
     Grabber.setTranscript(transcript);
     StatsTableHandler.analyzeNameGroups([...TranscriptHandler.allWordInstances()]);
