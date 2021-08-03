@@ -75,16 +75,6 @@ export class Container extends Sizeable {
     this.addNextTo(orientationName, commonAncestor);
   }
 
-  /**
-   * Use this to change the size of a container (don't modify the **size** property directly).
-   * @param {Array} size - two numbers describing minimum **width** and **height** 
-   */
-
-  setSize(size) {
-    super.setSize(size);
-    this.element.style.width = size[0] + 'px';
-    this.element.style.height = size[1] + 'px';
-  }
 
   /**
    * this function allows you to change the look of a container,  
@@ -164,6 +154,13 @@ export class Container extends Sizeable {
 
     this.internalElement = table;
     return table;
+  }
+
+  //set size (internal)
+  setSize(size) {
+    super.setSize(size);
+    this.element.style.width = size[0] - 1 + 'px';
+    this.element.style.height = size[1] - 1 + 'px';
   }
 
 

@@ -1,6 +1,8 @@
-export function genDummy(dummyName) {
+export function genDummy(dummyName, className) {
   let dummy = gen('span');
   dummy.id = dummyName;
+  if(className != undefined) 
+    dummy.className = className;
   store(dummy, dummyName);
   return dummy;
 }

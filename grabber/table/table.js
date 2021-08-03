@@ -1,16 +1,22 @@
 import {NameSorter}
   from './sort.js';
+import {NameAnalyzer}
+  from './name-analyzer.js';
 
-export class StatsTableHandler extends NameSorter {
+export class StatsTableHandler extends NameAnalyzer {
 
   static genStatsTable({
     tableClass, tableRowClass, tableCellClass, tableTextClass,
-    rowCount, columnCount,
-    clickFunction, wordGroups}) {
+    columnWidth, clickFunction}) {
+
+    let wordGroups = StatsTableHandler.getWordGroups();
+    let wordGroupIndex = 0;
+
+    let columnCount = Math.floor( get('statsTable.container').size[0] / columnWidth);
+    if(columnCount == 0) throw new Error('columnCount is zero');
+    let rowCount = Math.ceil(wordGroups.length / columnCount);
 
     let table = gen('table', tableClass);
-
-    let wordGroupIndex = 0;
 
     for(let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
       let row = gen('tr', tableRowClass);
@@ -44,4 +50,19 @@ export class StatsTableHandler extends NameSorter {
     return table;
   }
 
+  static getWordGroups() {
+    let wordGroups = StatsTableHandler.nameWordGroups;
+
+    if(StatsTableHandler.excludeBool == true) 
+      wordGroups = NameSorter.excludeSmallWords(wordGroups);
+
+    if(StatsTableHandler.comparator != undefined) 
+      wordGroups = NameSorter.sortNamedWordGroups(wordGroups, StatsTableHandler.comparator);
+
+    if(StatsTableHandler.searchTerm != undefined
+    && StatsTableHandler.searchTerm != '') 
+      wordGroups = NameSorter.searchForTerm(wordGroups, searchTerm);
+
+    return wordGroups;
+  }
 }

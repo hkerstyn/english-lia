@@ -54,7 +54,7 @@ export class LulConfig {
   
     //it's best to leave these two as they are
     this.DEFAULT_OVERFLOW_CLASS = 'lul-overflow';
-    this.DEFAULT_OVERFLOW_PARENT_CLASS = 'lul-overflow-parent lul-margin';
+    this.DEFAULT_OVERFLOW_PARENT_CLASS = 'lul-overflow-parent';
 
     /** The css class [buttons]{@link LulFunctions.genButton} have by default.
      * @default
@@ -65,32 +65,36 @@ export class LulConfig {
      * Each describes one type of input element  
      * and specifies the following:
      * * **className**: the css-classname to apply to the input-element
-     * * **minWidth**: the minimum width in px. Can be overriden when  
+     * * **width**: the desired width in px. Can be overriden when  
      * creating a [range]{LulFunctions.genRange} or a [text enter area]{LulFunctions.genEnter}
      * * **inputType**: defines the **type** attribute of the html input-element
-     *
+     * * **widthProperty**: defines the css property for width
      * *see source code for default value*
      */
     this.INPUT_ELEMENTS = {
       radio: {
         className: 'lia-radio',
-        minWidth: 0,
-        inputType: 'radio'
+        width: 0,
+        inputType: 'radio',
+        widthProperty: 'minWidth'
       },
       check: {
         className: 'lia-checkbox',
-        minWidth: 0,
-        inputType: 'checkbox'
+        width: 0,
+        inputType: 'checkbox',
+        widthProperty: 'minWidth'
       },
       range: {
         className: 'lia-range',
-        minWidth: 225,
-        inputType: 'range'
+        width: 225,
+        inputType: 'range',
+        widthProperty: 'width'
       },
       enter: {
         className: 'lia-input',
-        minWidth: 225,
-        inputType: 'text'
+        width: 225,
+        inputType: 'text',
+        widthProperty: 'width'
       }
     }; 
 

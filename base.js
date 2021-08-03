@@ -5,6 +5,7 @@
  *
  * @borrows gen
  * @borrows genText
+ * @borrows genHtml
  * @borrows uid
  * @borrows truetypeof
  * @hideconstructor
@@ -43,6 +44,16 @@ function genText(content, className) {
   return text;
 }
 
+/**
+ * turns an html string into a node
+ *
+ * @param {string} html - the html code to parse
+ */
+function genHtml(html) {
+  let span = gen('span');
+  span.innerHTML = html;
+  return span.firstChild;
+}
 
 var idCount = 0;
 
@@ -312,7 +323,7 @@ function watch(watcher) {
 //these functions will now be globally available
 console.log(
   get, store, set, add, make, insert,
-  gen, genText, uid, truetypeof,
+  gen, genText, genHtml, uid, truetypeof,
   getCssProperty, setCssProperty, listingStringToArray, arrayToListingString,
   watch
 );

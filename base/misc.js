@@ -5,6 +5,7 @@
  *
  * @borrows gen
  * @borrows genText
+ * @borrows genHtml
  * @borrows uid
  * @borrows truetypeof
  * @hideconstructor
@@ -43,6 +44,16 @@ export function genText(content, className) {
   return text;
 }
 
+/**
+ * turns an html string into a node
+ *
+ * @param {string} html - the html code to parse
+ */
+export function genHtml(html) {
+  let span = gen('span');
+  span.innerHTML = html;
+  return span.firstChild;
+}
 
 var idCount = 0;
 

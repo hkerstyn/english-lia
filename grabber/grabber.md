@@ -14,7 +14,6 @@ link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/consys.css
 
 @gr: @grabber({})
 @grabber
-Please select a <a href="https://www.youtube.com/results?search_query=science&sp=EgIoAQ%253D%253D" target="_blank">youtube video with captions!</a> 
 
 <script input="hidden" defer>
   startGrabber(@0);

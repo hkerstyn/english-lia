@@ -20,6 +20,12 @@
 .lia-radio {
   margin: 7px 4px 7px 8px;
 }
+.lia-checkbox {
+  margin: 7px 4px 7px 4px;
+}
+.lia-input {
+  margin: 0px 4px 0px 4px;
+}
 
 .lul-padding {
   padding: var(--default-padding);

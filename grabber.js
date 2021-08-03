@@ -1,4 +1,7 @@
 const defaultConfig = {
+  QUERY_ENTER_TEXT: 'Enter Search Term',
+  QUERY_ENTER_ENTRY_DIRECTION: 'row',
+
   ID_ENTER_TEXT: 'Enter Link',
   ID_ENTER_ENTRY_DIRECTION: 'row',
 
@@ -13,6 +16,12 @@ const defaultConfig = {
   SORT_SELECT_OPTION_TEXTS: ['By frequency', 'By length', 'Alphabetically', 'By Appearance'],
   SORT_SELECT_ENTRY_DIRECTION: 'column',
   SORT_SELECT_RADIO_TYPE: 'radio',
+
+  SEARCH_TEXT: 'Search for:',
+  SEARCH_WIDTH: 120,
+
+  EXCLUDE_TEXT: 'Exclude small words',
+  EXCLUDE_BOX_CLASS: ' lul-margin',
 
   DEFAULT_SPAN_CLASS: 'lul-text',
   HIGHLIGHT_SPAN_CLASS: 'lul-highlight-text',
@@ -141,9 +150,11 @@ class YoutubeHandler extends YoutubeTranscriptHandler {
   }
 }
 
-function genDummy(dummyName) {
+function genDummy(dummyName, className) {
   let dummy = gen('span');
   dummy.id = dummyName;
+  if(className != undefined) 
+    dummy.className = className;
   store(dummy, dummyName);
   return dummy;
 }
@@ -164,6 +175,9 @@ class ContainerLayoutHandler {
     let playerContainer = get('player.container');
     let transcriptContainer = get('transcript.container');
     let statsTableContainer = get('statsTable.container');
+    let filterContainer = get('filter.container');
+    let pocketContainer = get('pocket.container');
+    let inspectorContainer = get('inspector.container');
 
     playerContainer.moveTo('down', optionsContainer);
 
@@ -176,10 +190,19 @@ class ContainerLayoutHandler {
       if (availableWidth >= 1000) {
         //1000 - inf
         let coupleWidth = (availableWidth - 600) / 2;
-        transcriptContainer.minSize = [coupleWidth, 0];
+
+        inspectorContainer.minSize = [0, 200];
+        inspectorContainer.moveTo('down', playerContainer);
+
+        transcriptContainer.minSize = [coupleWidth, 437.5];
+        pocketContainer.minSize = [0, 200];
+        pocketContainer.moveTo('down', transcriptContainer);
 
         statsTableContainer.moveTo('right', playerContainer, transcriptContainer);
-        statsTableContainer.minSize = [coupleWidth, 0];
+        statsTableContainer.minSize = [coupleWidth, 417.5];
+        filterContainer.minSize = [0, 230];
+        filterContainer.moveTo('up', statsTableContainer);
+
       } else {
         //800 - 1000
         transcriptContainer.minSize = [availableWidth - 600, 0];
@@ -212,16 +235,27 @@ class ContainerHandler extends ContainerLayoutHandler {
     new Container('player');
     new Container('transcript');
     new Container('statsTable');
+    new Container('filter');
+    new Container('pocket');
+    new Container('inspector');
 
     optionsContainer.setRoot('grabber-frame');
-    ContainerLayoutHandler.arrangeContainers(813);
+    ContainerLayoutHandler.arrangeContainers(1200);
     for(let container of Container.all)
       container.setClass('lul-light');
 
     set('options',
-      genDummy('sortSelectDummy'),
-      genDummy('languageSelectDummy'),
-      genDummy('idEnterDummy')
+      genDummy('languageSelectDummy', 'lul-margin'),
+      genDummy('idEnterDummy', 'lul-margin'),
+      genDummy('queryDummy', 'lul-margin')
+    );
+
+    set('filter',
+      genDummy('sortSelectDummy', 'lul-margin'),
+      genHtml('<br>'),
+      genDummy('searchDummy', 'lul-margin'),
+      genHtml('<br>'),
+      genDummy('excludeDummy')
     );
 
     set('player',
@@ -240,22 +274,22 @@ class ContainerHandler extends ContainerLayoutHandler {
 }
 
 class InterfaceHandler {
-  static genIdEntry({text, direction, onConfirm}) {
-    let idEnter = genEnter({
-      name: 'enteredId'
+  static genEnterEntry({text, direction, onConfirm, name}) {
+    let enter = genEnter({
+      name: name
     });
-    let idButton = genButton({
+    let button = genButton({
       text: text,
       onclick: function(){
-        onConfirm(window['enteredId']);
+        onConfirm(window[name]);
       }
     });
-    let idEntry = genEntry({
-      content: [ idEnter ],
-      button: [ idButton ],
+    let entry = genEntry({
+      content: [ enter ],
+      button: [ button ],
       direction: direction
     });
-    return idEntry;
+    return entry;
   }
 
   static genLanguageSelection({text, direction, onConfirm, languageList, radioType}) {
@@ -296,6 +330,36 @@ class InterfaceHandler {
       type: radioType
     });
     return selectedSortRadio;
+  }
+
+  static genSearch({width, text, onConfirm}) {
+    let enter = genEnter({
+      name: 'searchTerm',
+      width: width,
+      oninput: function() {
+        onConfirm(window['searchTerm']);
+      }
+    });
+    let textSpan = genText(text);
+    let box = genBox({});
+    set(box, textSpan, enter);
+    return box;
+  }
+
+  static genExclude({text, boxClass, onConfirm}) {
+    let span = gen('span');
+    let textSpan = genText('Exclude small words');
+    let check = genCheck({
+      name: 'excludeBool',
+      oninput: function() {
+        onConfirm(window['excludeBool']);
+      }
+    });
+    let box = genBox({});
+    set(span, check, textSpan);
+    set(box, span);
+    box.className += ' lul-margin';
+    return box;
   }
 }
 
@@ -403,7 +467,9 @@ class WordAnalyzer {
   static prettify(word) {
     let prettyWord = word.replaceAll(/\d/g, ' ');
     prettyWord = prettyWord.replaceAll(/'/g, '0');
-    prettyWord = prettyWord.replaceAll(/\W/g, ' ');
+    prettyWord = prettyWord.replaceAll(/\p{P}/gu, ' ');
+    prettyWord = prettyWord.replaceAll(/\p{S}/gu, ' ');
+    prettyWord = prettyWord.replaceAll(/\p{Z}/gu, ' ');
     prettyWord = prettyWord.replaceAll(/0+/g, "'");
     
     return prettyWord.trim();
@@ -559,6 +625,60 @@ class TranscriptHandler extends TranscriptScrollHandler {
   }
 }
 
+const COMPATATORS = {
+  byFrequency: function(nameWordGroupA, nameWordGroupB) {
+    return nameWordGroupB.wordInstances.length - nameWordGroupA.wordInstances.length;
+  },
+  byLength: function(nameWordGroupA, nameWordGroupB) {
+    return nameWordGroupB.name.length - nameWordGroupA.name.length;
+  },
+  alphabetically: function(nameWordGroupA, nameWordGroupB) {
+    return nameWordGroupA.name.localeCompare(nameWordGroupB.name);
+  },
+  byOccurrence: function(nameWordGroupA, nameWordGroupB) {
+    return 0;
+  }
+};
+
+const smallWordLength = 3;
+
+class NameSorter {
+  
+  static sortNamedWordGroups(wordGroups, comparator) {
+    let sortedArray = [...wordGroups];
+    sortedArray.sort(COMPATATORS[comparator]);
+    return sortedArray;
+  }
+
+  static excludeSmallWords(wordGroups) {
+    let longWordGroups = [];
+    for(let wordGroup of wordGroups) {
+      if(wordGroup.name.length > smallWordLength) 
+        longWordGroups.push(wordGroup);
+    }
+    return longWordGroups;
+  }
+
+  static searchForTerm(wordGroups, searchTerm) {
+    let foundWordGroups = [];
+    let unfoundWordGroups = [];
+    
+    for(let wordGroup of wordGroups) {
+      if(wordGroup.name.toLowerCase().startsWith(searchTerm.toLowerCase())) 
+        foundWordGroups.push(wordGroup);
+      else
+        unfoundWordGroups.push(wordGroup);
+    }
+
+    for(let wordGroup of unfoundWordGroups) {
+      if(wordGroup.name.toLowerCase().includes(searchTerm.toLowerCase())) 
+        foundWordGroups.push(wordGroup);
+    }
+
+    return foundWordGroups;
+  }
+}
+
 class NameWordGroup extends WordGroup {
   constructor(name) {
     super();
@@ -591,7 +711,7 @@ class NameAnalyzer {
         }
 
         //create new WordGroup
-        if(!matchingWordGroupFound) {
+        if(!matchingWordGroupFound && currentName != '') {
           let newWordGroup = new NameWordGroup(currentName);
           newWordGroup.wordInstances.push(currentWordInstance);
           currentWordInstance.nameWordGroup = newWordGroup;
@@ -605,41 +725,20 @@ class NameAnalyzer {
 
 }
 
-const COMPATATORS = {
-  byFrequency: function(nameWordGroupA, nameWordGroupB) {
-    return nameWordGroupB.wordInstances.length - nameWordGroupA.wordInstances.length;
-  },
-  byLength: function(nameWordGroupA, nameWordGroupB) {
-    return nameWordGroupB.name.length - nameWordGroupA.name.length;
-  },
-  alphabetically: function(nameWordGroupA, nameWordGroupB) {
-    return nameWordGroupA.name.localeCompare(nameWordGroupB.name);
-  },
-  byOccurrence: function(nameWordGroupA, nameWordGroupB) {
-    return 0;
-  }
-};
-
-class NameSorter extends NameAnalyzer {
-  
-  static sortNamedWordGroups(comparator) {
-    let sortedArray = [...NameSorter.nameWordGroups];
-    sortedArray.sort(COMPATATORS[comparator]);
-    return sortedArray;
-  }
-
-}
-
-class StatsTableHandler extends NameSorter {
+class StatsTableHandler extends NameAnalyzer {
 
   static genStatsTable({
     tableClass, tableRowClass, tableCellClass, tableTextClass,
-    rowCount, columnCount,
-    clickFunction, wordGroups}) {
+    columnWidth, clickFunction}) {
+
+    let wordGroups = StatsTableHandler.getWordGroups();
+    let wordGroupIndex = 0;
+
+    let columnCount = Math.floor( get('statsTable.container').size[0] / columnWidth);
+    if(columnCount == 0) throw new Error('columnCount is zero');
+    let rowCount = Math.ceil(wordGroups.length / columnCount);
 
     let table = gen('table', tableClass);
-
-    let wordGroupIndex = 0;
 
     for(let rowIndex = 0; rowIndex < rowCount; rowIndex++) {
       let row = gen('tr', tableRowClass);
@@ -673,6 +772,21 @@ class StatsTableHandler extends NameSorter {
     return table;
   }
 
+  static getWordGroups() {
+    let wordGroups = StatsTableHandler.nameWordGroups;
+
+    if(StatsTableHandler.excludeBool == true) 
+      wordGroups = NameSorter.excludeSmallWords(wordGroups);
+
+    if(StatsTableHandler.comparator != undefined) 
+      wordGroups = NameSorter.sortNamedWordGroups(wordGroups, StatsTableHandler.comparator);
+
+    if(StatsTableHandler.searchTerm != undefined
+    && StatsTableHandler.searchTerm != '') 
+      wordGroups = NameSorter.searchForTerm(wordGroups, searchTerm);
+
+    return wordGroups;
+  }
 }
 
 class Grabber {
@@ -685,17 +799,27 @@ class Grabber {
     ContainerHandler.initializeContainers();
     
 
-    if(Grabber.arg.videoId == undefined)
-      Grabber.setIdEntry();
+    if(Grabber.arg.videoId == undefined) {
+      Grabber.setVideoSelection();
+    }
     else
       Grabber.setVideo(arg.videoId);
   }
 
-  static setIdEntry() {
-    set('idEnterDummy', InterfaceHandler.genIdEntry({
+  static setVideoSelection() {
+    set('idEnterDummy', InterfaceHandler.genEnterEntry({
+      name: 'enteredId',
       text: Grabber.config.ID_ENTER_TEXT,
       direction: Grabber.config.ID_ENTER_ENTRY_DIRECTION,
       onConfirm: Grabber.setVideo
+    }));
+    set('queryDummy', InterfaceHandler.genEnterEntry({
+      name: 'enteredQuery',
+      text: Grabber.config.QUERY_ENTER_TEXT,
+      direction: Grabber.config.QUERY_ENTER_ENTRY_DIRECTION,
+      onConfirm: function(enteredQuery) {
+        window.open('https://www.youtube.com/results?search_query='+enteredQuery+'&sp=EgIoAQ%253D%253D', '_blank');
+      }
     }));
   }
 
@@ -716,6 +840,7 @@ class Grabber {
       Grabber.setLanguage(videoId, Grabber.arg.languageCode);
   }
 
+  
   static async setLanguageSelection(videoId) {
     let languageList = await YoutubeHandler.getLanguageList(videoId);
     set('languageSelectDummy', InterfaceHandler.genLanguageSelection({
@@ -726,7 +851,7 @@ class Grabber {
       onConfirm: function(languageCode) {Grabber.setLanguage(videoId, languageCode);}
     }));
   }
-
+  
   static async setLanguage(videoId, languageCode) {
     if(Grabber.arg.tellLanguageCode != undefined)
       alert('Selected languageCode: ' + languageCode);
@@ -734,9 +859,9 @@ class Grabber {
     let transcript = await YoutubeHandler.getTranscript(videoId, languageCode);
     Grabber.setTranscript(transcript);
     StatsTableHandler.analyzeNameGroups([...TranscriptHandler.allWordInstances()]);
-    Grabber.setStatsTable('byFrequency');
-    window['selectedSort'] = 'byFrequency';
-    Grabber.setSortSelection();
+    StatsTableHandler.comparator = 'byFrequency';
+    Grabber.setStatsTable();
+    Grabber.setFilter();
   }
 
   static setTranscript(transcript) {
@@ -755,18 +880,11 @@ class Grabber {
     TranscriptHandler.createTranscript(transcript, Grabber.arg.minTime,  Grabber.arg.maxTime);
   }
 
-  static setStatsTable(comparator) {
-    let wordGroups = StatsTableHandler.sortNamedWordGroups(comparator);
+  static setStatsTable() {
 
-
-    let columnCount = Math.floor( get('statsTable.container').size[0] / Grabber.config.TABLE_COLUMN_WIDTH);
-    if(columnCount == 0) throw new Error('columnCount is zero');
-    let rowCount = Math.ceil(wordGroups.length / columnCount);
 
     set('statsTableDummy', StatsTableHandler.genStatsTable({
-      wordGroups: wordGroups,
-      columnCount: columnCount,
-      rowCount: rowCount,
+      columnWidth: Grabber.config.TABLE_COLUMN_WIDTH,
       tableClass: Grabber.config.TABLE_CLASS,
       tableRowClass: Grabber.config.TABLE_ROW_CLASS,
       tableCellClass: Grabber.config.TABLE_CELL_CLASS,
@@ -779,6 +897,36 @@ class Grabber {
 
   }
 
+  static async setFilter() {
+    Grabber.setSortSelection();
+    Grabber.setSearch();
+    Grabber.setExclude();
+
+  }
+
+  static async setSearch() {
+    set('searchDummy', InterfaceHandler.genSearch({
+      width: Grabber.config.SEARCH_WIDTH,
+      text: Grabber.config.SEARCH_TEXT,
+      onConfirm: function(searchTerm) {
+        StatsTableHandler.searchTerm = searchTerm;
+        Grabber.setStatsTable();
+      }
+    }));
+  }
+
+  static async setExclude() {
+    set('excludeDummy', InterfaceHandler.genExclude({
+      text: Grabber.config.EXCLUDE_TEXT,
+      boxClass: Grabber.config.EXCLUDE_BOX_CLASS, 
+      onConfirm: function(excludeBool) {
+        console.log(excludeBool);
+        StatsTableHandler.excludeBool = excludeBool;
+        Grabber.setStatsTable();
+      }
+    }));
+    
+  }
   static setSortSelection() {
 
     set('sortSelectDummy', InterfaceHandler.genSortSelection({
@@ -791,6 +939,7 @@ class Grabber {
         values: ['byFrequency', 'byLength', 'alphabetically', 'byOccurrence']
       },
       onConfirm: function (comparator) {
+        StatsTableHandler.comparator = comparator;
         Grabber.setStatsTable(comparator);
       }
     }));
@@ -799,7 +948,7 @@ class Grabber {
   static adjustLayout(availableWidth) {
     ContainerHandler.arrangeContainers(availableWidth);
     if(get('statsTableDummy').innerHTML != '')
-      Grabber.setStatsTable(window['selectedSort']);
+      Grabber.setStatsTable();
   }
 }
 

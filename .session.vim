@@ -30,6 +30,7 @@ map ,f :call FoF()
 nmap . <Plug>(RepeatDot)
 map ; <Plug>(easymotion-prefix)
 imap ß /<++>vlllc
+map D ZZ
 noremap H Hzz
 map J <Plug>(easymotion-w)
 map K <Plug>(easymotion-b)
@@ -48,13 +49,13 @@ nmap cp <Plug>SystemCopy
 nmap cS <Plug>CSurround
 nmap cs <Plug>Csurround
 nmap ds <Plug>Dsurround
-map gl <Plug>(easymotion-lineforward)
-map gh <Plug>(easymotion-linebackward)
-map gk <Plug>(easymotion-k)
-map gj <Plug>(easymotion-j)
 vmap gx <Plug>NetrwBrowseXVis
 nmap gx <Plug>NetrwBrowseX
 xmap gS <Plug>VgSurround
+map gk <Plug>(easymotion-k)
+map gj <Plug>(easymotion-j)
+map gh <Plug>(easymotion-linebackward)
+map gl <Plug>(easymotion-lineforward)
 nmap u <Plug>(RepeatUndo)
 nmap ySS <Plug>YSsurround
 nmap ySs <Plug>YSsurround
@@ -117,9 +118,7 @@ map <silent> <Plug>(easymotion-prefix)ge <Plug>(easymotion-ge)
 map <silent> <Plug>(easymotion-prefix)E <Plug>(easymotion-E)
 map <silent> <Plug>(easymotion-prefix)e <Plug>(easymotion-e)
 map <silent> <Plug>(easymotion-prefix)B <Plug>(easymotion-B)
-map <silent> <Plug>(easymotion-prefix)b <Plug>(easymotion-b)
 map <silent> <Plug>(easymotion-prefix)W <Plug>(easymotion-W)
-map <silent> <Plug>(easymotion-prefix)w <Plug>(easymotion-w)
 map <silent> <Plug>(easymotion-prefix)T <Plug>(easymotion-T)
 map <silent> <Plug>(easymotion-prefix)t <Plug>(easymotion-t)
 map <silent> <Plug>(easymotion-prefix)s <Plug>(easymotion-s)
@@ -538,6 +537,10 @@ $argadd ~/english-lia/
 set stal=2
 tabnew
 tabnew
+tabnew
+tabnew
+tabnew
+tabnew
 tabrewind
 argglobal
 enew
@@ -797,7 +800,7 @@ setlocal norelativenumber
 setlocal norightleft
 setlocal rightleftcmd=search
 setlocal noscrollbind
-setlocal scrolloff=0
+setlocal scrolloff=-1
 setlocal shiftwidth=2
 setlocal noshortname
 setlocal showbreak=
@@ -837,21 +840,493 @@ setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 42 - ((32 * winheight(0) + 17) / 35)
+let s:l = 31 - ((16 * winheight(0) + 17) / 35)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 42
-normal! 015|
+keepjumps 31
+normal! 025|
 tabnext
-edit english-lia/grabber/main.js
+edit english-lia/grabber/interface.js
 argglobal
-balt english-lia/grabber/main.js
 let s:cpo_save=&cpo
 set cpo&vim
 nnoremap <buffer> <silent> <Plug>(jsdoc) :call jsdoc#insert()
 iabbr <buffer> imp import {<-->}  from './<++>';
 iabbr <buffer> class class<--> {<++>}
+iabbr <buffer> bb {<-->}<BS>
+iabbr <buffer> afb (<-->) => {<++>}
+iabbr <buffer> afe (<-->) => (<++>);
+iabbr <buffer> afn function(<-->) {<++>}
+iabbr <buffer> fn function<-->(<++>) {<++>}
+iabbr <buffer> switch switch(<-->) {case <++>:<++>break;default:<++>}
+iabbr <buffer> els else {<-->}
+iabbr <buffer> ifs if(<-->) <++>
+iabbr <buffer> if if(<-->) {<++>}
+iabbr <buffer> while while(<-->) {<++>}
+iabbr <buffer> for for(let i = 0; i<<++>; i++) {<++>}
+iabbr <buffer> fos for(let<-->of <++>) <++>
+iabbr <buffer> fo for(let<-->of <++>) {<++>}
+iabbr <buffer> ce console.error(<-->)
+iabbr <buffer> cw console.warn(<-->)
+iabbr <buffer> cl console.log(<-->)
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal cindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=//%s
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=\\(^\\s*(*async\\s\\+function\\|(*function\\)\\|^\\s*\\(\\*\\|static\\|async\\|get\\|set\\|\\i\\+\\.\\)\\|^\\s*\\(\\ze\\i\\+\\)\\(([^)]*).*{$\\|\\s*[:=,]\\)\\|^\\s*\\(export\\s\\+\\|export\\s\\+default\\s\\+\\)*\\(var\\|let\\|const\\|function\\|class\\)\\|\\<as\\>
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'javascript'
+setlocal filetype=javascript
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=GetJavascriptIndent()
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e,0],0)
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,$
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal listchars=
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+setlocal nonumber
+setlocal numberwidth=4
+setlocal omnifunc=javascriptcomplete#CompleteJS
+setlocal path=.,,
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=0
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal showbreak=
+setlocal sidescrolloff=-1
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal spelloptions=
+setlocal statusline=
+setlocal suffixesadd=.js,.jsx,.es,.es6,.cjs,.mjs,.jsm,.vue,.json
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'javascript'
+setlocal syntax=javascript
+endif
+setlocal tabstop=2
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal undofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 80 - ((28 * winheight(0) + 17) / 35)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 80
+normal! 038|
+tabnext
+edit english-lia/lul/input.js
+argglobal
+balt english-lia/lul/input.js
+let s:cpo_save=&cpo
+set cpo&vim
+nnoremap <buffer> <silent> <Plug>(jsdoc) :call jsdoc#insert()
+iabbr <buffer> imp import {<-->}  from './<++>';
+iabbr <buffer> class class<--> {<++>}
+iabbr <buffer> bb {<-->}<BS>
+iabbr <buffer> afb (<-->) => {<++>}
+iabbr <buffer> afe (<-->) => (<++>);
+iabbr <buffer> afn function(<-->) {<++>}
+iabbr <buffer> fn function<-->(<++>) {<++>}
+iabbr <buffer> switch switch(<-->) {case <++>:<++>break;default:<++>}
+iabbr <buffer> els else {<-->}
+iabbr <buffer> ifs if(<-->) <++>
+iabbr <buffer> if if(<-->) {<++>}
+iabbr <buffer> while while(<-->) {<++>}
+iabbr <buffer> for for(let i = 0; i<<++>; i++) {<++>}
+iabbr <buffer> fos for(let<-->of <++>) <++>
+iabbr <buffer> fo for(let<-->of <++>) {<++>}
+iabbr <buffer> ce console.error(<-->)
+iabbr <buffer> cw console.warn(<-->)
+iabbr <buffer> cl console.log(<-->)
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal cindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=//%s
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=\\(^\\s*(*async\\s\\+function\\|(*function\\)\\|^\\s*\\(\\*\\|static\\|async\\|get\\|set\\|\\i\\+\\.\\)\\|^\\s*\\(\\ze\\i\\+\\)\\(([^)]*).*{$\\|\\s*[:=,]\\)\\|^\\s*\\(export\\s\\+\\|export\\s\\+default\\s\\+\\)*\\(var\\|let\\|const\\|function\\|class\\)\\|\\<as\\>
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'javascript'
+setlocal filetype=javascript
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal nofoldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=GetJavascriptIndent()
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e,0],0)
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,$
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal listchars=
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+setlocal nonumber
+setlocal numberwidth=4
+setlocal omnifunc=javascriptcomplete#CompleteJS
+setlocal path=.,,
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=0
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal showbreak=
+setlocal sidescrolloff=-1
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal spelloptions=
+setlocal statusline=
+setlocal suffixesadd=.js,.jsx,.es,.es6,.cjs,.mjs,.jsm,.vue,.json
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'javascript'
+setlocal syntax=javascript
+endif
+setlocal tabstop=2
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal undofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 104 - ((12 * winheight(0) + 17) / 35)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 104
+normal! 09|
+tabnext
+edit english-lia/grabber/table/table.js
+argglobal
+let s:cpo_save=&cpo
+set cpo&vim
+nnoremap <buffer> <silent> <Plug>(jsdoc) :call jsdoc#insert()
+iabbr <buffer> imp import {<-->}  from './<++>';
+iabbr <buffer> class class<--> {<++>}
+iabbr <buffer> bb {<-->}<BS>
+iabbr <buffer> afb (<-->) => {<++>}
+iabbr <buffer> afe (<-->) => (<++>);
+iabbr <buffer> afn function(<-->) {<++>}
+iabbr <buffer> fn function<-->(<++>) {<++>}
+iabbr <buffer> switch switch(<-->) {case <++>:<++>break;default:<++>}
+iabbr <buffer> els else {<-->}
+iabbr <buffer> ifs if(<-->) <++>
+iabbr <buffer> if if(<-->) {<++>}
+iabbr <buffer> while while(<-->) {<++>}
+iabbr <buffer> for for(let i = 0; i<<++>; i++) {<++>}
+iabbr <buffer> fos for(let<-->of <++>) <++>
+iabbr <buffer> fo for(let<-->of <++>) {<++>}
+iabbr <buffer> ce console.error(<-->)
+iabbr <buffer> cw console.warn(<-->)
+iabbr <buffer> cl console.log(<-->)
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal cindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=//%s
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=\\(^\\s*(*async\\s\\+function\\|(*function\\)\\|^\\s*\\(\\*\\|static\\|async\\|get\\|set\\|\\i\\+\\.\\)\\|^\\s*\\(\\ze\\i\\+\\)\\(([^)]*).*{$\\|\\s*[:=,]\\)\\|^\\s*\\(export\\s\\+\\|export\\s\\+default\\s\\+\\)*\\(var\\|let\\|const\\|function\\|class\\)\\|\\<as\\>
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'javascript'
+setlocal filetype=javascript
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=GetJavascriptIndent()
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e,0],0)
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,$
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal listchars=
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+setlocal nonumber
+setlocal numberwidth=4
+setlocal omnifunc=javascriptcomplete#CompleteJS
+setlocal path=.,,
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=0
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal showbreak=
+setlocal sidescrolloff=-1
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal spelloptions=
+setlocal statusline=
+setlocal suffixesadd=.js,.jsx,.es,.es6,.cjs,.mjs,.jsm,.vue,.json
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'javascript'
+setlocal syntax=javascript
+endif
+setlocal tabstop=2
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal undofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 55 - ((21 * winheight(0) + 17) / 35)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 55
+normal! 0
+tabnext
+edit english-lia/grabber/main.js
+argglobal
+let s:cpo_save=&cpo
+set cpo&vim
+nnoremap <buffer> <silent> <Plug>(jsdoc) :call jsdoc#insert()
+iabbr <buffer> imp import {<-->}  from './<++>';
+iabbr <buffer> class class<--> {<++>}
+iabbr <buffer> bb {<-->}<BS>
 iabbr <buffer> afb (<-->) => {<++>}
 iabbr <buffer> afe (<-->) => (<++>);
 iabbr <buffer> afn function(<-->) {<++>}
@@ -994,18 +1469,193 @@ setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 73 - ((5 * winheight(0) + 17) / 35)
+let s:l = 145 - ((13 * winheight(0) + 17) / 35)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 73
-normal! 0
-tabnext 2
+keepjumps 145
+normal! 042|
+tabnext
+edit english-lia/grabber/table/sort.js
+argglobal
+let s:cpo_save=&cpo
+set cpo&vim
+nnoremap <buffer> <silent> <Plug>(jsdoc) :call jsdoc#insert()
+iabbr <buffer> imp import {<-->}  from './<++>';
+iabbr <buffer> class class<--> {<++>}
+iabbr <buffer> bb {<-->}<BS>
+iabbr <buffer> afb (<-->) => {<++>}
+iabbr <buffer> afe (<-->) => (<++>);
+iabbr <buffer> afn function(<-->) {<++>}
+iabbr <buffer> fn function<-->(<++>) {<++>}
+iabbr <buffer> switch switch(<-->) {case <++>:<++>break;default:<++>}
+iabbr <buffer> els else {<-->}
+iabbr <buffer> ifs if(<-->) <++>
+iabbr <buffer> if if(<-->) {<++>}
+iabbr <buffer> while while(<-->) {<++>}
+iabbr <buffer> for for(let i = 0; i<<++>; i++) {<++>}
+iabbr <buffer> fos for(let<-->of <++>) <++>
+iabbr <buffer> fo for(let<-->of <++>) {<++>}
+iabbr <buffer> ce console.error(<-->)
+iabbr <buffer> cw console.warn(<-->)
+iabbr <buffer> cl console.log(<-->)
+let &cpo=s:cpo_save
+unlet s:cpo_save
+setlocal keymap=
+setlocal noarabic
+setlocal autoindent
+setlocal backupcopy=
+setlocal balloonexpr=
+setlocal nobinary
+setlocal nobreakindent
+setlocal breakindentopt=
+setlocal bufhidden=
+setlocal buflisted
+setlocal buftype=
+setlocal cindent
+setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
+setlocal cinoptions=
+setlocal cinwords=if,else,while,do,for,switch
+setlocal colorcolumn=
+setlocal comments=sO:*\ -,mO:*\ \ ,exO:*/,s1:/*,mb:*,ex:*/,://
+setlocal commentstring=//%s
+setlocal complete=.,w,b,u,t,i
+setlocal concealcursor=
+setlocal conceallevel=0
+setlocal completefunc=
+setlocal nocopyindent
+setlocal cryptmethod=
+setlocal nocursorbind
+setlocal nocursorcolumn
+setlocal nocursorline
+setlocal cursorlineopt=both
+setlocal define=\\(^\\s*(*async\\s\\+function\\|(*function\\)\\|^\\s*\\(\\*\\|static\\|async\\|get\\|set\\|\\i\\+\\.\\)\\|^\\s*\\(\\ze\\i\\+\\)\\(([^)]*).*{$\\|\\s*[:=,]\\)\\|^\\s*\\(export\\s\\+\\|export\\s\\+default\\s\\+\\)*\\(var\\|let\\|const\\|function\\|class\\)\\|\\<as\\>
+setlocal dictionary=
+setlocal nodiff
+setlocal equalprg=
+setlocal errorformat=
+setlocal expandtab
+if &filetype != 'javascript'
+setlocal filetype=javascript
+endif
+setlocal fixendofline
+setlocal foldcolumn=0
+setlocal foldenable
+setlocal foldexpr=0
+setlocal foldignore=#
+setlocal foldlevel=0
+setlocal foldmarker={{{,}}}
+setlocal foldmethod=manual
+setlocal foldminlines=1
+setlocal foldnestmax=20
+setlocal foldtext=foldtext()
+setlocal formatexpr=
+setlocal formatoptions=croql
+setlocal formatlistpat=^\\s*\\d\\+[\\]:.)}\\t\ ]\\s*
+setlocal formatprg=
+setlocal grepprg=
+setlocal iminsert=0
+setlocal imsearch=-1
+setlocal include=
+setlocal includeexpr=
+setlocal indentexpr=GetJavascriptIndent()
+setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e,0],0)
+setlocal noinfercase
+setlocal iskeyword=@,48-57,_,192-255,$
+setlocal keywordprg=
+setlocal nolinebreak
+setlocal nolisp
+setlocal lispwords=
+setlocal nolist
+setlocal listchars=
+setlocal makeencoding=
+setlocal makeprg=
+setlocal matchpairs=(:),{:},[:]
+setlocal modeline
+setlocal modifiable
+setlocal nrformats=bin,octal,hex
+setlocal nonumber
+setlocal numberwidth=4
+setlocal omnifunc=javascriptcomplete#CompleteJS
+setlocal path=.,,
+setlocal nopreserveindent
+setlocal nopreviewwindow
+setlocal quoteescape=\\
+setlocal noreadonly
+setlocal norelativenumber
+setlocal norightleft
+setlocal rightleftcmd=search
+setlocal noscrollbind
+setlocal scrolloff=0
+setlocal shiftwidth=2
+setlocal noshortname
+setlocal showbreak=
+setlocal sidescrolloff=-1
+setlocal signcolumn=auto
+setlocal nosmartindent
+setlocal softtabstop=0
+setlocal nospell
+setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
+setlocal spellfile=
+setlocal spelllang=en
+setlocal spelloptions=
+setlocal statusline=
+setlocal suffixesadd=.js,.jsx,.es,.es6,.cjs,.mjs,.jsm,.vue,.json
+setlocal swapfile
+setlocal synmaxcol=3000
+if &syntax != 'javascript'
+setlocal syntax=javascript
+endif
+setlocal tabstop=2
+setlocal tagcase=
+setlocal tagfunc=
+setlocal tags=
+setlocal termwinkey=
+setlocal termwinscroll=10000
+setlocal termwinsize=
+setlocal textwidth=0
+setlocal thesaurus=
+setlocal undofile
+setlocal undolevels=-123456
+setlocal varsofttabstop=
+setlocal vartabstop=
+setlocal wincolor=
+setlocal nowinfixheight
+setlocal nowinfixwidth
+setlocal wrap
+setlocal wrapmargin=0
+silent! normal! zE
+let &fdl = &fdl
+let s:l = 47 - ((29 * winheight(0) + 17) / 35)
+if s:l < 1 | let s:l = 1 | endif
+keepjumps exe s:l
+normal! zt
+keepjumps 47
+normal! 039|
+tabnext 7
 set stal=1
-badd +0 english-lia/grabber/transcript/transcript-analyzer.js
-badd +0 english-lia/grabber/main.js
-badd +34 english-lia/grabber/grabber-offline.md
-badd +6 english-lia/grabber/default-config.js
+badd +40 english-lia/grabber/container/container.js
+badd +4 english-lia/grabber/container/dummy.js
+badd +165 english-lia/grabber/main.js
+badd +3 english-lia/base.js
+badd +0 english-lia/temp
+badd +165 english-lia/tags
+badd +37 english-lia/grabber/container/layout.js
+badd +0 tags
+badd +0 ../tags
+badd +77 english-lia/grabber/interface.js
+badd +0 english-lia/grabber/other.md
+badd +0 english-lia/lul/styles/lul-collapsible.css
+badd +28 english-lia/lul/styles/lul-generic.css
+badd +30 english-lia/grabber/grabber-offline.md
+badd +27 english-lia/lul/box.js
+badd +0 english-lia/grabber/grabber.md
+badd +31 english-lia/grabber/transcript/transcript-analyzer.js
+badd +24 english-lia/grabber/default-config.js
+badd +32 english-lia/grabber/table/name-analyzer.js
+badd +20 english-lia/grabber/table/sort.js
+badd +65 english-lia/grabber/table/table.js
+badd +0 english-lia/lul/input.js
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
 endif

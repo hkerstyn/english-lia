@@ -21,7 +21,9 @@ export class WordAnalyzer {
   static prettify(word) {
     let prettyWord = word.replaceAll(/\d/g, ' ');
     prettyWord = prettyWord.replaceAll(/'/g, '0');
-    prettyWord = prettyWord.replaceAll(/\W/g, ' ');
+    prettyWord = prettyWord.replaceAll(/\p{P}/gu, ' ');
+    prettyWord = prettyWord.replaceAll(/\p{S}/gu, ' ');
+    prettyWord = prettyWord.replaceAll(/\p{Z}/gu, ' ');
     prettyWord = prettyWord.replaceAll(/0+/g, "'");
     
     return prettyWord.trim();

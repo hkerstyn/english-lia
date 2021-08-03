@@ -1,20 +1,20 @@
 export class InterfaceHandler {
-  static genIdEntry({text, direction, onConfirm}) {
-    let idEnter = genEnter({
-      name: 'enteredId'
+  static genEnterEntry({text, direction, onConfirm, name}) {
+    let enter = genEnter({
+      name: name
     });
-    let idButton = genButton({
+    let button = genButton({
       text: text,
       onclick: function(){
-        onConfirm(window['enteredId']);
+        onConfirm(window[name]);
       }
     });
-    let idEntry = genEntry({
-      content: [ idEnter ],
-      button: [ idButton ],
+    let entry = genEntry({
+      content: [ enter ],
+      button: [ button ],
       direction: direction
     });
-    return idEntry;
+    return entry;
   }
 
   static genLanguageSelection({text, direction, onConfirm, languageList, radioType}) {
@@ -55,5 +55,35 @@ export class InterfaceHandler {
       type: radioType
     });
     return selectedSortRadio;
+  }
+
+  static genSearch({width, text, onConfirm}) {
+    let enter = genEnter({
+      name: 'searchTerm',
+      width: width,
+      oninput: function() {
+        onConfirm(window['searchTerm']);
+      }
+    });
+    let textSpan = genText(text);
+    let box = genBox({});
+    set(box, textSpan, enter);
+    return box;
+  }
+
+  static genExclude({text, boxClass, onConfirm}) {
+    let span = gen('span');
+    let textSpan = genText('Exclude small words');
+    let check = genCheck({
+      name: 'excludeBool',
+      oninput: function() {
+        onConfirm(window['excludeBool']);
+      }
+    });
+    let box = genBox({});
+    set(span, check, textSpan);
+    set(box, span);
+    box.className += ' lul-margin';
+    return box;
   }
 }

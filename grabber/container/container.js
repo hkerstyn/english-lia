@@ -11,16 +11,27 @@ export class ContainerHandler extends ContainerLayoutHandler {
     let playerContainer = new Container('player');
     let transcriptContainer = new Container('transcript');
     let statsTableContainer = new Container('statsTable');
+    let filterContainer = new Container('filter');
+    let pocketContainer = new Container('pocket');
+    let inspectorContainer = new Container('inspector');
 
     optionsContainer.setRoot('grabber-frame');
-    ContainerLayoutHandler.arrangeContainers(813);
+    ContainerLayoutHandler.arrangeContainers(1200);
     for(let container of Container.all)
       container.setClass('lul-light');
 
     set('options',
-      genDummy('sortSelectDummy'),
-      genDummy('languageSelectDummy'),
-      genDummy('idEnterDummy')
+      genDummy('languageSelectDummy', 'lul-margin'),
+      genDummy('idEnterDummy', 'lul-margin'),
+      genDummy('queryDummy', 'lul-margin')
+    );
+
+    set('filter',
+      genDummy('sortSelectDummy', 'lul-margin'),
+      genHtml('<br>'),
+      genDummy('searchDummy', 'lul-margin'),
+      genHtml('<br>'),
+      genDummy('excludeDummy')
     );
 
     set('player',

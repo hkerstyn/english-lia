@@ -25,17 +25,27 @@ class Grabber {
     ContainerHandler.initializeContainers();
     
 
-    if(Grabber.arg.videoId == undefined)
-      Grabber.setIdEntry();
+    if(Grabber.arg.videoId == undefined) {
+      Grabber.setVideoSelection();
+    }
     else
       Grabber.setVideo(arg.videoId);
   }
 
-  static setIdEntry() {
-    set('idEnterDummy', InterfaceHandler.genIdEntry({
+  static setVideoSelection() {
+    set('idEnterDummy', InterfaceHandler.genEnterEntry({
+      name: 'enteredId',
       text: Grabber.config.ID_ENTER_TEXT,
       direction: Grabber.config.ID_ENTER_ENTRY_DIRECTION,
       onConfirm: Grabber.setVideo
+    }));
+    set('queryDummy', InterfaceHandler.genEnterEntry({
+      name: 'enteredQuery',
+      text: Grabber.config.QUERY_ENTER_TEXT,
+      direction: Grabber.config.QUERY_ENTER_ENTRY_DIRECTION,
+      onConfirm: function(enteredQuery) {
+        window.open('https://www.youtube.com/results?search_query='+enteredQuery+'&sp=EgIoAQ%253D%253D', '_blank');
+      }
     }));
   }
 
@@ -56,6 +66,7 @@ class Grabber {
       Grabber.setLanguage(videoId, Grabber.arg.languageCode);
   }
 
+  
   static async setLanguageSelection(videoId) {
     let languageList = await YoutubeHandler.getLanguageList(videoId);
     set('languageSelectDummy', InterfaceHandler.genLanguageSelection({
@@ -66,7 +77,7 @@ class Grabber {
       onConfirm: function(languageCode) {Grabber.setLanguage(videoId, languageCode);}
     }));
   }
-
+  
   static async setLanguage(videoId, languageCode) {
     if(Grabber.arg.tellLanguageCode != undefined)
       alert('Selected languageCode: ' + languageCode);
@@ -74,9 +85,9 @@ class Grabber {
     let transcript = await YoutubeHandler.getTranscript(videoId, languageCode);
     Grabber.setTranscript(transcript);
     StatsTableHandler.analyzeNameGroups([...TranscriptHandler.allWordInstances()]);
-    Grabber.setStatsTable('byFrequency');
-    window['selectedSort'] = 'byFrequency';
-    Grabber.setSortSelection();
+    StatsTableHandler.comparator = 'byFrequency';
+    Grabber.setStatsTable();
+    Grabber.setFilter();
   }
 
   static setTranscript(transcript) {
@@ -95,18 +106,11 @@ class Grabber {
     TranscriptHandler.createTranscript(transcript, Grabber.arg.minTime,  Grabber.arg.maxTime);
   }
 
-  static setStatsTable(comparator) {
-    let wordGroups = StatsTableHandler.sortNamedWordGroups(comparator);
+  static setStatsTable() {
 
-
-    let columnCount = Math.floor( get('statsTable.container').size[0] / Grabber.config.TABLE_COLUMN_WIDTH);
-    if(columnCount == 0) throw new Error('columnCount is zero');
-    let rowCount = Math.ceil(wordGroups.length / columnCount);
 
     set('statsTableDummy', StatsTableHandler.genStatsTable({
-      wordGroups: wordGroups,
-      columnCount: columnCount,
-      rowCount: rowCount,
+      columnWidth: Grabber.config.TABLE_COLUMN_WIDTH,
       tableClass: Grabber.config.TABLE_CLASS,
       tableRowClass: Grabber.config.TABLE_ROW_CLASS,
       tableCellClass: Grabber.config.TABLE_CELL_CLASS,
@@ -119,6 +123,36 @@ class Grabber {
 
   }
 
+  static async setFilter() {
+    Grabber.setSortSelection();
+    Grabber.setSearch();
+    Grabber.setExclude();
+
+  }
+
+  static async setSearch() {
+    set('searchDummy', InterfaceHandler.genSearch({
+      width: Grabber.config.SEARCH_WIDTH,
+      text: Grabber.config.SEARCH_TEXT,
+      onConfirm: function(searchTerm) {
+        StatsTableHandler.searchTerm = searchTerm;
+        Grabber.setStatsTable();
+      }
+    }));
+  }
+
+  static async setExclude() {
+    set('excludeDummy', InterfaceHandler.genExclude({
+      text: Grabber.config.EXCLUDE_TEXT,
+      boxClass: Grabber.config.EXCLUDE_BOX_CLASS, 
+      onConfirm: function(excludeBool) {
+        console.log(excludeBool);
+        StatsTableHandler.excludeBool = excludeBool;
+        Grabber.setStatsTable();
+      }
+    }));
+    
+  }
   static setSortSelection() {
 
     set('sortSelectDummy', InterfaceHandler.genSortSelection({
@@ -131,6 +165,7 @@ class Grabber {
         values: ['byFrequency', 'byLength', 'alphabetically', 'byOccurrence']
       },
       onConfirm: function (comparator) {
+        StatsTableHandler.comparator = comparator;
         Grabber.setStatsTable(comparator);
       }
     }));
@@ -139,7 +174,7 @@ class Grabber {
   static adjustLayout(availableWidth) {
     ContainerHandler.arrangeContainers(availableWidth);
     if(get('statsTableDummy').innerHTML != '')
-      Grabber.setStatsTable(window['selectedSort']);
+      Grabber.setStatsTable();
   }
 }
 

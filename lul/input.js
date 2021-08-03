@@ -31,7 +31,7 @@ export function genButton(arg) {
  * that the entered text should always be stored in
  * @param {afn} oninput - (optional) the anonymous function that
  * should be executed while typing
- * @param {number} minWidth - (optional) sets the width of the enter area  
+ * @param {number} width - (optional) sets the width of the enter area  
  * omit to use a [default value]{@link LulConfig#INPUT_ELEMENTS}
  * @see [INPUT_ELEMENTS]{@link LulConfig#INPUT_ELEMENTS}
  */
@@ -48,7 +48,7 @@ export function genEnter(arg) {
  * that the selected number should always be stored in
  * @param {afn} oninput - (optional) the anonymous function that
  * should be executed when dragging the slider
- * @param {number} minWidth - (optional) sets the width of the slide range (in pixels).  
+ * @param {number} width - (optional) sets the width of the slide range (in pixels).  
  * omit to use a [default value]{@link LulConfig#INPUT_ELEMENTS}
  * @param {number} min - the smallest possible number  
  * the slider can select
@@ -80,7 +80,6 @@ export function genRange(arg) {
 
 export function genCheck(arg) {
   let check = genInput(arg, 'check');
-  check.addEventListener('input', function() {window[this.name] = this.checked;});
   return check;
 }
 
@@ -94,14 +93,18 @@ export function genInput(arg, inputName) {
   input.type = lulConfig.INPUT_ELEMENTS[inputName].inputType;
   input.name = arg.name;
 
-  //set the minWidth property
-  if(arg.minWidth == undefined) arg.minWidth = lulConfig.INPUT_ELEMENTS[inputName].minWidth;
-  input.style.minWidth = arg.minWidth + 'px';
+  //set the width property
+  if(arg.width == undefined) arg.width = lulConfig.INPUT_ELEMENTS[inputName].width;
+  input.style[lulConfig.INPUT_ELEMENTS[inputName].widthProperty] = arg.width + 'px';
 
 
   //add eventListeners for updating the [name]-variable
   //(and possibly the provided oninput)
-  input.addEventListener('input', function() {window[arg.name] = this.value;});
+  if(inputName == 'check') 
+    input.addEventListener('input', function() {window[arg.name] = this.checked;});
+  else
+    input.addEventListener('input', function() {window[arg.name] = this.value;});
+
   if(arg.oninput != undefined)
     input.addEventListener('input', arg.oninput);
   return input;

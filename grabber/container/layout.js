@@ -8,6 +8,9 @@ export class ContainerLayoutHandler {
     let playerContainer = get('player.container');
     let transcriptContainer = get('transcript.container');
     let statsTableContainer = get('statsTable.container');
+    let filterContainer = get('filter.container');
+    let pocketContainer = get('pocket.container');
+    let inspectorContainer = get('inspector.container');
 
     playerContainer.moveTo('down', optionsContainer);
 
@@ -20,10 +23,19 @@ export class ContainerLayoutHandler {
       if (availableWidth >= 1000) {
         //1000 - inf
         let coupleWidth = (availableWidth - 600) / 2;
-        transcriptContainer.minSize = [coupleWidth, 0];
+
+        inspectorContainer.minSize = [0, 200];
+        inspectorContainer.moveTo('down', playerContainer);
+
+        transcriptContainer.minSize = [coupleWidth, 437.5];
+        pocketContainer.minSize = [0, 200];
+        pocketContainer.moveTo('down', transcriptContainer);
 
         statsTableContainer.moveTo('right', playerContainer, transcriptContainer);
-        statsTableContainer.minSize = [coupleWidth, 0];
+        statsTableContainer.minSize = [coupleWidth, 417.5];
+        filterContainer.minSize = [0, 230];
+        filterContainer.moveTo('up', statsTableContainer);
+
       } else {
         //800 - 1000
         transcriptContainer.minSize = [availableWidth - 600, 0];

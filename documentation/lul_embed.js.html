@@ -82,7 +82,7 @@ export class LulConfig {
   
     //it's best to leave these two as they are
     this.DEFAULT_OVERFLOW_CLASS = 'lul-overflow';
-    this.DEFAULT_OVERFLOW_PARENT_CLASS = 'lul-overflow-parent lul-margin';
+    this.DEFAULT_OVERFLOW_PARENT_CLASS = 'lul-overflow-parent';
 
     /** The css class [buttons]{@link LulFunctions.genButton} have by default.
      * @default
@@ -93,32 +93,36 @@ export class LulConfig {
      * Each describes one type of input element  
      * and specifies the following:
      * * **className**: the css-classname to apply to the input-element
-     * * **minWidth**: the minimum width in px. Can be overriden when  
+     * * **width**: the desired width in px. Can be overriden when  
      * creating a [range]{LulFunctions.genRange} or a [text enter area]{LulFunctions.genEnter}
      * * **inputType**: defines the **type** attribute of the html input-element
-     *
+     * * **widthProperty**: defines the css property for width
      * *see source code for default value*
      */
     this.INPUT_ELEMENTS = {
       radio: {
         className: 'lia-radio',
-        minWidth: 0,
-        inputType: 'radio'
+        width: 0,
+        inputType: 'radio',
+        widthProperty: 'minWidth'
       },
       check: {
         className: 'lia-checkbox',
-        minWidth: 0,
-        inputType: 'checkbox'
+        width: 0,
+        inputType: 'checkbox',
+        widthProperty: 'minWidth'
       },
       range: {
         className: 'lia-range',
-        minWidth: 225,
-        inputType: 'range'
+        width: 225,
+        inputType: 'range',
+        widthProperty: 'width'
       },
       enter: {
         className: 'lia-input',
-        minWidth: 225,
-        inputType: 'text'
+        width: 225,
+        inputType: 'text',
+        widthProperty: 'width'
       }
     }; 
 
@@ -152,13 +156,13 @@ export class LulConfig {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Container.html">Container</a></li><li><a href="cssControl.html">cssControl</a></li><li><a href="GetStore.html">GetStore</a></li><li><a href="Insert.html">Insert</a></li><li><a href="LulConfig.html">LulConfig</a></li><li><a href="LulFunctions.html">LulFunctions</a></li><li><a href="Misc.html">Misc</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Options.html">Options</a></li><li><a href="tutorial-PseudoClass.html">PseudoClass</a></li><li><a href="tutorial-README.html">README</a></li><li><a href="tutorial-arg.html">arg</a></li><li><a href="tutorial-key.html">key</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#arrayToListingString">arrayToListingString</a></li><li><a href="global.html#gen">gen</a></li><li><a href="global.html#genBox">genBox</a></li><li><a href="global.html#genButton">genButton</a></li><li><a href="global.html#genButtonRadioArray">genButtonRadioArray</a></li><li><a href="global.html#genCheck">genCheck</a></li><li><a href="global.html#genCollapsible">genCollapsible</a></li><li><a href="global.html#genEnter">genEnter</a></li><li><a href="global.html#genEntry">genEntry</a></li><li><a href="global.html#genOverflow">genOverflow</a></li><li><a href="global.html#genRadioArray">genRadioArray</a></li><li><a href="global.html#genRange">genRange</a></li><li><a href="global.html#genSelection">genSelection</a></li><li><a href="global.html#genText">genText</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getCssProperty">getCssProperty</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#listingStringToArray">listingStringToArray</a></li><li><a href="global.html#make">make</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#setCssProperty">setCssProperty</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#truetypeof">truetypeof</a></li><li><a href="global.html#uid">uid</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Container.html">Container</a></li><li><a href="cssControl.html">cssControl</a></li><li><a href="GetStore.html">GetStore</a></li><li><a href="Insert.html">Insert</a></li><li><a href="LulConfig.html">LulConfig</a></li><li><a href="LulFunctions.html">LulFunctions</a></li><li><a href="Misc.html">Misc</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-Options.html">Options</a></li><li><a href="tutorial-PseudoClass.html">PseudoClass</a></li><li><a href="tutorial-README.html">README</a></li><li><a href="tutorial-arg.html">arg</a></li><li><a href="tutorial-key.html">key</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#arrayToListingString">arrayToListingString</a></li><li><a href="global.html#gen">gen</a></li><li><a href="global.html#genBox">genBox</a></li><li><a href="global.html#genButton">genButton</a></li><li><a href="global.html#genButtonRadioArray">genButtonRadioArray</a></li><li><a href="global.html#genCheck">genCheck</a></li><li><a href="global.html#genCollapsible">genCollapsible</a></li><li><a href="global.html#genEnter">genEnter</a></li><li><a href="global.html#genEntry">genEntry</a></li><li><a href="global.html#genHtml">genHtml</a></li><li><a href="global.html#genOverflow">genOverflow</a></li><li><a href="global.html#genRadioArray">genRadioArray</a></li><li><a href="global.html#genRange">genRange</a></li><li><a href="global.html#genSelection">genSelection</a></li><li><a href="global.html#genText">genText</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getCssProperty">getCssProperty</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#listingStringToArray">listingStringToArray</a></li><li><a href="global.html#make">make</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#setCssProperty">setCssProperty</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#truetypeof">truetypeof</a></li><li><a href="global.html#uid">uid</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Tue Aug 03 2021 08:29:00 GMT+0200 (Central European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Tue Aug 03 2021 13:50:40 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

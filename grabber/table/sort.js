@@ -1,6 +1,3 @@
-import {NameAnalyzer}
-  from './name-analyzer.js';
-
 const COMPATATORS = {
   byFrequency: function(nameWordGroupA, nameWordGroupB) {
     return nameWordGroupB.wordInstances.length - nameWordGroupA.wordInstances.length;
@@ -16,12 +13,41 @@ const COMPATATORS = {
   }
 };
 
-export class NameSorter extends NameAnalyzer {
+const smallWordLength = 3;
+
+export class NameSorter {
   
-  static sortNamedWordGroups(comparator) {
-    let sortedArray = [...NameSorter.nameWordGroups];
+  static sortNamedWordGroups(wordGroups, comparator) {
+    let sortedArray = [...wordGroups];
     sortedArray.sort(COMPATATORS[comparator]);
     return sortedArray;
   }
 
+  static excludeSmallWords(wordGroups) {
+    let longWordGroups = [];
+    for(let wordGroup of wordGroups) {
+      if(wordGroup.name.length > smallWordLength) 
+        longWordGroups.push(wordGroup);
+    }
+    return longWordGroups;
+  }
+
+  static searchForTerm(wordGroups, searchTerm) {
+    let foundWordGroups = [];
+    let unfoundWordGroups = [];
+    
+    for(let wordGroup of wordGroups) {
+      if(wordGroup.name.toLowerCase().startsWith(searchTerm.toLowerCase())) 
+        foundWordGroups.push(wordGroup);
+      else
+        unfoundWordGroups.push(wordGroup);
+    }
+
+    for(let wordGroup of unfoundWordGroups) {
+      if(wordGroup.name.toLowerCase().includes(searchTerm.toLowerCase())) 
+        foundWordGroups.push(wordGroup);
+    }
+
+    return foundWordGroups;
+  }
 }

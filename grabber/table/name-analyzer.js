@@ -30,7 +30,7 @@ export class NameAnalyzer {
         }
 
         //create new WordGroup
-        if(!matchingWordGroupFound) {
+        if(!matchingWordGroupFound && currentName != '') {
           let newWordGroup = new NameWordGroup(currentName);
           newWordGroup.wordInstances.push(currentWordInstance);
           currentWordInstance.nameWordGroup = newWordGroup;

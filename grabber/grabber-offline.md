@@ -14,8 +14,6 @@ link: http://localhost:3000/home/english-lia/consys.css
 
 @gr: @grabber({})
 @grabber
-Please select a <a href="https://www.youtube.com/results?search_query=science&sp=EgIoAQ%253D%253D" target="_blank">youtube video with captions!</a> 
-
 <script input="hidden" defer>
   startGrabber(@0);
 </script>
@@ -30,9 +28,9 @@ Please select a <a href="https://www.youtube.com/results?search_query=science&sp
 ```json @grabber
 {
   "videoId": "fDek6cYijxI",
-  "languageCode": "en",
-  "minTime": 10,
-  "maxTime": 105
+  "languageCode": "es-419",
+  //"minTime": 10,
+  //"maxTime": 105
 }
 ```
 

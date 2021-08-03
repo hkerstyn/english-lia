@@ -22,7 +22,10 @@ export function genBox(arg) {
   box.style.flexDirection = arg.direction;
   if(arg.direction == 'column')
     box.style.width = '100%';
-  else box.style.height = '100%';
+  else {
+    box.style.height = '100%';
+    box.style.alignItems = 'center';
+  }
 
   return box;
 }

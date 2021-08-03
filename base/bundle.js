@@ -3,7 +3,7 @@ import {get, store}
   from './get-store.js';
 import {set, add, make, insert}
   from './insert.js';
-import {gen, genText, uid, truetypeof}
+import {gen, genText, genHtml, uid, truetypeof}
   from './misc.js';
 import {getCssProperty, setCssProperty, listingStringToArray, arrayToListingString}
   from './css-control.js';
@@ -14,7 +14,7 @@ import {watch}
 //these functions will now be globally available
 console.log(
   get, store, set, add, make, insert,
-  gen, genText, uid, truetypeof,
+  gen, genText, genHtml, uid, truetypeof,
   getCssProperty, setCssProperty, listingStringToArray, arrayToListingString,
   watch
 );

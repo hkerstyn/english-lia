@@ -1,4 +1,7 @@
 export const defaultConfig = {
+  QUERY_ENTER_TEXT: 'Enter Search Term',
+  QUERY_ENTER_ENTRY_DIRECTION: 'row',
+
   ID_ENTER_TEXT: 'Enter Link',
   ID_ENTER_ENTRY_DIRECTION: 'row',
 
@@ -13,6 +16,12 @@ export const defaultConfig = {
   SORT_SELECT_OPTION_TEXTS: ['By frequency', 'By length', 'Alphabetically', 'By Appearance'],
   SORT_SELECT_ENTRY_DIRECTION: 'column',
   SORT_SELECT_RADIO_TYPE: 'radio',
+
+  SEARCH_TEXT: 'Search for:',
+  SEARCH_WIDTH: 120,
+
+  EXCLUDE_TEXT: 'Exclude small words',
+  EXCLUDE_BOX_CLASS: ' lul-margin',
 
   DEFAULT_SPAN_CLASS: 'lul-text',
   HIGHLIGHT_SPAN_CLASS: 'lul-highlight-text',
