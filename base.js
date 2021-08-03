@@ -141,7 +141,6 @@ function store(element, key) {
     key = uid();
     console.warn('Defaulting to uid:', key, element);
   }
-
   STORED_ELEMENTS[key] = element;
   return key;
 }

@@ -29,10 +29,17 @@ Please select a <a href="https://www.youtube.com/results?search_query=science&sp
 
 ```json @grabber
 {
-  "videoId": "8TUK-M41hGI",
-  "languageCode": "en"
+  "videoId": "fDek6cYijxI",
+  "languageCode": "en",
+  "minTime": 10,
+  "maxTime": 105
 }
 ```
+
+# New Features
+* minTime and maxTime as macro arguments
+* fix language reselection
+* By Appearance
 
 # TODO
 
@@ -50,7 +57,6 @@ To maybe Do at some point:
   * video id
   * language
   * start point
-* implement message at top
 * search for keywords
 * jump to section
 * exclude small words
@@ -58,7 +64,6 @@ To maybe Do at some point:
 * examine and select neighbors
 * (definition dictionary?)
 * select and save technical terms
-* video controlling by lecturer
 
 
 

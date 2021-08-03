@@ -2,7 +2,7 @@ const defaultConfig = {
   ID_ENTER_TEXT: 'Enter Link',
   ID_ENTER_ENTRY_DIRECTION: 'row',
 
-  DEFAULT_ID: '8TUK-M41hGI',
+  DEFAULT_ID: 'fDek6cYijxI',
 
   LANGUAGE_SELECT_TEXT: 'Select language',
   LANGUAGE_SELECT_ENTRY_DIRECTION: 'column',
@@ -10,7 +10,7 @@ const defaultConfig = {
 
   SORT_SELECT_BUTTON_CLASS: 'lul-dark lul-norm-height',
   SORT_SELECT_TEXT: 'Sort criterium',
-  SORT_SELECT_OPTION_TEXTS: ['By frequency', 'By length', 'Alphabetically', 'By Occurrence'],
+  SORT_SELECT_OPTION_TEXTS: ['By frequency', 'By length', 'Alphabetically', 'By Appearance'],
   SORT_SELECT_ENTRY_DIRECTION: 'column',
   SORT_SELECT_RADIO_TYPE: 'radio',
 
@@ -438,7 +438,7 @@ class TimeWordGroup extends WordGroup {
 class TranscriptAnalyzer {
 
   //converts transcript into timeWordGroups
-  static analyzeTranscript(transcript) {
+  static analyzeTranscript(transcript, minTime, maxTime) {
     TranscriptAnalyzer.timeWordGroups = [];
 
     for(let transcriptEntry of transcript) {
@@ -447,6 +447,10 @@ class TranscriptAnalyzer {
       let timeWordGroup = new TimeWordGroup();
       timeWordGroup.start = transcriptEntry.start;
       timeWordGroup.duration = transcriptEntry.duration;
+
+      if(timeWordGroup.start + timeWordGroup.duration < minTime
+      || timeWordGroup.start > maxTime) 
+        continue;
 
       for (let word of words) {
         let wordInstance = new WordInstance(word);
@@ -517,8 +521,8 @@ class TranscriptHandler extends TranscriptScrollHandler {
     get(config.transcriptDummy).style.scrollBehavior = 'smooth';
   }
 
-  static createTranscript(transcript) {
-    TranscriptHandler.analyzeTranscript(transcript);
+  static createTranscript(transcript, minTime, maxTime) {
+    TranscriptHandler.analyzeTranscript(transcript, minTime, maxTime);
 
     for (let wordInstance of TranscriptHandler.allWordInstances()) {
       TranscriptSpanHandler.createSpan(wordInstance);
@@ -726,6 +730,7 @@ class Grabber {
   static async setLanguage(videoId, languageCode) {
     if(Grabber.arg.tellLanguageCode != undefined)
       alert('Selected languageCode: ' + languageCode);
+
     let transcript = await YoutubeHandler.getTranscript(videoId, languageCode);
     Grabber.setTranscript(transcript);
     StatsTableHandler.analyzeNameGroups([...TranscriptHandler.allWordInstances()]);
@@ -743,7 +748,11 @@ class Grabber {
       scrollOffset: Grabber.config.TRANSCRIPT_SCROLL_OFFSET
     });
 
-    TranscriptHandler.createTranscript(transcript);
+    get('transcriptDummy').innerHTML = '';
+
+    if(Grabber.arg.minTime == undefined) Grabber.arg.minTime = 0;
+    if(Grabber.arg.maxTime == undefined) Grabber.arg.maxTime = Infinity;
+    TranscriptHandler.createTranscript(transcript, Grabber.arg.minTime,  Grabber.arg.maxTime);
   }
 
   static setStatsTable(comparator) {

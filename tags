@@ -288,5 +288,4 @@ updateSizes	consys/container.js	/^  static updateSizes() {$/;"	m	class:Container
 watch	base/watch.js	/^export function watch(watcher) {$/;"	f
 width	lul/collapsible.js	/^  width: 'scrollWidth',$/;"	p	class:scrollSizeAttributeMap
 width	lul/embed.js	/^      width: 'lul-collapsible-width',$/;"	p	class:LulConfig.constructor.COLLAPSIBLE_CLASS_MAP
-without arguments	grabber/grabber-offline.md	/^# without arguments$/;"	c
 youngestPredecessorGenerator	consys/tree.js	/^  *youngestPredecessorGenerator() {$/;"	g	class:TreeNode

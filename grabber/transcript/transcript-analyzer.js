@@ -8,7 +8,7 @@ import {TimeWordGroup}
 export class TranscriptAnalyzer {
 
   //converts transcript into timeWordGroups
-  static analyzeTranscript(transcript) {
+  static analyzeTranscript(transcript, minTime, maxTime) {
     TranscriptAnalyzer.timeWordGroups = [];
 
     for(let transcriptEntry of transcript) {
@@ -17,6 +17,10 @@ export class TranscriptAnalyzer {
       let timeWordGroup = new TimeWordGroup();
       timeWordGroup.start = transcriptEntry.start;
       timeWordGroup.duration = transcriptEntry.duration;
+
+      if(timeWordGroup.start + timeWordGroup.duration < minTime
+      || timeWordGroup.start > maxTime) 
+        continue;
 
       for (let word of words) {
         let wordInstance = new WordInstance(word);

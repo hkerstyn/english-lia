@@ -16,8 +16,8 @@ export class TranscriptHandler extends TranscriptScrollHandler {
     get(config.transcriptDummy).style.scrollBehavior = 'smooth';
   }
 
-  static createTranscript(transcript) {
-    TranscriptHandler.analyzeTranscript(transcript);
+  static createTranscript(transcript, minTime, maxTime) {
+    TranscriptHandler.analyzeTranscript(transcript, minTime, maxTime);
 
     for (let wordInstance of TranscriptHandler.allWordInstances()) {
       TranscriptSpanHandler.createSpan(wordInstance);

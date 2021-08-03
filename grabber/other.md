@@ -25,7 +25,7 @@ import: https://raw.githubusercontent.com/kaptn-seebar/english-lia/main/grabber/
 
 ```json @grabber
 {
-  "tellLanguageCode": "en"
+  "tellLanguageCode": "yes"
 }
 ```
 

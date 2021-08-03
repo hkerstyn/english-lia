@@ -2,7 +2,7 @@ export const defaultConfig = {
   ID_ENTER_TEXT: 'Enter Link',
   ID_ENTER_ENTRY_DIRECTION: 'row',
 
-  DEFAULT_ID: '8TUK-M41hGI',
+  DEFAULT_ID: 'fDek6cYijxI',
 
   LANGUAGE_SELECT_TEXT: 'Select language',
   LANGUAGE_SELECT_ENTRY_DIRECTION: 'column',
@@ -10,7 +10,7 @@ export const defaultConfig = {
 
   SORT_SELECT_BUTTON_CLASS: 'lul-dark lul-norm-height',
   SORT_SELECT_TEXT: 'Sort criterium',
-  SORT_SELECT_OPTION_TEXTS: ['By frequency', 'By length', 'Alphabetically', 'By Occurrence'],
+  SORT_SELECT_OPTION_TEXTS: ['By frequency', 'By length', 'Alphabetically', 'By Appearance'],
   SORT_SELECT_ENTRY_DIRECTION: 'column',
   SORT_SELECT_RADIO_TYPE: 'radio',
 

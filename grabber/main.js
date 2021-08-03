@@ -70,6 +70,7 @@ class Grabber {
   static async setLanguage(videoId, languageCode) {
     if(Grabber.arg.tellLanguageCode != undefined)
       alert('Selected languageCode: ' + languageCode);
+
     let transcript = await YoutubeHandler.getTranscript(videoId, languageCode);
     Grabber.setTranscript(transcript);
     StatsTableHandler.analyzeNameGroups([...TranscriptHandler.allWordInstances()]);
@@ -87,7 +88,11 @@ class Grabber {
       scrollOffset: Grabber.config.TRANSCRIPT_SCROLL_OFFSET
     });
 
-    TranscriptHandler.createTranscript(transcript);
+    get('transcriptDummy').innerHTML = '';
+
+    if(Grabber.arg.minTime == undefined) Grabber.arg.minTime = 0;
+    if(Grabber.arg.maxTime == undefined) Grabber.arg.maxTime = Infinity;
+    TranscriptHandler.createTranscript(transcript, Grabber.arg.minTime,  Grabber.arg.maxTime);
   }
 
   static setStatsTable(comparator) {
