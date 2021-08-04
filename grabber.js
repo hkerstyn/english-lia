@@ -29,7 +29,7 @@ const defaultConfig = {
   HIGHLIGHT_TEXT_INTERVAL: 500,
   TRANSCRIPT_SCROLL_OFFSET: 70,
 
-  TABLE_COLUMN_WIDTH: 130,
+  TABLE_COLUMN_WIDTH: 120,
   TABLE_CLASS: 'lul-full-width',
   TABLE_ROW_CLASS: 'lul-light lul-medium-hover',
   TABLE_CELL_CLASS: ' lul-text lul-highlight-text-hover',
@@ -188,8 +188,8 @@ class ContainerLayoutHandler {
 
       transcriptContainer.moveTo('right', optionsContainer, playerContainer);
 
-      if (availableWidth >= 1000) {
-        //1000 - inf
+      if (availableWidth >= 1080) {
+        //1080 - inf
         let coupleWidth = (availableWidth - 600) / 2;
 
         inspectorContainer.minSize = [0, 200];
@@ -205,11 +205,21 @@ class ContainerLayoutHandler {
         filterContainer.moveTo('up', statsTableContainer);
 
       } else {
-        //800 - 1000
+        //800 - 1080
         transcriptContainer.minSize = [availableWidth - 600, 0];
 
-        statsTableContainer.moveTo('down', playerContainer, transcriptContainer);
-        statsTableContainer.minSize = [0, 170];
+        filterContainer.minSize = [240, 230];
+        filterContainer.moveTo('down', playerContainer, transcriptContainer);
+
+        statsTableContainer.minSize = [availableWidth - 240, 230];
+        statsTableContainer.moveTo('right', filterContainer);
+
+        inspectorContainer.minSize = [availableWidth - 240, 200];
+        inspectorContainer.moveTo('down', statsTableContainer, pocketContainer);
+
+        pocketContainer.minSize = [240, 200];
+        pocketContainer.moveTo('right', inspectorContainer);
+
       }
     } else {
       //0 - 800
@@ -218,8 +228,17 @@ class ContainerLayoutHandler {
       transcriptContainer.moveTo('down', optionsContainer, playerContainer);
       transcriptContainer.minSize = [0, 300];
 
-      statsTableContainer.moveTo('down', playerContainer, transcriptContainer);
-      statsTableContainer.minSize = [0, 170];
+      filterContainer.minSize = [240, 230];
+      filterContainer.moveTo('down', playerContainer, transcriptContainer);
+
+      statsTableContainer.minSize = [availableWidth - 240, 430];
+      statsTableContainer.moveTo('right', filterContainer );
+
+      pocketContainer.minSize = [240, 200];
+      pocketContainer.moveTo('down', filterContainer);
+
+      inspectorContainer.minSize = [0, 200];
+      inspectorContainer.moveTo('down', statsTableContainer, pocketContainer);
     }
 
     Container.updateSizes();

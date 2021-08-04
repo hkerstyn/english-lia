@@ -29,7 +29,7 @@ export const defaultConfig = {
   HIGHLIGHT_TEXT_INTERVAL: 500,
   TRANSCRIPT_SCROLL_OFFSET: 70,
 
-  TABLE_COLUMN_WIDTH: 130,
+  TABLE_COLUMN_WIDTH: 120,
   TABLE_CLASS: 'lul-full-width',
   TABLE_ROW_CLASS: 'lul-light lul-medium-hover',
   TABLE_CELL_CLASS: ' lul-text lul-highlight-text-hover',
