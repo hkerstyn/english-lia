@@ -23,7 +23,6 @@ export function genBox(arg) {
   if(arg.direction == 'column')
     box.style.width = '100%';
   else {
-    box.style.height = '100%';
     box.style.alignItems = 'center';
   }
 

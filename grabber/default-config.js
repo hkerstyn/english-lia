@@ -1,5 +1,6 @@
 export const defaultConfig = {
   QUERY_ENTER_TEXT: 'Enter Search Term',
+  QUERY_FAIL_ALERT_TEXT: 'Please enter a Search Term',
   QUERY_ENTER_ENTRY_DIRECTION: 'row',
 
   ID_ENTER_TEXT: 'Enter Link',

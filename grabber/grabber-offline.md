@@ -27,8 +27,8 @@ link: http://localhost:3000/home/english-lia/consys.css
 
 ```json @grabber
 {
-  "videoId": "fDek6cYijxI",
-  "languageCode": "es-419",
+  //"videoId": "fDek6cYijxI",
+  //"languageCode": "es-419",
   //"minTime": 10,
   //"maxTime": 105
 }
@@ -37,12 +37,17 @@ link: http://localhost:3000/home/english-lia/consys.css
 # New Features
 * minTime and maxTime as macro arguments
 * fix language reselection
-* By Appearance
+* support more languages in table
+* search table
+* search youtube
+* exclude small words
 
 # TODO
 
 To Do next:
 * clean up & prettify codebase
+* expand documentation
+* adjust new layout for all widths 
 
 ------
 Bugs to fix:
@@ -51,14 +56,7 @@ Bugs to fix:
 
 
 To maybe Do at some point:
-* config
-  * video id
-  * language
-  * start point
-* search for keywords
 * jump to section
-* exclude small words
-* jump to occurences
 * examine and select neighbors
 * (definition dictionary?)
 * select and save technical terms

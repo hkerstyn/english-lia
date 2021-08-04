@@ -1,4 +1,3 @@
-
 /**
  * generates an html element whose size always remains the same.  
  * when its content gets too large, it simply overflows  
@@ -46,14 +45,14 @@ export function recalculateOverflowIndices () {
   }
 
   //sort them to prioritize those on the left and on the top
-  overflowArray.sort(overlapTest);
+  let sortedArray = [...overflowArray].sort(overlapTest);
 
   //set the z-Indices accordingly
   let i = 1;
-  overflowArray.forEach((overflow) => {
+  for(let overflow of sortedArray) {
     overflow.style.zIndex = i;
     i++;
-  });
+  }
 }
 
 // returns a positive value if overflow1 should overlap overflow2
@@ -71,7 +70,7 @@ function overlapTest (overflow1, overflow2) {
   position2.left > position1.left + size1.width - 5 ) {
     return 1;
   }
-  return 0;
+  return -1;
 } 
 
 function calculateElementSize (element) {

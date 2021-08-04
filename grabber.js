@@ -1,5 +1,6 @@
 const defaultConfig = {
   QUERY_ENTER_TEXT: 'Enter Search Term',
+  QUERY_FAIL_ALERT_TEXT: 'Please enter a Search Term',
   QUERY_ENTER_ENTRY_DIRECTION: 'row',
 
   ID_ENTER_TEXT: 'Enter Link',
@@ -818,7 +819,11 @@ class Grabber {
       text: Grabber.config.QUERY_ENTER_TEXT,
       direction: Grabber.config.QUERY_ENTER_ENTRY_DIRECTION,
       onConfirm: function(enteredQuery) {
-        window.open('https://www.youtube.com/results?search_query='+enteredQuery+'&sp=EgIoAQ%253D%253D', '_blank');
+        if(enteredQuery != undefined) 
+          window.open('https://www.youtube.com/results?search_query='+enteredQuery+'&sp=EgIoAQ%253D%253D', '_blank');
+        else
+          alert(Grabber.config.QUERY_FAIL_ALERT_TEXT);
+        
       }
     }));
   }
@@ -859,6 +864,8 @@ class Grabber {
     let transcript = await YoutubeHandler.getTranscript(videoId, languageCode);
     Grabber.setTranscript(transcript);
     StatsTableHandler.analyzeNameGroups([...TranscriptHandler.allWordInstances()]);
+    StatsTableHandler.excludeBool = false;
+    StatsTableHandler.searchTerm = undefined;
     StatsTableHandler.comparator = 'byFrequency';
     Grabber.setStatsTable();
     Grabber.setFilter();
