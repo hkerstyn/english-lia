@@ -13,13 +13,22 @@ link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/lul.css
 link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/consys.css
 
 @gr: @grabber({})
+
 @grabber
-
-<script input="hidden" defer>
-  startGrabber(@0);
+<script id="script_@uid" input="hidden">
+  window['grabberArg'] = @0;
 </script>
+@startgrabber(@uid)
+@end
 
-<div id='grabber-frame'></div>
+@startgrabber
+<script id="script_@uid" input="hidden">
+  window['grabberUid'] = 'id_@0';
+  setTimeout(function() {
+    startGrabber();
+  }, 100);
+</script>
+<div id='id_@0'></div>
 @end
 -->
 
