@@ -13,12 +13,24 @@ link: http://localhost:3000/home/english-lia/lul.css
 link: http://localhost:3000/home/english-lia/consys.css
 
 @gr: @grabber({})
-@grabber
-<script input="hidden" defer>
-  startGrabber(@0);
-</script>
 
-<div id='grabber-frame'></div>
+@grabber
+<script id="script_@uid" input="hidden">
+  window['grabberArg'] = @0;
+  console.log('Arg updated');
+</script>
+@startgrabber(@uid)
+@end
+
+@startgrabber
+<script id="script_@uid" input="hidden">
+  console.log('Uid updated');
+  window['grabberUid'] = 'id_@0';
+  setTimeout(function() {
+    startGrabber();
+  }, 100);
+</script>
+<div id='id_@0'></div>
 @end
 
 -->
@@ -33,6 +45,27 @@ link: http://localhost:3000/home/english-lia/consys.css
   "maxTime": 105
 }
 ```
+
+# Youtube Script Grabber 
+
+```json @grabber
+{
+  "videoId": "9tbxDgcv74c",
+  "languageCode": "en",
+}
+```
+
+
+
+
+
+
+
+
+
+
+
+
 
 # New Features
 * minTime and maxTime as macro arguments
@@ -61,6 +94,7 @@ To maybe Do at some point:
 * (definition dictionary?)
 * select and save technical terms
 
-
+* Oembed
+* css observer
 
 

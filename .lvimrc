@@ -1,3 +1,6 @@
 set tags=~/english-lia/tags
 map U :wa<cr>:!~/english-lia/.compile.sh<cr><cr>:mksession! ~/english-lia/.session.vim<cr>
 
+func! JumpToTag()
+  !vim ~/english-lia/.compile.sh -c "tag <cword>"
+endfunc

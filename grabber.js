@@ -94,6 +94,9 @@ const YOUTUBE_API_LINK = 'https://www.youtube.com/iframe_api';
 class YoutubeHandler extends YoutubeTranscriptHandler {
 
   static async loadYTAPI() {
+    if(window['YT'] != undefined) 
+      return;
+
     let newScriptTag = document.createElement('script');
     newScriptTag.src = YOUTUBE_API_LINK;
 
@@ -125,7 +128,8 @@ class YoutubeHandler extends YoutubeTranscriptHandler {
   }
 
   static async setPlayerVideo(playerDummyID, videoId, width, height) {
-    if(YoutubeHandler.player != undefined) {
+    console.log(get(playerDummyID).nodeName);
+    if(get(playerDummyID).nodeName != 'SPAN') {
       YoutubeHandler.player.loadVideoById(videoId);
       return;
     }
@@ -250,7 +254,7 @@ class ContainerLayoutHandler {
 
 class ContainerHandler extends ContainerLayoutHandler {
 
-  static initializeContainers () {
+  static initializeContainers (divId) {
     let optionsContainer = new Container('options', [500, 100], [true, false]);
     new Container('player');
     new Container('transcript');
@@ -259,7 +263,7 @@ class ContainerHandler extends ContainerLayoutHandler {
     new Container('pocket');
     new Container('inspector');
 
-    optionsContainer.setRoot('grabber-frame');
+    optionsContainer.setRoot(divId);
     ContainerLayoutHandler.arrangeContainers(1200);
     for(let container of Container.all)
       container.setClass('lul-light');
@@ -810,13 +814,16 @@ class StatsTableHandler extends NameAnalyzer {
 }
 
 class Grabber {
-  
-  static async start(arg) {
+
+  static async start(arg, uid) {
+    Grabber.uid = uid;
     Grabber.arg = arg;
+    console.log('test');
     await YoutubeHandler.loadYTAPI();
 
-    get('grabber-frame').style.display = 'inline-flex';
-    ContainerHandler.initializeContainers();
+    get(Grabber.uid).style.display = 'inline-flex';
+    clear(Grabber.uid);
+    ContainerHandler.initializeContainers(Grabber.uid);
     
 
     if(Grabber.arg.videoId == undefined) {
@@ -848,9 +855,9 @@ class Grabber {
   }
 
   static async setVideo(videoLink) {
-    get('sortSelectDummy').innerHTML = '';
-    get('transcriptDummy').innerHTML = '';
-    get('statsTableDummy').innerHTML = '';
+    clear('sortSelectDummy');
+    clear('transcriptDummy');
+    clear('statsTableDummy');
       
     let videoId = YoutubeHandler.castToId(videoLink, Grabber.config.DEFAULT_ID);
 

@@ -5,16 +5,16 @@ const liaColorText = '--color-text';
 const mediumTransparency = 0.2;
 
 
-async function startGrabber(arg) {
+async function startGrabber() {
   let lulConfig = new LulConfig();
   lulConfig.apply();
 
-  await Grabber.start(arg);
+  await Grabber.start(window['grabberArg'], window['grabberUid']);
  
   //adjust the container layout
   watch({
     watchFunction: function () {
-      let referenceNode = get('grabber-frame').parentNode;
+      let referenceNode = get(window['grabberUid']).parentNode;
       let computedStyle = getComputedStyle(referenceNode);
       return asNumber(computedStyle.width) - asNumber(computedStyle.paddingLeft) - asNumber(computedStyle.paddingRight) - 18;
     },

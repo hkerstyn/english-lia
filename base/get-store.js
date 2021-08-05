@@ -8,6 +8,7 @@ import {truetypeof, uid}
  * 
  * @borrows get
  * @borrows store
+ * @borrows clear
  * @hideconstructor
  */
 
@@ -61,4 +62,17 @@ export function store(element, key) {
   }
   STORED_ELEMENTS[key] = element;
   return key;
+}
+
+/**
+ * Removes the innerHtml of all the provided elements
+ *
+ * @param {...key} keys - a {@tutorial key} array of elements
+ *
+  */
+
+export function clear(...keys) {
+  for(let key of keys) {
+    get(key).innerHTML = '';
+  }
 }

@@ -1,5 +1,5 @@
 //import all api functions
-import {get, store}
+import {get, store, clear}
   from './get-store.js';
 import {set, add, make, insert}
   from './insert.js';
@@ -13,7 +13,7 @@ import {watch}
 //log them so that rollup will include them
 //these functions will now be globally available
 console.log(
-  get, store, set, add, make, insert,
+  get, store, clear, set, add, make, insert,
   gen, genText, genHtml, uid, truetypeof,
   getCssProperty, setCssProperty, listingStringToArray, arrayToListingString,
   watch

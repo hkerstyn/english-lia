@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Tutorial: README</title>
+    <title>JSDoc: Source: base/watch.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,21 +17,42 @@
 
 <div id="main">
 
-    <h1 class="page-title">Tutorial: README</h1>
+    <h1 class="page-title">Source: base/watch.js</h1>
 
-    <section>
-
-<header>
     
 
-    <h2>README</h2>
-</header>
 
-<article>
-    <p>Welcome to the documentation!</p>
-</article>
 
-</section>
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Creates an interval that checks for a variable,
+ * and if it changes, executes arbitrary code
+ *
+ * @param {watcher} watcher - an object defining the above values
+ *
+ */
+
+export function watch(watcher) {
+  let previousValue;
+  setInterval(function () {
+    let newValue = watcher.watchFunction();
+    if(newValue == previousValue)
+      return;
+
+    previousValue = newValue;
+    watcher.reactFunction(newValue);
+  }, watcher.interval);
+  watcher.reactFunction(watcher.watchFunction());
+} 
+
+</code></pre>
+        </article>
+    </section>
+
+
+
 
 </div>
 

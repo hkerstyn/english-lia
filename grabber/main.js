@@ -16,13 +16,16 @@ import {HighlightHandler}
   from './transcript/highlight.js';
 
 class Grabber {
-  
-  static async start(arg) {
+
+  static async start(arg, uid) {
+    Grabber.uid = uid;
     Grabber.arg = arg;
+    console.log('test');
     await YoutubeHandler.loadYTAPI();
 
-    get('grabber-frame').style.display = 'inline-flex';
-    ContainerHandler.initializeContainers();
+    get(Grabber.uid).style.display = 'inline-flex';
+    clear(Grabber.uid);
+    ContainerHandler.initializeContainers(Grabber.uid);
     
 
     if(Grabber.arg.videoId == undefined) {
@@ -54,9 +57,9 @@ class Grabber {
   }
 
   static async setVideo(videoLink) {
-    get('sortSelectDummy').innerHTML = '';
-    get('transcriptDummy').innerHTML = '';
-    get('statsTableDummy').innerHTML = '';
+    clear('sortSelectDummy');
+    clear('transcriptDummy');
+    clear('statsTableDummy');
       
     let videoId = YoutubeHandler.castToId(videoLink, Grabber.config.DEFAULT_ID);
 

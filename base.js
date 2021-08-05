@@ -101,6 +101,7 @@ function truetypeof(value) {
  * 
  * @borrows get
  * @borrows store
+ * @borrows clear
  * @hideconstructor
  */
 
@@ -154,6 +155,19 @@ function store(element, key) {
   }
   STORED_ELEMENTS[key] = element;
   return key;
+}
+
+/**
+ * Removes the innerHtml of all the provided elements
+ *
+ * @param {...key} keys - a {@tutorial key} array of elements
+ *
+  */
+
+function clear(...keys) {
+  for(let key of keys) {
+    get(key).innerHTML = '';
+  }
 }
 
 /**
@@ -304,6 +318,14 @@ function arrayToListingString(array) {
   return listingString;
 }
 
+/**
+ * Creates an interval that checks for a variable,
+ * and if it changes, executes arbitrary code
+ *
+ * @param {watcher} watcher - an object defining the above values
+ *
+ */
+
 function watch(watcher) {
   let previousValue;
   setInterval(function () {
@@ -322,7 +344,7 @@ function watch(watcher) {
 //log them so that rollup will include them
 //these functions will now be globally available
 console.log(
-  get, store, set, add, make, insert,
+  get, store, clear, set, add, make, insert,
   gen, genText, genHtml, uid, truetypeof,
   getCssProperty, setCssProperty, listingStringToArray, arrayToListingString,
   watch

@@ -5,6 +5,9 @@ import {YoutubeTranscriptHandler}
 export class YoutubeHandler extends YoutubeTranscriptHandler {
 
   static async loadYTAPI() {
+    if(window['YT'] != undefined) 
+      return;
+
     let newScriptTag = document.createElement('script');
     newScriptTag.src = YOUTUBE_API_LINK;
 
@@ -36,7 +39,8 @@ export class YoutubeHandler extends YoutubeTranscriptHandler {
   }
 
   static async setPlayerVideo(playerDummyID, videoId, width, height) {
-    if(YoutubeHandler.player != undefined) {
+    console.log(get(playerDummyID).nodeName);
+    if(get(playerDummyID).nodeName != 'SPAN') {
       YoutubeHandler.player.loadVideoById(videoId);
       return;
     }

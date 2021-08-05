@@ -6,7 +6,7 @@ import {genDummy, constrainDummy}
 
 export class ContainerHandler extends ContainerLayoutHandler {
 
-  static initializeContainers () {
+  static initializeContainers (divId) {
     let optionsContainer = new Container('options', [500, 100], [true, false]);
     let playerContainer = new Container('player');
     let transcriptContainer = new Container('transcript');
@@ -15,7 +15,7 @@ export class ContainerHandler extends ContainerLayoutHandler {
     let pocketContainer = new Container('pocket');
     let inspectorContainer = new Container('inspector');
 
-    optionsContainer.setRoot('grabber-frame');
+    optionsContainer.setRoot(divId);
     ContainerLayoutHandler.arrangeContainers(1200);
     for(let container of Container.all)
       container.setClass('lul-light');
