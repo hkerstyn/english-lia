@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Tutorial: PseudoClass</title>
+    <title>JSDoc: Tutorial: ScriptImport</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,26 +17,41 @@
 
 <div id="main">
 
-    <h1 class="page-title">Tutorial: PseudoClass</h1>
+    <h1 class="page-title">Tutorial: ScriptImport</h1>
 
     <section>
 
 <header>
     
 
-    <h2>PseudoClass</h2>
+    <h2>ScriptImport</h2>
 </header>
 
 <article>
-    <p>A PseudoClass is a class only shown in this documentation.
-To retrieve a function of that class,
-simply call it as global function.</p>
-<p><strong>Example:</strong></p>
-<pre class="prettyprint source"><code>let myObj = GetStore.get(&quot;myKey&quot;);
+    <p>In order to use any of the functions described here,
+you need to import them to your website.</p>
+<h2>External Websites</h2>
+<p>Typically, this is done via script tags in the head of your HTML-Document:</p>
+<pre class="prettyprint source"><code>&lt;script src=&quot;https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/base.js&quot;>&lt;/script>
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/consys.js&quot;>&lt;/script>
+&lt;script src=&quot;https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/lul.js&quot;>&lt;/script>
+
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/lul.css&quot;>
+&lt;link rel=&quot;stylesheet&quot; href=&quot;https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/consys.css&quot;>
 </code></pre>
-<p>will throw an error.</p>
-<p>The proper way to use the <a href="GetStore.html#.get">get</a>-function would be:</p>
-<pre class="prettyprint source"><code>let myObj = get(&quot;myKey&quot;);
+<p>If you do not wish to use containers, you can omit importing <code>consys.js</code> and <code>consys.css</code>.</p>
+<h2>LiaScript</h2>
+<p>However, when working inside LiaScript,
+it is convenient to also import <code>lul-lia-bridge.js</code>, which
+makes sure the colors match those of the LiaScript environment.</p>
+<pre class="prettyprint source"><code>script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/base.js
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/consys.js
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/lul.js
+
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/lul-lia-bridge.js
+
+link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/lul.css
+link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/consys.css
 </code></pre>
 </article>
 

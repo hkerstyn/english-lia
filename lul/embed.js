@@ -5,7 +5,6 @@
  */
 export class LulConfig {
 
-
   /**
    * Initializes the library with the default values.
    * @constructor

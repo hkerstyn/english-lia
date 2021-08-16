@@ -8,6 +8,7 @@ script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/base.js
 script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/consys.js
 script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/grabber.js
 script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/grabber-lia-bridge.js
+script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/lul-lia-bridge.js
 script: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/lul.js
 link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/lul.css
 link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/consys.css
@@ -33,4 +34,5 @@ link: https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/consys.css
 -->
 
 # Youtube Script Grabber 
+
 @gr

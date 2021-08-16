@@ -19,9 +19,11 @@ nnoremap  gT
 map <NL> }
 map  {
 nnoremap  gt
-map   @q
-noremap ,K :call EditGFileInTab() 
-noremap ,k :call EditGFile()
+map   @@
+map ( :call Changeline("undo")
+map ) :call Changeline("redo")
+noremap ,K :call EditGFileInTab() 
+noremap ,k :call EditGFile()
 nmap ,D :w!]T
 nmap ,d :w!:call JumpToTag()
 map ,l :call LoF()
@@ -32,7 +34,7 @@ nmap ,w "fyiW:!firefox --new-window f
 vmap ,g "fy:!firefox --search f
 nmap ,g "fyiw:!firefox --search f
 map ,M :!<cword> --help >~/.votemp:tabe ~/.votemp
-map ,m :!man <cword>
+map ,m :!man <cword>
 map ,E :tabe %:p:h
 map ,e :!vim %:p:h
 map ,v :!vim ~/.vimrc:source ~/.vimrc
@@ -50,22 +52,19 @@ map U :wa:!~/english-lia/.compile.sh:mksession! ~/english-lia/.session.vim
 map ZH :wqa!
 map ZU :wa!
 nnoremap \d :YcmShowDetailedDiagnostic
-nmap cV <Plug>SystemPasteLine
-xmap cv <Plug>SystemPaste
-nmap cv <Plug>SystemPaste
-nmap cP <Plug>SystemCopyLine
-xmap cp <Plug>SystemCopy
-nmap cp <Plug>SystemCopy
 nmap cS <Plug>CSurround
 nmap cs <Plug>Csurround
 nmap ds <Plug>Dsurround
 vmap gx <Plug>NetrwBrowseXVis
 nmap gx <Plug>NetrwBrowseX
 xmap gS <Plug>VgSurround
+map gdd cc
 map gk <Plug>(easymotion-k)
 map gj <Plug>(easymotion-j)
 map gh <Plug>(easymotion-linebackward)
 map gl <Plug>(easymotion-lineforward)
+map gL :tabm +1
+map gH :tabm -1
 nmap ySS <Plug>YSsurround
 nmap ySs <Plug>YSsurround
 nmap yss <Plug>Yssurround
@@ -499,33 +498,30 @@ imap  kgJcw
 inoremap  ö
 imap  <Plug>Isurround
 inoremap  ü
-map ßf zfa{
-map ßi yiwG/importOimport {"}  from './';<Left><Left>
-map ßd O/**/kO
+map Ü :ALEToggle
 map ü :ALEFix
 map ä "
-map ö $
+map Ö ^
+map ö g_
 let &cpo=s:cpo_save
 unlet s:cpo_save
 set autoindent
 set background=dark
 set backspace=indent,eol,start
 set backupdir=~/.cache/vim/backup//
-set cindent
 set completeopt=menuone
 set cpoptions=aAceFsB
 set directory=~/.cache/vim/swap//
 set expandtab
 set fileencodings=ucs-bom,utf-8,default,latin1
 set helplang=en
-set operatorfunc=<SNR>18_system_paste
 set pyxversion=3
 set ruler
-set runtimepath=~/.vim,~/.vim/plugged/vim-system-copy,~/.vim/plugged/vim-easymotion,~/.vim/plugged/nerdtree,~/.vim/plugged/YouCompleteMe,~/.vim/plugged/vim-localvimrc,~/.vim/plugged/ale,~/.vim/plugged/vim-javascript,/usr/share/vim/vimfiles,/usr/share/vim/vim82,/usr/share/vim/vimfiles/after,~/.vim/plugged/vim-javascript/after,~/.vim/after
+set runtimepath=~/.vim,~/.vim/plugged/vim-easymotion,~/.vim/plugged/nerdtree,~/.vim/plugged/YouCompleteMe,~/.vim/plugged/vim-localvimrc,~/.vim/plugged/wal.vim,~/.vim/plugged/ale,~/.vim/plugged/vim-javascript,/usr/share/vim/vimfiles,/usr/share/vim/vim82,/usr/share/vim/vimfiles/after,~/.vim/plugged/vim-javascript/after,~/.vim/after
 set shiftwidth=2
 set shortmess=filnxtToOSc
 set smartindent
-set suffixes=.bak,~,.o,.info,.swp,.aux,.bbl,.blg,.brf,.cb,.dvi,.idx,.ilg,.ind,.inx,.jpg,.log,.out,.png,.toc,.snap
+set suffixes=.bak,~,.o,.info,.swp,.aux,.bbl,.blg,.brf,.cb,.dvi,.idx,.ilg,.ind,.inx,.jpg,.log,.out,.png,.toc
 set tabstop=2
 set tags=~/english-lia/tags
 set undodir=~/.vimundo
@@ -543,7 +539,6 @@ argglobal
 %argdel
 $argadd ~/english-lia/
 set stal=2
-tabnew
 tabnew
 tabrewind
 argglobal
@@ -717,143 +712,17 @@ setlocal nowinfixwidth
 setlocal nowrap
 setlocal wrapmargin=0
 tabnext
-edit english-lia/grabber/grabber.md
+edit english-lia/tutorials/LulTutorial.md
 argglobal
-balt english-lia/grabber/grabber.md
-setlocal keymap=
-setlocal noarabic
-setlocal autoindent
-setlocal backupcopy=
-setlocal balloonexpr=
-setlocal nobinary
-setlocal nobreakindent
-setlocal breakindentopt=
-setlocal bufhidden=
-setlocal buflisted
-setlocal buftype=
-setlocal cindent
-setlocal cinkeys=0{,0},0),0],:,0#,!^F,o,O,e
-setlocal cinoptions=
-setlocal cinwords=if,else,while,do,for,switch
-setlocal colorcolumn=
-setlocal comments=fb:*,fb:-,fb:+,n:>
-setlocal commentstring=<!--%s-->
-setlocal complete=.,w,b,u,t,i
-setlocal concealcursor=
-setlocal conceallevel=0
-setlocal completefunc=
-setlocal nocopyindent
-setlocal cryptmethod=
-setlocal nocursorbind
-setlocal nocursorcolumn
-setlocal nocursorline
-setlocal cursorlineopt=both
-setlocal define=
-setlocal dictionary=
-setlocal nodiff
-setlocal equalprg=
-setlocal errorformat=
-setlocal expandtab
-if &filetype != 'markdown'
-setlocal filetype=markdown
-endif
-setlocal fixendofline
-setlocal foldcolumn=0
-setlocal foldenable
-setlocal foldexpr=0
-setlocal foldignore=#
-setlocal foldlevel=0
-setlocal foldmarker={{{,}}}
-setlocal foldmethod=manual
-setlocal foldminlines=1
-setlocal foldnestmax=20
-setlocal foldtext=foldtext()
-setlocal formatexpr=
-setlocal formatoptions=tcqln
-setlocal formatlistpat=^\\s*\\d\\+\\.\\s\\+\\|^[-*+]\\s\\+\\|^\\[^\\ze[^\\]]\\+\\]:
-setlocal formatprg=
-setlocal grepprg=
-setlocal iminsert=0
-setlocal imsearch=-1
-setlocal include=
-setlocal includeexpr=
-setlocal indentexpr=
-setlocal indentkeys=0{,0},0),0],:,0#,!^F,o,O,e
-setlocal noinfercase
-setlocal iskeyword=@,48-57,_,192-255,$
-setlocal keywordprg=
-setlocal nolinebreak
-setlocal nolisp
-setlocal lispwords=
-setlocal nolist
-setlocal listchars=
-setlocal makeencoding=
-setlocal makeprg=
-setlocal matchpairs=(:),{:},[:],<:>
-setlocal modeline
-setlocal modifiable
-setlocal nrformats=bin,octal,hex
-setlocal nonumber
-setlocal numberwidth=4
-setlocal omnifunc=htmlcomplete#CompleteTags
-setlocal path=
-setlocal nopreserveindent
-setlocal nopreviewwindow
-setlocal quoteescape=\\
-setlocal noreadonly
-setlocal norelativenumber
-setlocal norightleft
-setlocal rightleftcmd=search
-setlocal noscrollbind
-setlocal scrolloff=-1
-setlocal shiftwidth=2
-setlocal noshortname
-setlocal showbreak=
-setlocal sidescrolloff=-1
-setlocal signcolumn=auto
-setlocal smartindent
-setlocal softtabstop=0
-setlocal nospell
-setlocal spellcapcheck=[.?!]\\_[\\])'\"\	\ ]\\+
-setlocal spellfile=
-setlocal spelllang=en
-setlocal spelloptions=
-setlocal statusline=
-setlocal suffixesadd=
-setlocal swapfile
-setlocal synmaxcol=3000
-if &syntax != 'markdown'
-setlocal syntax=markdown
-endif
-setlocal tabstop=2
-setlocal tagcase=
-setlocal tagfunc=
-setlocal tags=
-setlocal termwinkey=
-setlocal termwinscroll=10000
-setlocal termwinsize=
-setlocal textwidth=0
-setlocal thesaurus=
-setlocal undofile
-setlocal undolevels=-123456
-setlocal varsofttabstop=
-setlocal vartabstop=
-setlocal wincolor=
-setlocal nowinfixheight
-setlocal nowinfixwidth
-setlocal wrap
-setlocal wrapmargin=0
-silent! normal! zE
-let &fdl = &fdl
-let s:l = 32 - ((28 * winheight(0) + 17) / 35)
-if s:l < 1 | let s:l = 1 | endif
-keepjumps exe s:l
-normal! zt
-keepjumps 32
-normal! 03|
-tabnext
-edit english-lia/grabber/grabber-offline.md
-argglobal
+balt english-lia/tutorials/LulTutorial.md
+iabbr <buffer> tut {@tutorial<-->} <++>
+iabbr <buffer> tuta [<--> ]{@tutorial <++>} <++>
+iabbr <buffer> ln {@link<-->} <++>
+iabbr <buffer> lna [<--> ]{@link <++>} <++>
+iabbr <buffer> cde `<--> ` <++>
+iabbr <buffer> blk ```<-->```
+iabbr <buffer> itl *<-->* <++>
+iabbr <buffer> bld **<-->** <++>
 setlocal keymap=
 setlocal noarabic
 setlocal autoindent
@@ -979,20 +848,17 @@ setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 15 - ((12 * winheight(0) + 17) / 35)
+let s:l = 52 - ((4 * winheight(0) + 17) / 34)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 15
+keepjumps 52
 normal! 0
 tabnext 2
 set stal=1
-badd +24 english-lia/grabber/main.js
-badd +3 english-lia/grabber/interface.js
-badd +12 english-lia/grabber-lia-bridge.js
-badd +54 english-lia/grabber/grabber-offline.md
-badd +43 english-lia/grabber/youtube/youtube.js
-badd +0 english-lia/grabber/grabber.md
+badd +7 english-lia/grabber/grabber.md
+badd +1 english-lia/grabber/grabber-offline.md
+badd +0 english-lia/tutorials/LulTutorial.md
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
 endif
@@ -1003,6 +869,7 @@ if filereadable(s:sx)
   exe "source " . fnameescape(s:sx)
 endif
 let &g:so = s:so_save | let &g:siso = s:siso_save
+nohlsearch
 doautoall SessionLoadPost
 unlet SessionLoad
 " vim: set ft=vim :

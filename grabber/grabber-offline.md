@@ -8,6 +8,7 @@ script: http://localhost:3000/home/english-lia/base.js
 script: http://localhost:3000/home/english-lia/consys.js
 script: http://localhost:3000/home/english-lia/grabber.js
 script: http://localhost:3000/home/english-lia/grabber-lia-bridge.js
+script: http://localhost:3000/home/english-lia/lul-lia-bridge.js
 script: http://localhost:3000/home/english-lia/lul.js
 link: http://localhost:3000/home/english-lia/lul.css
 link: http://localhost:3000/home/english-lia/consys.css
@@ -35,7 +36,7 @@ link: http://localhost:3000/home/english-lia/consys.css
 
 -->
 
-# Youtube Script Grabber 
+# Youtube Script Grabber
 
 ```json @grabber
 {
@@ -80,21 +81,13 @@ link: http://localhost:3000/home/english-lia/consys.css
 To Do next:
 * clean up & prettify codebase
 * expand documentation
-* adjust new layout for all widths 
 
 ------
-Bugs to fix:
-* loading video does not work after hopping slides
-* fix some languaes not working
-
 
 To maybe Do at some point:
 * jump to section
 * examine and select neighbors
 * (definition dictionary?)
 * select and save technical terms
-
-* Oembed
-* css observer
 
 

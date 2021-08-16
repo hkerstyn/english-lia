@@ -5,7 +5,6 @@
  */
 class LulConfig {
 
-
   /**
    * Initializes the library with the default values.
    * @constructor
@@ -761,3 +760,7 @@ console.log(
   genRadioArray, genButtonRadioArray, genSelection,
   genCollapsible, genOverflow, genEntry, genBox
 );
+
+//use the default config
+let lulConfig$1 = new LulConfig();
+lulConfig$1.apply();

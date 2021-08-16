@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Tutorial: PseudoClass</title>
+    <title>JSDoc: Tutorial: BaseLibrary</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,26 +17,48 @@
 
 <div id="main">
 
-    <h1 class="page-title">Tutorial: PseudoClass</h1>
+    <h1 class="page-title">Tutorial: BaseLibrary</h1>
 
     <section>
 
 <header>
     
 
-    <h2>PseudoClass</h2>
+    <h2>BaseLibrary</h2>
 </header>
 
 <article>
-    <p>A PseudoClass is a class only shown in this documentation.
-To retrieve a function of that class,
-simply call it as global function.</p>
-<p><strong>Example:</strong></p>
-<pre class="prettyprint source"><code>let myObj = GetStore.get(&quot;myKey&quot;);
-</code></pre>
-<p>will throw an error.</p>
-<p>The proper way to use the <a href="GetStore.html#.get">get</a>-function would be:</p>
-<pre class="prettyprint source"><code>let myObj = get(&quot;myKey&quot;);
+    <p>The Base Library contains many convenient functions.</p>
+<p>In order to use it, make sure that you
+<a href="tutorial-ScriptImport.html"> import </a> <code>base.js</code><br>
+After doing so, all functions are immediately and globally available.</p>
+<p>These functions can be grouped into different categories:</p>
+<ul>
+<li><a href="GetStore.html"> get and store </a> for saving and retrieving elements,</li>
+<li><a href="cssControl.html"> css control functions </a> that facilitate the reading and modifying of css variables,</li>
+<li><a href="Insert.html"> Insertion functions </a> for easily placing HTML-Elements on the page,</li>
+<li>and various <a href="Misc.html"> other functions </a></li>
+</ul>
+<p>Here is an example usage of the base library:</p>
+<pre class="prettyprint source"><code>&lt;!DOCTYPE html>
+&lt;html lang=&quot;en&quot;>
+&lt;head>
+  &lt;title>My first Website&lt;/title>
+  &lt;meta charset=&quot;UTF-8&quot;> 
+  &lt;script src=&quot;https://cdn.jsdelivr.net/gh/kaptn-seebar/english-lia@latest/base.js&quot;>&lt;/script>
+  &lt;meta name=&quot;viewport&quot; content=&quot;width=device-width,initial-scale=1&quot;>
+  &lt;script>
+  //create some text
+  let textSpan = genText(&quot;Hello, World!&quot;);
+  //put it inside the div
+  set(&quot;myDiv&quot;, textSpan);
+  &lt;/script>
+&lt;/head>
+
+&lt;body>
+ &lt;div id=&quot;myDiv>&lt;/div> 
+&lt;/body>
+&lt;/html>
 </code></pre>
 </article>
 
