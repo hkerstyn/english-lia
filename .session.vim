@@ -712,13 +712,13 @@ setlocal nowinfixwidth
 setlocal nowrap
 setlocal wrapmargin=0
 tabnext
-edit english-lia/tutorials/LulTutorial.md
+edit english-lia/grabber/grabber-offline.md
 argglobal
-balt english-lia/tutorials/LulTutorial.md
-iabbr <buffer> tut {@tutorial<-->} <++>
-iabbr <buffer> tuta [<--> ]{@tutorial <++>} <++>
-iabbr <buffer> ln {@link<-->} <++>
+balt english-lia/grabber/grabber-offline.md
 iabbr <buffer> lna [<--> ]{@link <++>} <++>
+iabbr <buffer> ln {@link<-->} <++>
+iabbr <buffer> tuta [<--> ]{@tutorial <++>} <++>
+iabbr <buffer> tut {@tutorial<-->} <++>
 iabbr <buffer> cde `<--> ` <++>
 iabbr <buffer> blk ```<-->```
 iabbr <buffer> itl *<-->* <++>
@@ -848,17 +848,15 @@ setlocal wrap
 setlocal wrapmargin=0
 silent! normal! zE
 let &fdl = &fdl
-let s:l = 52 - ((4 * winheight(0) + 17) / 34)
+let s:l = 72 - ((22 * winheight(0) + 17) / 34)
 if s:l < 1 | let s:l = 1 | endif
 keepjumps exe s:l
 normal! zt
-keepjumps 52
-normal! 0
+keepjumps 72
+normal! 03|
 tabnext 2
 set stal=1
-badd +7 english-lia/grabber/grabber.md
-badd +1 english-lia/grabber/grabber-offline.md
-badd +0 english-lia/tutorials/LulTutorial.md
+badd +0 english-lia/grabber/grabber-offline.md
 if exists('s:wipebuf') && len(win_findbuf(s:wipebuf)) == 0
   silent exe 'bwipe ' . s:wipebuf
 endif

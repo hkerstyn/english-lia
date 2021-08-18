@@ -8,7 +8,13 @@
 
 export function watch(watcher) {
   let previousValue;
-  setInterval(function () {
+  let watcherInterval = setInterval(function () {
+    if(watcher.killFunction != undefined) 
+      if(watcher.killFunction() == true) {
+        clearInterval(watcherInterval);
+        return;
+      }
+
     let newValue = watcher.watchFunction();
     if(newValue == previousValue)
       return;

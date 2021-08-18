@@ -59,35 +59,25 @@ link: http://localhost:3000/home/english-lia/consys.css
 
 
 
-
-
-
-
-
-
-
-
-
-# New Features
-* minTime and maxTime as macro arguments
-* fix language reselection
-* support more languages in table
-* search table
-* search youtube
-* exclude small words
-
 # TODO
 
 To Do next:
 * clean up & prettify codebase
 * expand documentation
+  * Maintenance !!!!
+  * Grabber macro args
+  * consys
+  * lul oddities
 
-------
+---------
 
 To maybe Do at some point:
-* jump to section
 * examine and select neighbors
 * (definition dictionary?)
 * select and save technical terms
+* copy sentences of word in inspector
+* copy words in pocket
+* disable features (blanking)
+
 
 

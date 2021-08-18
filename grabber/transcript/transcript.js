@@ -40,6 +40,11 @@ export class TranscriptHandler extends TranscriptScrollHandler {
         HighlightHandler.highlightTimeWordGroup(currentTimeWordGroup);
         TranscriptHandler.scrollToInstance(currentTimeWordGroup.wordInstances[0], TranscriptHandler.config.scrollOffset);
       },
+      killFunction: function() {
+        if(YoutubeHandler.player == undefined)
+          return true;
+        return false;
+      },
       interval: TranscriptHandler.config.highlightInterval
     });
   }

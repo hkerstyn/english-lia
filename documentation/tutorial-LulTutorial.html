@@ -105,13 +105,61 @@ set(myDiv, &quot;button&quot;);
 </code></pre>
 <p>Arguments that are handled this way are called <a href="tutorial-key.html"> keys </a>.</p>
 <h2>Configuration</h2>
-<p>The example of the last chapter gave us a black button, since that color is the default.
-We can change the default colors by putting the following somewhere in our script:</p>
+<h3>Via LulConfig</h3>
+<p>The example of the last chapter gave us a black button, that turns grey when hovered, since these colors are the default.<br>
+This is because the css class of the button is</p>
+<pre class="prettyprint source"><code>lul-dark lul-medium-hover lul-norm-height
+</code></pre>
+<p>We could make a grey button that hovers to white by setting the default button class to</p>
+<pre class="prettyprint source"><code>lul-medium lul-light-hover lul-norm-height
+</code></pre>
+<p>This is done like so:</p>
 <pre class="prettyprint source"><code>//create a config object with all default values
 let newLulConfig = new LulConfig();
 
-//modify the values that interest us
+//modify the value that interest us
+newLulConfig.DEFAULT_BUTTON_CLASS = 'lul-medium lul-light-hover lul-norm-height';
+
+//apply the changes
+newLulConfig.apply();
 </code></pre>
+<p>Try it and you will see the effect!</p>
+<p>Here is a <a href="LulConfig.html"> list of all possible options </a></p>
+<h3>Via setCssProperty()</h3>
+<p>&quot;But&quot;, I hear you say, &quot;what if I don't want my buttons to be white, grey or black?&quot;<br>
+Don't worry, it is possible to change the dark, medium and light colors that the LUL will use.</p>
+<p>The following will turn the lumpy old grey into fresh red:</p>
+<pre class="prettyprint source"><code>setCssProperty(&quot;--color-medium&quot;, &quot;255, 50, 0&quot;);
+</code></pre>
+<p>This code snippet can also be executed after <code>newLulConfig.apply() </code>, so you can change the colors
+at any point.</p>
+<p>A complete list of modifiable css-properties can be found <a href="tutorial-CssList.html"> here </a></p>
+<h3>Via bridgeLulToLia()</h3>
+<p>Now, while it is great that you can manually specify any fancy color palette you like,
+you might nonetheless feel the desire to have the color palette automatically match the LiaScript Course.<br>
+On an external website, you would not care about that.</p>
+<p>Luckily, the script <strong>lul-lia-bridge.js</strong> provides the function <strong>bridgeLulToLia()</strong>, which does just that.
+You can try this out by using the following script:</p>
+<pre class="prettyprint source"><code>bridgeLulToLia();
+let button = genButton({
+  text: &quot;Click me!&quot;,
+  onclick: function() {
+    alert(&quot;Thank you!&quot;);
+  }
+});
+
+set(&quot;myDiv&quot;, button);
+</code></pre>
+<p>Now, the button is green or whatever, and it even adapts if you change the color or the darkmode</p>
+<h2>More examples</h2>
+<p>Great! All of the basic stuff is now set up and you can start LULling!</p>
+<p>Here is a list of examples that may interest you:</p>
+<ul>
+<li><a href="tutorial-LulGenEntry.html"> using genEntry() </a></li>
+<li><a href="tutorial-LulSelection.html"> creating a radio </a></li>
+<li><a href="tutorial-LulText.html"> working with tables and text </a></li>
+</ul>
+<p>These examples contain information that can help you with the LULusage</p>
 </article>
 
 </section>
@@ -119,13 +167,13 @@ let newLulConfig = new LulConfig();
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Container.html">Container</a></li><li><a href="cssControl.html">cssControl</a></li><li><a href="GetStore.html">GetStore</a></li><li><a href="Insert.html">Insert</a></li><li><a href="LulConfig.html">LulConfig</a></li><li><a href="LulFunctions.html">LulFunctions</a></li><li><a href="Misc.html">Misc</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-BaseLibrary.html">BaseLibrary</a></li><li><a href="tutorial-ConsysTutorial.html">ConsysTutorial</a></li><li><a href="tutorial-LulTutorial.html">LulTutorial</a></li><li><a href="tutorial-Options.html">Options</a></li><li><a href="tutorial-PseudoClass.html">PseudoClass</a></li><li><a href="tutorial-README.html">README</a></li><li><a href="tutorial-ScriptImport.html">ScriptImport</a></li><li><a href="tutorial-arg.html">arg</a></li><li><a href="tutorial-key.html">key</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#arrayToListingString">arrayToListingString</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#gen">gen</a></li><li><a href="global.html#genBox">genBox</a></li><li><a href="global.html#genButton">genButton</a></li><li><a href="global.html#genButtonRadioArray">genButtonRadioArray</a></li><li><a href="global.html#genCheck">genCheck</a></li><li><a href="global.html#genCollapsible">genCollapsible</a></li><li><a href="global.html#genEnter">genEnter</a></li><li><a href="global.html#genEntry">genEntry</a></li><li><a href="global.html#genHtml">genHtml</a></li><li><a href="global.html#genOverflow">genOverflow</a></li><li><a href="global.html#genRadioArray">genRadioArray</a></li><li><a href="global.html#genRange">genRange</a></li><li><a href="global.html#genSelection">genSelection</a></li><li><a href="global.html#genText">genText</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getCssProperty">getCssProperty</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#listingStringToArray">listingStringToArray</a></li><li><a href="global.html#make">make</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#setCssProperty">setCssProperty</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#truetypeof">truetypeof</a></li><li><a href="global.html#uid">uid</a></li><li><a href="global.html#watch">watch</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Classes</h3><ul><li><a href="Container.html">Container</a></li><li><a href="cssControl.html">cssControl</a></li><li><a href="GetStore.html">GetStore</a></li><li><a href="Insert.html">Insert</a></li><li><a href="LulConfig.html">LulConfig</a></li><li><a href="LulFunctions.html">LulFunctions</a></li><li><a href="Misc.html">Misc</a></li></ul><h3>Tutorials</h3><ul><li><a href="tutorial-BaseLibrary.html">BaseLibrary</a></li><li><a href="tutorial-ConsysTutorial.html">ConsysTutorial</a></li><li><a href="tutorial-CssList.html">CssList</a></li><li><a href="tutorial-LulGenEntry.html">LulGenEntry</a></li><li><a href="tutorial-LulSelection.html">LulSelection</a></li><li><a href="tutorial-LulText.html">LulText</a></li><li><a href="tutorial-LulTutorial.html">LulTutorial</a></li><li><a href="tutorial-Options.html">Options</a></li><li><a href="tutorial-PseudoClass.html">PseudoClass</a></li><li><a href="tutorial-README.html">README</a></li><li><a href="tutorial-ScriptImport.html">ScriptImport</a></li><li><a href="tutorial-arg.html">arg</a></li><li><a href="tutorial-key.html">key</a></li></ul><h3>Global</h3><ul><li><a href="global.html#add">add</a></li><li><a href="global.html#arrayToListingString">arrayToListingString</a></li><li><a href="global.html#clear">clear</a></li><li><a href="global.html#gen">gen</a></li><li><a href="global.html#genBox">genBox</a></li><li><a href="global.html#genButton">genButton</a></li><li><a href="global.html#genButtonRadioArray">genButtonRadioArray</a></li><li><a href="global.html#genCheck">genCheck</a></li><li><a href="global.html#genCollapsible">genCollapsible</a></li><li><a href="global.html#genEnter">genEnter</a></li><li><a href="global.html#genEntry">genEntry</a></li><li><a href="global.html#genHtml">genHtml</a></li><li><a href="global.html#genOverflow">genOverflow</a></li><li><a href="global.html#genRadioArray">genRadioArray</a></li><li><a href="global.html#genRange">genRange</a></li><li><a href="global.html#genSelection">genSelection</a></li><li><a href="global.html#genText">genText</a></li><li><a href="global.html#get">get</a></li><li><a href="global.html#getCssProperty">getCssProperty</a></li><li><a href="global.html#insert">insert</a></li><li><a href="global.html#listingStringToArray">listingStringToArray</a></li><li><a href="global.html#make">make</a></li><li><a href="global.html#set">set</a></li><li><a href="global.html#setCssProperty">setCssProperty</a></li><li><a href="global.html#store">store</a></li><li><a href="global.html#truetypeof">truetypeof</a></li><li><a href="global.html#uid">uid</a></li><li><a href="global.html#watch">watch</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Mon Aug 16 2021 15:30:02 GMT+0200 (Central European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.7</a> on Tue Aug 17 2021 11:34:29 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

@@ -103,14 +103,79 @@ Arguments that are handled this way are called [ keys ]{@tutorial key}.
 
 ## Configuration
 
-The example of the last chapter gave us a black button, since that color is the default.
-We can change the default colors by putting the following somewhere in our script:
+### Via LulConfig 
+The example of the last chapter gave us a black button, that turns grey when hovered, since these colors are the default.  
+This is because the css class of the button is
+```
+lul-dark lul-medium-hover lul-norm-height
+```
 
+We could make a grey button that hovers to white by setting the default button class to
+```
+lul-medium lul-light-hover lul-norm-height
+```
+
+This is done like so: 
 ```
 //create a config object with all default values
 let newLulConfig = new LulConfig();
 
-//modify the values that interest us
+//modify the value that interest us
+newLulConfig.DEFAULT_BUTTON_CLASS = 'lul-medium lul-light-hover lul-norm-height';
+
+//apply the changes
+newLulConfig.apply();
 ```
 
+Try it and you will see the effect!
 
+Here is a [ list of all possible options ]{@link LulConfig}
+
+### Via setCssProperty()
+
+"But", I hear you say, "what if I don't want my buttons to be white, grey or black?"  
+Don't worry, it is possible to change the dark, medium and light colors that the LUL will use.
+
+The following will turn the lumpy old grey into fresh red:
+```
+setCssProperty("--color-medium", "255, 50, 0");
+```
+This code snippet can also be executed after `newLulConfig.apply() `, so you can change the colors
+at any point.
+
+A complete list of modifiable css-properties can be found [ here ]{@tutorial CssList}
+
+
+### Via bridgeLulToLia()
+
+Now, while it is great that you can manually specify any fancy color palette you like,
+you might nonetheless feel the desire to have the color palette automatically match the LiaScript Course.  
+On an external website, you would not care about that.
+
+Luckily, the script **lul-lia-bridge.js** provides the function **bridgeLulToLia()**, which does just that.
+You can try this out by using the following script:
+```
+bridgeLulToLia();
+let button = genButton({
+  text: "Click me!",
+  onclick: function() {
+    alert("Thank you!");
+  }
+});
+
+set("myDiv", button);
+```
+Now, the button is green or whatever, and it even adapts if you change the color or the darkmode
+
+
+## More examples
+
+Great! All of the basic stuff is now set up and you can start LULling!  
+
+Here is a list of examples that may interest you:
+* [ using genEntry() ]{@tutorial LulGenEntry}
+* [ creating a radio ]{@tutorial LulSelection}
+* [ working with tables and text ]{@tutorial LulText}
+
+
+These examples contain information that can help you with the LULusage
