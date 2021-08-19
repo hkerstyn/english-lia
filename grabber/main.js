@@ -22,7 +22,6 @@ class Grabber {
   static async start(arg, uid) {
     Grabber.uid = uid;
     Grabber.arg = arg;
-    console.log('test');
     await YoutubeHandler.loadYTAPI();
 
     get(Grabber.uid).style.display = 'inline-flex';
@@ -131,6 +130,7 @@ class Grabber {
       DEFINITION_WIDTH:  Grabber.config.INSPECTOR_DEFINITION_WIDTH,
 
       SHOW_IN_TRANSCRIPT_FUNCTION: function(nameWordGroup) {
+        HighlightHandler.highlightNameWordGroup(nameWordGroup);
         TranscriptHandler.scrollToGroup(nameWordGroup, Grabber.config.TABLE_SCROLL_OFFSET);
       }
     });
@@ -144,7 +144,6 @@ class Grabber {
       tableCellClass: Grabber.config.TABLE_CELL_CLASS,
       tableTextClass: Grabber.config.TABLE_TEXT_CLASS,
       clickFunction:  async function (nameWordGroup) {
-        HighlightHandler.highlightNameWordGroup(nameWordGroup);
         set('inspector', await InspectorHandler.setWordGroup(nameWordGroup));
       }
     }));
@@ -174,7 +173,6 @@ class Grabber {
       text: Grabber.config.EXCLUDE_TEXT,
       boxClass: Grabber.config.EXCLUDE_BOX_CLASS, 
       onConfirm: function(excludeBool) {
-        console.log(excludeBool);
         StatsTableHandler.excludeBool = excludeBool;
         Grabber.setStatsTable();
       }

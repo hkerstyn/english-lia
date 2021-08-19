@@ -28,7 +28,10 @@ export class InspectorHandler {
 
     let savePocketText = InspectorHandler.config.SAVE_POCKET_TEXT.replace('word', word);
     let savePocketButton = InspectorInterfaceHandler.genSavePocketButton({
-      savePocketText: savePocketText 
+      savePocketText: savePocketText,
+      onclick: function() {
+        alert('Not implemented yet!');
+      }
     }); 
     
     let showInTranscriptText = InspectorHandler.config.SHOW_IN_TRANSCRIPT_TEXT.replace('word', word);
@@ -41,7 +44,10 @@ export class InspectorHandler {
 
     let copyLinesText = InspectorHandler.config.COPY_LINES_TEXT.replace('word', word);
     let copyLinesButton = InspectorInterfaceHandler.genCopyLinesButton({
-      copyLinesText: copyLinesText
+      copyLinesText: copyLinesText,
+      onclick: function() {
+       InspectorHandler.copyLines(nameWordGroup);
+      }
     });
 
     return InspectorInterfaceHandler.genInspector({
@@ -51,10 +57,22 @@ export class InspectorHandler {
       showInTranscriptButton: showInTranscriptButton, 
       copyLinesButton: copyLinesButton,
     });
-
-
   }
 
-  
+  static copyLines(nameWordGroup) {
+    let lines = '';
+    let timeWordGroups = new Set();
+    for(let wordInstance of nameWordGroup.wordInstances) {
+      let line = '';
+      for(let wordInstanceInTimeWordGroup of wordInstance.timeWordGroup.wordInstances) {
+        line += wordInstanceInTimeWordGroup.text + ' ';
+      }
+      if(!timeWordGroups.has(wordInstance.timeWordGroup)) {
+        timeWordGroups.add(wordInstance.timeWordGroup);
+        lines += line + '\n';
+      }
+      navigator.clipboard.writeText(lines);
+    }
+  }
 
 }

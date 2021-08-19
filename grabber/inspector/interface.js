@@ -12,7 +12,6 @@ export class InspectorInterfaceHandler {
     let definitionFrame = genBox({});
     definitionFrame.className +=  ' lul-margin lul-padding';
 
-    console.log(definitionSpans);
     for(let definitionSpan of definitionSpans) {
       definitionBox.appendChild(definitionSpan);
     }
@@ -20,9 +19,10 @@ export class InspectorInterfaceHandler {
     return definitionFrame;
   }
 
-  static genSavePocketButton({savePocketText}) {
+  static genSavePocketButton({savePocketText, onclick}) {
     let savePocketButton = genButton({
-      text: savePocketText
+      text: savePocketText,
+      onclick: onclick
     });
     savePocketButton.className += ' lul-margin';
     return savePocketButton;
@@ -37,9 +37,10 @@ export class InspectorInterfaceHandler {
     return showInTranscriptButton;
   }
 
-  static genCopyLinesButton({copyLinesText}) {
+  static genCopyLinesButton({copyLinesText, onclick}) {
     let copyLinesButton = genButton({
-      text: copyLinesText
+      text: copyLinesText,
+      onclick: onclick
     });
     copyLinesButton.className += ' lul-margin';
     return copyLinesButton;
@@ -60,3 +61,5 @@ export class InspectorInterfaceHandler {
     return table;
   }
 }
+
+

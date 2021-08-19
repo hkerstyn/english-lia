@@ -12,7 +12,6 @@ export class DefinitionHandler {
       definitionSpans.push(definitionSpan);
 
       if(i + 1 < definitionArray.length) {
-        definitionSpans.push(genHtml('<br>'));
         definitionSpans.push(genText('~~~', 'lul-highlight-text'));
       }
     }

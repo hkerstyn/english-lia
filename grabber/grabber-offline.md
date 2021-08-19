@@ -18,14 +18,12 @@ link: http://localhost:3000/home/english-lia/consys.css
 @grabber
 <script id="script_@uid" input="hidden">
   window['grabberArg'] = @0;
-  console.log('Arg updated');
 </script>
 @startgrabber(@uid)
 @end
 
 @startgrabber
 <script id="script_@uid" input="hidden">
-  console.log('Uid updated');
   window['grabberUid'] = 'id_@0';
   setTimeout(function() {
     startGrabber();

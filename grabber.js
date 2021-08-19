@@ -12,7 +12,6 @@ class DefinitionHandler {
       definitionSpans.push(definitionSpan);
 
       if(i + 1 < definitionArray.length) {
-        definitionSpans.push(genHtml('<br>'));
         definitionSpans.push(genText('~~~', 'lul-highlight-text'));
       }
     }
@@ -53,7 +52,6 @@ class InspectorInterfaceHandler {
     let definitionFrame = genBox({});
     definitionFrame.className +=  ' lul-margin lul-padding';
 
-    console.log(definitionSpans);
     for(let definitionSpan of definitionSpans) {
       definitionBox.appendChild(definitionSpan);
     }
@@ -61,9 +59,10 @@ class InspectorInterfaceHandler {
     return definitionFrame;
   }
 
-  static genSavePocketButton({savePocketText}) {
+  static genSavePocketButton({savePocketText, onclick}) {
     let savePocketButton = genButton({
-      text: savePocketText
+      text: savePocketText,
+      onclick: onclick
     });
     savePocketButton.className += ' lul-margin';
     return savePocketButton;
@@ -78,9 +77,10 @@ class InspectorInterfaceHandler {
     return showInTranscriptButton;
   }
 
-  static genCopyLinesButton({copyLinesText}) {
+  static genCopyLinesButton({copyLinesText, onclick}) {
     let copyLinesButton = genButton({
-      text: copyLinesText
+      text: copyLinesText,
+      onclick: onclick
     });
     copyLinesButton.className += ' lul-margin';
     return copyLinesButton;
@@ -127,7 +127,10 @@ class InspectorHandler {
 
     let savePocketText = InspectorHandler.config.SAVE_POCKET_TEXT.replace('word', word);
     let savePocketButton = InspectorInterfaceHandler.genSavePocketButton({
-      savePocketText: savePocketText 
+      savePocketText: savePocketText,
+      onclick: function() {
+        alert('Not implemented yet!');
+      }
     }); 
     
     let showInTranscriptText = InspectorHandler.config.SHOW_IN_TRANSCRIPT_TEXT.replace('word', word);
@@ -140,7 +143,10 @@ class InspectorHandler {
 
     let copyLinesText = InspectorHandler.config.COPY_LINES_TEXT.replace('word', word);
     let copyLinesButton = InspectorInterfaceHandler.genCopyLinesButton({
-      copyLinesText: copyLinesText
+      copyLinesText: copyLinesText,
+      onclick: function() {
+       InspectorHandler.copyLines(nameWordGroup);
+      }
     });
 
     return InspectorInterfaceHandler.genInspector({
@@ -150,11 +156,23 @@ class InspectorHandler {
       showInTranscriptButton: showInTranscriptButton, 
       copyLinesButton: copyLinesButton,
     });
-
-
   }
 
-  
+  static copyLines(nameWordGroup) {
+    let lines = '';
+    let timeWordGroups = new Set();
+    for(let wordInstance of nameWordGroup.wordInstances) {
+      let line = '';
+      for(let wordInstanceInTimeWordGroup of wordInstance.timeWordGroup.wordInstances) {
+        line += wordInstanceInTimeWordGroup.text + ' ';
+      }
+      if(!timeWordGroups.has(wordInstance.timeWordGroup)) {
+        timeWordGroups.add(wordInstance.timeWordGroup);
+        lines += line + '\n';
+      }
+      navigator.clipboard.writeText(lines);
+    }
+  }
 
 }
 
@@ -186,7 +204,7 @@ const defaultConfig = {
 
   DEFAULT_SPAN_CLASS: 'lul-text',
   HIGHLIGHT_SPAN_CLASS: 'lul-highlight-text',
-  HIGHLIGHT_TEXT_INTERVAL: 500,
+  HIGHLIGHT_TEXT_INTERVAL: 1500,
   TRANSCRIPT_SCROLL_OFFSET: 70,
 
   TABLE_COLUMN_WIDTH: 120,
@@ -970,7 +988,6 @@ class Grabber {
   static async start(arg, uid) {
     Grabber.uid = uid;
     Grabber.arg = arg;
-    console.log('test');
     await YoutubeHandler.loadYTAPI();
 
     get(Grabber.uid).style.display = 'inline-flex';
@@ -1079,6 +1096,7 @@ class Grabber {
       DEFINITION_WIDTH:  Grabber.config.INSPECTOR_DEFINITION_WIDTH,
 
       SHOW_IN_TRANSCRIPT_FUNCTION: function(nameWordGroup) {
+        HighlightHandler.highlightNameWordGroup(nameWordGroup);
         TranscriptHandler.scrollToGroup(nameWordGroup, Grabber.config.TABLE_SCROLL_OFFSET);
       }
     });
@@ -1092,7 +1110,6 @@ class Grabber {
       tableCellClass: Grabber.config.TABLE_CELL_CLASS,
       tableTextClass: Grabber.config.TABLE_TEXT_CLASS,
       clickFunction:  async function (nameWordGroup) {
-        HighlightHandler.highlightNameWordGroup(nameWordGroup);
         set('inspector', await InspectorHandler.setWordGroup(nameWordGroup));
       }
     }));
@@ -1122,7 +1139,6 @@ class Grabber {
       text: Grabber.config.EXCLUDE_TEXT,
       boxClass: Grabber.config.EXCLUDE_BOX_CLASS, 
       onConfirm: function(excludeBool) {
-        console.log(excludeBool);
         StatsTableHandler.excludeBool = excludeBool;
         Grabber.setStatsTable();
       }
