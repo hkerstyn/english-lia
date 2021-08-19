@@ -86,4 +86,5 @@ export class InterfaceHandler {
     box.className += ' lul-margin';
     return box;
   }
+
 }

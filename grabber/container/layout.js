@@ -24,11 +24,11 @@ export class ContainerLayoutHandler {
         //1080 - inf
         let coupleWidth = (availableWidth - 600) / 2;
 
-        inspectorContainer.minSize = [0, 200];
+        inspectorContainer.minSize = [0, 230];
         inspectorContainer.moveTo('down', playerContainer);
 
         transcriptContainer.minSize = [coupleWidth, 437.5];
-        pocketContainer.minSize = [0, 200];
+        pocketContainer.minSize = [0, 230];
         pocketContainer.moveTo('down', transcriptContainer);
 
         statsTableContainer.moveTo('right', playerContainer, transcriptContainer);
@@ -46,10 +46,10 @@ export class ContainerLayoutHandler {
         statsTableContainer.minSize = [availableWidth - 240, 230];
         statsTableContainer.moveTo('right', filterContainer);
 
-        inspectorContainer.minSize = [availableWidth - 240, 200];
+        inspectorContainer.minSize = [availableWidth - 240, 230];
         inspectorContainer.moveTo('down', statsTableContainer, pocketContainer);
 
-        pocketContainer.minSize = [240, 200];
+        pocketContainer.minSize = [240, 230];
         pocketContainer.moveTo('right', inspectorContainer);
 
       }
@@ -66,10 +66,10 @@ export class ContainerLayoutHandler {
       statsTableContainer.minSize = [availableWidth - 240, 430];
       statsTableContainer.moveTo('right', filterContainer );
 
-      pocketContainer.minSize = [240, 200];
+      pocketContainer.minSize = [240, 230];
       pocketContainer.moveTo('down', filterContainer);
 
-      inspectorContainer.minSize = [0, 200];
+      inspectorContainer.minSize = [0, 230];
       inspectorContainer.moveTo('down', statsTableContainer, pocketContainer);
     }
 

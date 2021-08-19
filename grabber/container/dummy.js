@@ -9,9 +9,7 @@ export function genDummy(dummyName, className) {
 
 export function constrainDummy(dummy, containerName) {
   if(dummy == undefined) return;
-  dummy.style.display = 'block';
-  dummy.style.whiteSpace = 'normal';
-  dummy.style.overflowY = 'auto';
+  dummy.className = 'lul-y-scroll';
   dummy.style.height = get(containerName + '.container').size[1] + 'px';
   dummy.style.width = get(containerName + '.container').size[0] + 'px';
 }

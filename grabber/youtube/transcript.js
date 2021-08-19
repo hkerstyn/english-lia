@@ -30,23 +30,3 @@ export class YoutubeTranscriptHandler {
 
 } 
 
-async function getXMLDocFromLink(link) {
-  var request = new XMLHttpRequest();
-  request.open('GET', link, true);
-  request.responseType = 'document';
-  request.overrideMimeType('text/xml');
-  return new Promise(function(resolve, reject) {
-    request.onload = function () {
-      if (request.readyState === request.DONE) {
-        if (request.status === 200) {
-          resolve(request.responseXML);
-        }
-        else{
-          reject(request.status);
-        }
-      }
-    };
-    request.send(null);
-  });
-}
-

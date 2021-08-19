@@ -93,3 +93,29 @@ export function truetypeof(value) {
   console.warn('value: ', value);
   console.warn('deepType: ', deepType);
 }
+
+
+
+export async function getXMLDocFromLink(link, mimeType) {
+  var request = new XMLHttpRequest();
+  request.open('GET', link, true);
+  request.responseType = 'document';
+  if(mimeType == undefined)
+    request.overrideMimeType('text/xml');
+  else
+    request.overrideMimeType(mimeType);
+  return new Promise(function(resolve, reject) {
+    request.onload = function () {
+      if (request.readyState === request.DONE) {
+        if (request.status === 200) {
+          resolve(request.responseXML);
+        }
+        else{
+          reject(request.status);
+        }
+      }
+    };
+    request.send(null);
+  });
+}
+

@@ -1,5 +1,5 @@
 set tags=~/english-lia/tags
-map U :wa<cr>:!~/english-lia/.compile.sh<cr><cr>:mksession! ~/english-lia/.session.vim<cr>
+map U :wa<cr>:!~/english-lia/.compile.sh<cr><cr>
 
 iab <buffer> tut {@tutorial<-->} <++><C-H>
 iab <buffer> tuta [<--> ]{@tutorial <++>} <++><C-H>

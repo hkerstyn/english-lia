@@ -1,3 +1,5 @@
+import {InspectorHandler}
+  from './inspector/inpector.js';
 import {defaultConfig}
   from './default-config.js';
 import {YoutubeHandler}
@@ -33,6 +35,9 @@ class Grabber {
     }
     else
       Grabber.setVideo(arg.videoId);
+
+    
+
   }
 
   static setVideoSelection() {
@@ -95,6 +100,7 @@ class Grabber {
     StatsTableHandler.excludeBool = false;
     StatsTableHandler.searchTerm = undefined;
     StatsTableHandler.comparator = 'byFrequency';
+    Grabber.setInspectorConfig();
     Grabber.setStatsTable();
     Grabber.setFilter();
   }
@@ -115,18 +121,31 @@ class Grabber {
     TranscriptHandler.createTranscript(transcript, Grabber.arg.minTime,  Grabber.arg.maxTime);
   }
 
+  static setInspectorConfig() {
+    InspectorHandler.setConfig({
+      SAVE_POCKET_TEXT: Grabber.config.INSPECTOR_SAVE_POCKET_TEXT,
+      SHOW_IN_TRANSCRIPT_TEXT: Grabber.config.INSPECTOR_SHOW_IN_TRANSCRIPT_TEXT,
+      COPY_LINES_TEXT: Grabber.config.INSPECTOR_COPY_LINES_TEXT,
+      TITLE_CLASS: Grabber.config.INSPECTOR_TITLE_CLASS,
+      DEFINITION_HEIGHT: Grabber.config.INSPECTOR_DEFINITION_HEIGHT,
+      DEFINITION_WIDTH:  Grabber.config.INSPECTOR_DEFINITION_WIDTH,
+
+      SHOW_IN_TRANSCRIPT_FUNCTION: function(nameWordGroup) {
+        TranscriptHandler.scrollToGroup(nameWordGroup, Grabber.config.TABLE_SCROLL_OFFSET);
+      }
+    });
+  }
+
   static setStatsTable() {
-
-
     set('statsTableDummy', StatsTableHandler.genStatsTable({
       columnWidth: Grabber.config.TABLE_COLUMN_WIDTH,
       tableClass: Grabber.config.TABLE_CLASS,
       tableRowClass: Grabber.config.TABLE_ROW_CLASS,
       tableCellClass: Grabber.config.TABLE_CELL_CLASS,
       tableTextClass: Grabber.config.TABLE_TEXT_CLASS,
-      clickFunction:  function (nameWordGroup) {
+      clickFunction:  async function (nameWordGroup) {
         HighlightHandler.highlightNameWordGroup(nameWordGroup);
-        TranscriptHandler.scrollToGroup(nameWordGroup, Grabber.config.TABLE_SCROLL_OFFSET);
+        set('inspector', await InspectorHandler.setWordGroup(nameWordGroup));
       }
     }));
 
@@ -162,8 +181,8 @@ class Grabber {
     }));
     
   }
-  static setSortSelection() {
 
+  static setSortSelection() {
     set('sortSelectDummy', InterfaceHandler.genSortSelection({
       text: Grabber.config.SORT_SELECT_TEXT,
       direction: Grabber.config.SORT_SELECT_ENTRY_DIRECTION,

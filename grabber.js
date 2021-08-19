@@ -1,3 +1,163 @@
+const DEFINITION_LINK = 'https://www.merriam-webster.com/dictionary/';
+class DefinitionHandler {
+  
+
+
+  static async getDefinitionSpans(word) {
+    let definitionArray = await DefinitionHandler.getDefinitionArray(word);
+    let definitionSpans = [];
+
+    for(let i = 0; i < definitionArray.length; i++) {
+      let definitionSpan = genText(definitionArray[i], 'lul-text');
+      definitionSpans.push(definitionSpan);
+
+      if(i + 1 < definitionArray.length) {
+        definitionSpans.push(genHtml('<br>'));
+        definitionSpans.push(genText('~~~', 'lul-highlight-text'));
+      }
+    }
+    return definitionSpans;
+
+  }
+
+
+
+
+
+
+  static async getDefinitionArray(word) {
+    let definitionDocument = await getXMLDocFromLink(DEFINITION_LINK + word, 'text/html');
+    let rawDefinitionSpans = definitionDocument.getElementsByClassName('dtText');
+
+    let definitionTextArray = [];
+    for(let rawDefinitionSpan of rawDefinitionSpans) {
+      definitionTextArray.push(rawDefinitionSpan.innerText);
+    }
+
+    return definitionTextArray;
+  }
+
+}
+
+class InspectorInterfaceHandler {
+  static genTitle({titleClass, titleText}) {
+    return genText(titleText, titleClass);
+  }
+
+  static genDefinition({definitionHeight, definitionWidth, definitionSpans}) {
+    let definitionBox = genBox({visible: 'false', direction: 'column'});
+    definitionBox.className +=  ' lul-y-scroll';
+    definitionBox.style.alignItems = 'initial';
+    definitionBox.style.width = definitionWidth;
+    definitionBox.style.height = definitionHeight;
+    let definitionFrame = genBox({});
+    definitionFrame.className +=  ' lul-margin lul-padding';
+
+    console.log(definitionSpans);
+    for(let definitionSpan of definitionSpans) {
+      definitionBox.appendChild(definitionSpan);
+    }
+    set(definitionFrame, definitionBox);
+    return definitionFrame;
+  }
+
+  static genSavePocketButton({savePocketText}) {
+    let savePocketButton = genButton({
+      text: savePocketText
+    });
+    savePocketButton.className += ' lul-margin';
+    return savePocketButton;
+  }
+
+  static genShowInTranscriptButton({showInTranscriptText, onclick}) {
+    let showInTranscriptButton = genButton({
+      text: showInTranscriptText,
+      onclick: onclick
+    });
+    showInTranscriptButton.style.marginLeft = '10px';
+    return showInTranscriptButton;
+  }
+
+  static genCopyLinesButton({copyLinesText}) {
+    let copyLinesButton = genButton({
+      text: copyLinesText
+    });
+    copyLinesButton.className += ' lul-margin';
+    return copyLinesButton;
+  }
+
+  static genInspector({title, definition, savePocketButton, showInTranscriptButton, copyLinesButton}) {
+    let table = gen('table');
+    let tr = gen('tr');
+    let left = gen('td', 'lul-margin');
+    let right = gen('td');
+
+    set(table, tr);
+    set(tr, left, right);
+
+    set(left, title, genHtml('<br>'), definition);
+    set(right, savePocketButton, genHtml('<br>'), showInTranscriptButton, genHtml('<br>'), copyLinesButton);
+
+    return table;
+  }
+}
+
+class InspectorHandler {
+  static setConfig(config) {
+    this.config = config;
+  }
+
+  static async setWordGroup(nameWordGroup) {
+
+    let word = nameWordGroup.name;
+
+    let title = InspectorInterfaceHandler.genTitle({
+      titleClass: InspectorHandler.config.TITLE_CLASS, 
+      titleText: word
+    }); 
+
+    let definitionSpans = await DefinitionHandler.getDefinitionSpans(word);
+
+    let definition = InspectorInterfaceHandler.genDefinition({
+      definitionHeight: InspectorHandler.config.DEFINITION_HEIGHT, 
+      definitionWidth: InspectorHandler.config.DEFINITION_WIDTH, 
+      definitionSpans: definitionSpans
+    }); 
+
+
+    let savePocketText = InspectorHandler.config.SAVE_POCKET_TEXT.replace('word', word);
+    let savePocketButton = InspectorInterfaceHandler.genSavePocketButton({
+      savePocketText: savePocketText 
+    }); 
+    
+    let showInTranscriptText = InspectorHandler.config.SHOW_IN_TRANSCRIPT_TEXT.replace('word', word);
+    let showInTranscriptButton = InspectorInterfaceHandler.genShowInTranscriptButton({
+      showInTranscriptText: showInTranscriptText,
+      onclick: function() {
+        InspectorHandler.config.SHOW_IN_TRANSCRIPT_FUNCTION(nameWordGroup);
+      }
+    }); 
+
+    let copyLinesText = InspectorHandler.config.COPY_LINES_TEXT.replace('word', word);
+    let copyLinesButton = InspectorInterfaceHandler.genCopyLinesButton({
+      copyLinesText: copyLinesText
+    });
+
+    return InspectorInterfaceHandler.genInspector({
+      title: title, 
+      definition: definition, 
+      savePocketButton: savePocketButton, 
+      showInTranscriptButton: showInTranscriptButton, 
+      copyLinesButton: copyLinesButton,
+    });
+
+
+  }
+
+  
+
+}
+
 const defaultConfig = {
   QUERY_ENTER_TEXT: 'Enter Search Term',
   QUERY_FAIL_ALERT_TEXT: 'Please enter a Search Term',
@@ -34,7 +194,15 @@ const defaultConfig = {
   TABLE_ROW_CLASS: 'lul-light lul-medium-hover',
   TABLE_CELL_CLASS: ' lul-text lul-highlight-text-hover',
   TABLE_TEXT_CLASS: '',
-  TABLE_SCROLL_OFFSET: 50
+  TABLE_SCROLL_OFFSET: 50,
+
+  INSPECTOR_SAVE_POCKET_TEXT: 'Save "word" to pocket',
+  INSPECTOR_SHOW_IN_TRANSCRIPT_TEXT: 'Show "word" in transcript',
+  INSPECTOR_COPY_LINES_TEXT: 'Copy lines with "word"',
+  INSPECTOR_TITLE_CLASS: 'lul-title-text lul-mega-title-text-hover lul-margin',
+  INSPECTOR_DEFINITION_HEIGHT: '100px',
+  INSPECTOR_DEFINITION_WIDTH: '280px',
+
 };
 
 const VIDEOLINK = 'https://video.google.com/timedtext?v=';
@@ -67,26 +235,6 @@ class YoutubeTranscriptHandler {
     return transcript;
   }
 
-} 
-
-async function getXMLDocFromLink(link) {
-  var request = new XMLHttpRequest();
-  request.open('GET', link, true);
-  request.responseType = 'document';
-  request.overrideMimeType('text/xml');
-  return new Promise(function(resolve, reject) {
-    request.onload = function () {
-      if (request.readyState === request.DONE) {
-        if (request.status === 200) {
-          resolve(request.responseXML);
-        }
-        else {
-          reject(request.status);
-        }
-      }
-    };
-    request.send(null);
-  });
 }
 
 const YOUTUBE_API_LINK = 'https://www.youtube.com/iframe_api';
@@ -166,9 +314,7 @@ function genDummy(dummyName, className) {
 
 function constrainDummy(dummy, containerName) {
   if(dummy == undefined) return;
-  dummy.style.display = 'block';
-  dummy.style.whiteSpace = 'normal';
-  dummy.style.overflowY = 'auto';
+  dummy.className = 'lul-y-scroll';
   dummy.style.height = get(containerName + '.container').size[1] + 'px';
   dummy.style.width = get(containerName + '.container').size[0] + 'px';
 }
@@ -196,11 +342,11 @@ class ContainerLayoutHandler {
         //1080 - inf
         let coupleWidth = (availableWidth - 600) / 2;
 
-        inspectorContainer.minSize = [0, 200];
+        inspectorContainer.minSize = [0, 230];
         inspectorContainer.moveTo('down', playerContainer);
 
         transcriptContainer.minSize = [coupleWidth, 437.5];
-        pocketContainer.minSize = [0, 200];
+        pocketContainer.minSize = [0, 230];
         pocketContainer.moveTo('down', transcriptContainer);
 
         statsTableContainer.moveTo('right', playerContainer, transcriptContainer);
@@ -218,10 +364,10 @@ class ContainerLayoutHandler {
         statsTableContainer.minSize = [availableWidth - 240, 230];
         statsTableContainer.moveTo('right', filterContainer);
 
-        inspectorContainer.minSize = [availableWidth - 240, 200];
+        inspectorContainer.minSize = [availableWidth - 240, 230];
         inspectorContainer.moveTo('down', statsTableContainer, pocketContainer);
 
-        pocketContainer.minSize = [240, 200];
+        pocketContainer.minSize = [240, 230];
         pocketContainer.moveTo('right', inspectorContainer);
 
       }
@@ -238,10 +384,10 @@ class ContainerLayoutHandler {
       statsTableContainer.minSize = [availableWidth - 240, 430];
       statsTableContainer.moveTo('right', filterContainer );
 
-      pocketContainer.minSize = [240, 200];
+      pocketContainer.minSize = [240, 230];
       pocketContainer.moveTo('down', filterContainer);
 
-      inspectorContainer.minSize = [0, 200];
+      inspectorContainer.minSize = [0, 230];
       inspectorContainer.moveTo('down', statsTableContainer, pocketContainer);
     }
 
@@ -385,6 +531,7 @@ class InterfaceHandler {
     box.className += ' lul-margin';
     return box;
   }
+
 }
 
 class TranscriptSpanHandler {
@@ -836,6 +983,9 @@ class Grabber {
     }
     else
       Grabber.setVideo(arg.videoId);
+
+    
+
   }
 
   static setVideoSelection() {
@@ -898,6 +1048,7 @@ class Grabber {
     StatsTableHandler.excludeBool = false;
     StatsTableHandler.searchTerm = undefined;
     StatsTableHandler.comparator = 'byFrequency';
+    Grabber.setInspectorConfig();
     Grabber.setStatsTable();
     Grabber.setFilter();
   }
@@ -918,18 +1069,31 @@ class Grabber {
     TranscriptHandler.createTranscript(transcript, Grabber.arg.minTime,  Grabber.arg.maxTime);
   }
 
+  static setInspectorConfig() {
+    InspectorHandler.setConfig({
+      SAVE_POCKET_TEXT: Grabber.config.INSPECTOR_SAVE_POCKET_TEXT,
+      SHOW_IN_TRANSCRIPT_TEXT: Grabber.config.INSPECTOR_SHOW_IN_TRANSCRIPT_TEXT,
+      COPY_LINES_TEXT: Grabber.config.INSPECTOR_COPY_LINES_TEXT,
+      TITLE_CLASS: Grabber.config.INSPECTOR_TITLE_CLASS,
+      DEFINITION_HEIGHT: Grabber.config.INSPECTOR_DEFINITION_HEIGHT,
+      DEFINITION_WIDTH:  Grabber.config.INSPECTOR_DEFINITION_WIDTH,
+
+      SHOW_IN_TRANSCRIPT_FUNCTION: function(nameWordGroup) {
+        TranscriptHandler.scrollToGroup(nameWordGroup, Grabber.config.TABLE_SCROLL_OFFSET);
+      }
+    });
+  }
+
   static setStatsTable() {
-
-
     set('statsTableDummy', StatsTableHandler.genStatsTable({
       columnWidth: Grabber.config.TABLE_COLUMN_WIDTH,
       tableClass: Grabber.config.TABLE_CLASS,
       tableRowClass: Grabber.config.TABLE_ROW_CLASS,
       tableCellClass: Grabber.config.TABLE_CELL_CLASS,
       tableTextClass: Grabber.config.TABLE_TEXT_CLASS,
-      clickFunction:  function (nameWordGroup) {
+      clickFunction:  async function (nameWordGroup) {
         HighlightHandler.highlightNameWordGroup(nameWordGroup);
-        TranscriptHandler.scrollToGroup(nameWordGroup, Grabber.config.TABLE_SCROLL_OFFSET);
+        set('inspector', await InspectorHandler.setWordGroup(nameWordGroup));
       }
     }));
 
@@ -965,8 +1129,8 @@ class Grabber {
     }));
     
   }
-  static setSortSelection() {
 
+  static setSortSelection() {
     set('sortSelectDummy', InterfaceHandler.genSortSelection({
       text: Grabber.config.SORT_SELECT_TEXT,
       direction: Grabber.config.SORT_SELECT_ENTRY_DIRECTION,

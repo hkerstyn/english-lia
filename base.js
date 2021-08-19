@@ -94,6 +94,31 @@ function truetypeof(value) {
   console.warn('deepType: ', deepType);
 }
 
+
+
+async function getXMLDocFromLink(link, mimeType) {
+  var request = new XMLHttpRequest();
+  request.open('GET', link, true);
+  request.responseType = 'document';
+  if(mimeType == undefined)
+    request.overrideMimeType('text/xml');
+  else
+    request.overrideMimeType(mimeType);
+  return new Promise(function(resolve, reject) {
+    request.onload = function () {
+      if (request.readyState === request.DONE) {
+        if (request.status === 200) {
+          resolve(request.responseXML);
+        }
+        else {
+          reject(request.status);
+        }
+      }
+    };
+    request.send(null);
+  });
+}
+
 /**
  * @class GetStore
  * @classdesc A {@tutorial PseudoClass}. Responsible for retrieving and
@@ -351,7 +376,7 @@ function watch(watcher) {
 //these functions will now be globally available
 console.log(
   get, store, clear, set, add, make, insert,
-  gen, genText, genHtml, uid, truetypeof,
+  gen, genText, genHtml, uid, truetypeof, getXMLDocFromLink,
   getCssProperty, setCssProperty, listingStringToArray, arrayToListingString,
   watch
 );

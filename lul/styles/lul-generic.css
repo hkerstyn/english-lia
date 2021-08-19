@@ -3,6 +3,8 @@
   --default-font-size: 1.5rem;
   --increased-font-size: 1.75rem;
   --decreased-font-size: 1rem;
+  --title-font-size: 2em;
+  --mega-title-font-size: 2.5em;
 
   --color-dark: 0, 0, 0;
   --color-medium: 128, 128, 128;
@@ -41,27 +43,43 @@
   width: 100%;
 }
 
-.lul-text {
-  color: rgb(var(--text-color));
-  font-size: var(--default-font-size);
+.lul-text,
+.lul-highlight-text, .lul-highlight-text-hover:hover,
+.lul-background-text, .lul-background-text-hover:hover,
+.lul-title-text,
+.lul-mega-title-text, .lul-mega-title-text-hover:hover {
   transition-duration: .3s;
   transition-timing-function: ease;
   transition-property: color, font-size;
 }
+
+.lul-text {
+  color: rgb(var(--text-color));
+  font-size: var(--default-font-size);
+}
 .lul-highlight-text, .lul-highlight-text-hover:hover {
   color: rgb(var(--color-dark));
-  transition-duration: .3s;
-  transition-timing-function: ease;
-  transition-property: color, font-size;
   font-size: var(--increased-font-size);
 }
 .lul-background-text, .lul-background-text-hover:hover {
   color: rgb(var(--text-color));
-  transition-duration: .3s;
-  transition-timing-function: ease;
-  transition-property: color, font-size;
   font-size: var(--decreased-font-size);
 }
+.lul-title-text,
+.lul-mega-title-text, .lul-mega-title-text-hover:hover {
+  font-family: "LiaSourceSerifPro";
+}
+.lul-title-text {
+  color: rgb(var(--text-color));
+  font-size: var(--title-font-size);
+}
+.lul-mega-title-text, .lul-mega-title-text-hover:hover {
+  color: rgb(var(--color-dark));
+  font-size: var(--mega-title-font-size);
+}
+
+
+
 
 .lul-dark, .lul-medium, .lul-light {
   border: 1px solid rgb(var(--color-dark));
@@ -97,4 +115,9 @@
   font-weight: var(--font-weight-light);
 }
 
+.lul-y-scroll {
+  display: block;
+  white-space: normal;
+  overflow-y: auto
+}
 

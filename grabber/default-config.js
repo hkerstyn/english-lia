@@ -34,5 +34,13 @@ export const defaultConfig = {
   TABLE_ROW_CLASS: 'lul-light lul-medium-hover',
   TABLE_CELL_CLASS: ' lul-text lul-highlight-text-hover',
   TABLE_TEXT_CLASS: '',
-  TABLE_SCROLL_OFFSET: 50
+  TABLE_SCROLL_OFFSET: 50,
+
+  INSPECTOR_SAVE_POCKET_TEXT: 'Save "word" to pocket',
+  INSPECTOR_SHOW_IN_TRANSCRIPT_TEXT: 'Show "word" in transcript',
+  INSPECTOR_COPY_LINES_TEXT: 'Copy lines with "word"',
+  INSPECTOR_TITLE_CLASS: 'lul-title-text lul-mega-title-text-hover lul-margin',
+  INSPECTOR_DEFINITION_HEIGHT: '100px',
+  INSPECTOR_DEFINITION_WIDTH: '280px',
+
 };
