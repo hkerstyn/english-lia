@@ -1,3 +1,5 @@
+import {PocketHandler}
+  from './inspector/pocket.js';
 import {InspectorHandler}
   from './inspector/inpector.js';
 import {defaultConfig}
@@ -123,8 +125,10 @@ class Grabber {
   static setInspectorConfig() {
     InspectorHandler.setConfig({
       SAVE_POCKET_TEXT: Grabber.config.INSPECTOR_SAVE_POCKET_TEXT,
+      CLEAR_POCKET_TEXT: Grabber.config.INSPECTOR_CLEAR_POCKET_TEXT,
       SHOW_IN_TRANSCRIPT_TEXT: Grabber.config.INSPECTOR_SHOW_IN_TRANSCRIPT_TEXT,
       COPY_LINES_TEXT: Grabber.config.INSPECTOR_COPY_LINES_TEXT,
+      COPIED_LINES_TEXT: Grabber.config.INSPECTOR_COPIED_LINES_TEXT,
       TITLE_CLASS: Grabber.config.INSPECTOR_TITLE_CLASS,
       DEFINITION_HEIGHT: Grabber.config.INSPECTOR_DEFINITION_HEIGHT,
       DEFINITION_WIDTH:  Grabber.config.INSPECTOR_DEFINITION_WIDTH,
@@ -134,6 +138,21 @@ class Grabber {
         TranscriptHandler.scrollToGroup(nameWordGroup, Grabber.config.TABLE_SCROLL_OFFSET);
       }
     });
+
+    PocketHandler.setConfig({
+      POCKET_PARENT:  get('pocket'),
+      INSPECTOR_FUNCTION: async function(nameWordGroup) {
+        set('inspector', await InspectorHandler.setWordGroup(nameWordGroup));
+      },
+      POCKET_COPY_TEXT: Grabber.config.POCKET_COPY_TEXT,
+      POCKET_CLEAR_TEXT: Grabber.config.POCKET_CLEAR_TEXT,
+      POCKET_ITEM_CLASS_NAME: Grabber.config.POCKET_ITEM_CLASS_NAME,
+      POCKET_OPTIONS_CLASS_NAME: Grabber.config.POCKET_OPTIONS_CLASS_NAME,
+      POCKET_WRAPPER_BOX_CLASS_NAME: Grabber.config.POCKET_WRAPPER_BOX_CLASS_NAME,
+      POCKET_WRAPPER_BOX_HEIGHT: Grabber.config.POCKET_WRAPPER_BOX_HEIGHT, 
+      POCKET_WRAPPER_BOX_WIDTH: Grabber.config.POCKET_WRAPPER_BOX_WIDTH, 
+    });
+    PocketHandler.initialize();
   }
 
   static setStatsTable() {

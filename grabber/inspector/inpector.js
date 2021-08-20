@@ -1,3 +1,5 @@
+import {PocketHandler}
+  from './pocket.js';
 import {DefinitionHandler}
   from './definition.js';
 import {InspectorInterfaceHandler}
@@ -27,13 +29,20 @@ export class InspectorHandler {
 
 
     let savePocketText = InspectorHandler.config.SAVE_POCKET_TEXT.replace('word', word);
+    let clearPocketText = InspectorHandler.config.CLEAR_POCKET_TEXT.replace('word', word);
+
     let savePocketButton = InspectorInterfaceHandler.genSavePocketButton({
       savePocketText: savePocketText,
-      onclick: function() {
-        alert('Not implemented yet!');
-      }
+      clearPocketText: clearPocketText,
+      savePocketFuntion: function() {
+        PocketHandler.saveNameWordGroup(nameWordGroup);
+      },
+      clearPocketFunction: function() {
+        PocketHandler.clearNameWordGroup(nameWordGroup);
+      },
+      alreadySaved: (nameWordGroup.pocketItem != undefined)
     }); 
-    
+
     let showInTranscriptText = InspectorHandler.config.SHOW_IN_TRANSCRIPT_TEXT.replace('word', word);
     let showInTranscriptButton = InspectorInterfaceHandler.genShowInTranscriptButton({
       showInTranscriptText: showInTranscriptText,
@@ -43,10 +52,12 @@ export class InspectorHandler {
     }); 
 
     let copyLinesText = InspectorHandler.config.COPY_LINES_TEXT.replace('word', word);
+    let copiedLinesText = InspectorHandler.config.COPIED_LINES_TEXT.replace('word', word);
     let copyLinesButton = InspectorInterfaceHandler.genCopyLinesButton({
       copyLinesText: copyLinesText,
+      copiedLinesText: copiedLinesText,
       onclick: function() {
-       InspectorHandler.copyLines(nameWordGroup);
+        InspectorHandler.copyLines(nameWordGroup);
       }
     });
 

@@ -19,13 +19,38 @@ export class InspectorInterfaceHandler {
     return definitionFrame;
   }
 
-  static genSavePocketButton({savePocketText, onclick}) {
-    let savePocketButton = genButton({
-      text: savePocketText,
-      onclick: onclick
-    });
-    savePocketButton.className += ' lul-margin';
-    return savePocketButton;
+  static genSavePocketButton({savePocketText, savePocketFuntion,
+    clearPocketText, clearPocketFunction, alreadySaved}) {
+    let parent = genBox({visible: 'false'});
+    parent.className += ' lul-margin';
+
+    function pocketButtonSaveMode() {
+      let savePocketButton = genButton({
+        text: savePocketText,
+        onclick: function() {
+          savePocketFuntion();
+          pocketButtonClearMode();
+        }
+      });
+      set(parent, savePocketButton);
+    }
+
+    function pocketButtonClearMode() {
+      let savePocketButton = genButton({
+        text: clearPocketText,
+        onclick: function() {
+          clearPocketFunction();
+          pocketButtonSaveMode();
+        }
+      });
+      set(parent, savePocketButton);
+    }
+    if(alreadySaved) 
+      pocketButtonClearMode();
+    else
+      pocketButtonSaveMode();
+    
+    return parent;
   }
 
   static genShowInTranscriptButton({showInTranscriptText, onclick}) {
@@ -37,11 +62,15 @@ export class InspectorInterfaceHandler {
     return showInTranscriptButton;
   }
 
-  static genCopyLinesButton({copyLinesText, onclick}) {
+  static genCopyLinesButton({copyLinesText, copiedLinesText, onclick}) {
     let copyLinesButton = genButton({
       text: copyLinesText,
       onclick: onclick
     });
+    copyLinesButton.addEventListener('click', function() {
+      set(copyLinesButton, genText(copiedLinesText));
+    });
+
     copyLinesButton.className += ' lul-margin';
     return copyLinesButton;
   }

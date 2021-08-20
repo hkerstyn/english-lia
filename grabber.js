@@ -1,3 +1,110 @@
+class PocketHandler {
+
+  static setConfig(config) {
+    PocketHandler.config = config;
+  }
+
+  static initialize() {
+    PocketHandler.itemNameWordGroups = new Set();
+    let pocketWrapperBox = genBox({
+      direction: 'column',
+      visible: 'false'
+    });
+    pocketWrapperBox.className += PocketHandler.config.POCKET_WRAPPER_BOX_CLASS_NAME;
+    pocketWrapperBox.style.height = PocketHandler.config.POCKET_WRAPPER_BOX_HEIGHT;
+    pocketWrapperBox.style.width = PocketHandler.config.POCKET_WRAPPER_BOX_WIDTH;
+
+
+    let pocketBox = genBox({
+      direction: 'column',
+      visible: 'false'
+    });
+
+    let pocketOptionBox = genBox({
+      direction: 'column',
+      visible: 'false'
+    });
+
+    let pocketOptions = PocketHandler.genPocketOptions({
+      pocketCopyText: PocketHandler.config.POCKET_COPY_TEXT,
+      pocketCopyFunction: PocketHandler.copyItemsInPocket,
+      pocketClearText: PocketHandler.config.POCKET_CLEAR_TEXT,
+      pocketClearFunction: PocketHandler.clearAllNameWordGroups
+    });
+
+
+    set(pocketWrapperBox, pocketBox, pocketOptionBox);
+    set(PocketHandler.config.POCKET_PARENT, pocketWrapperBox);
+
+
+    PocketHandler.pocketBox = pocketBox;
+    PocketHandler.pocketOptions = pocketOptions;
+    PocketHandler.pocketOptionBox = pocketOptionBox;
+  }
+
+  static genPocketOptions({pocketCopyText, pocketCopyFunction, pocketClearText, pocketClearFunction}) {
+    let pocketCopyButton = genButton({
+      text: PocketHandler.config.POCKET_COPY_TEXT,
+      onclick: pocketCopyFunction
+    });
+    pocketCopyButton.className = PocketHandler.config.POCKET_OPTIONS_CLASS_NAME;
+
+    let pocketClearButton = genButton({
+      text: PocketHandler.config.POCKET_CLEAR_TEXT,
+      onclick: pocketClearFunction
+    });
+    pocketClearButton.className = PocketHandler.config.POCKET_OPTIONS_CLASS_NAME;
+    pocketClearButton.style.marginTop = '10px';   
+
+    return [pocketCopyButton, pocketClearButton];
+  }
+  
+  static copyItemsInPocket() {
+    let copyStr = '';
+    for(let nameWordGroup of PocketHandler.itemNameWordGroups) {
+      copyStr += nameWordGroup.name + ', ';
+    }
+    copyStr = copyStr.slice(0, -2);
+
+    navigator.clipboard.writeText(copyStr);
+  }
+
+  static saveNameWordGroup(nameWordGroup) {
+    if(PocketHandler.itemNameWordGroups.has(nameWordGroup)) 
+      return;
+    let pocketItem = genButton({
+      text: nameWordGroup.name,
+      onclick: function() {
+        PocketHandler.config.INSPECTOR_FUNCTION(nameWordGroup);
+      }
+    });
+    pocketItem.className = PocketHandler.config.POCKET_ITEM_CLASS_NAME;
+    nameWordGroup.pocketItem = pocketItem;
+
+    PocketHandler.itemNameWordGroups.add(nameWordGroup);
+    
+    add(PocketHandler.pocketBox, pocketItem); 
+    make(PocketHandler.pocketOptionBox, ...PocketHandler.pocketOptions);
+  }
+
+  static clearNameWordGroup(nameWordGroup) {
+    if(nameWordGroup.pocketItem == undefined)
+      return;
+    nameWordGroup.pocketItem.remove();
+    nameWordGroup.pocketItem = undefined;
+    PocketHandler.itemNameWordGroups.delete(nameWordGroup);
+
+    if(PocketHandler.itemNameWordGroups.size == 0)
+      clear(PocketHandler.pocketOptionBox);
+  }
+
+  static clearAllNameWordGroups() {
+    for(let nameWordGroup of PocketHandler.itemNameWordGroups) {
+      PocketHandler.clearNameWordGroup(nameWordGroup);
+    }
+  }
+}
+
 const DEFINITION_LINK = 'https://www.merriam-webster.com/dictionary/';
 class DefinitionHandler {
   
@@ -59,13 +166,38 @@ class InspectorInterfaceHandler {
     return definitionFrame;
   }
 
-  static genSavePocketButton({savePocketText, onclick}) {
-    let savePocketButton = genButton({
-      text: savePocketText,
-      onclick: onclick
-    });
-    savePocketButton.className += ' lul-margin';
-    return savePocketButton;
+  static genSavePocketButton({savePocketText, savePocketFuntion,
+    clearPocketText, clearPocketFunction, alreadySaved}) {
+    let parent = genBox({visible: 'false'});
+    parent.className += ' lul-margin';
+
+    function pocketButtonSaveMode() {
+      let savePocketButton = genButton({
+        text: savePocketText,
+        onclick: function() {
+          savePocketFuntion();
+          pocketButtonClearMode();
+        }
+      });
+      set(parent, savePocketButton);
+    }
+
+    function pocketButtonClearMode() {
+      let savePocketButton = genButton({
+        text: clearPocketText,
+        onclick: function() {
+          clearPocketFunction();
+          pocketButtonSaveMode();
+        }
+      });
+      set(parent, savePocketButton);
+    }
+    if(alreadySaved) 
+      pocketButtonClearMode();
+    else
+      pocketButtonSaveMode();
+    
+    return parent;
   }
 
   static genShowInTranscriptButton({showInTranscriptText, onclick}) {
@@ -77,11 +209,15 @@ class InspectorInterfaceHandler {
     return showInTranscriptButton;
   }
 
-  static genCopyLinesButton({copyLinesText, onclick}) {
+  static genCopyLinesButton({copyLinesText, copiedLinesText, onclick}) {
     let copyLinesButton = genButton({
       text: copyLinesText,
       onclick: onclick
     });
+    copyLinesButton.addEventListener('click', function() {
+      set(copyLinesButton, genText(copiedLinesText));
+    });
+
     copyLinesButton.className += ' lul-margin';
     return copyLinesButton;
   }
@@ -126,13 +262,20 @@ class InspectorHandler {
 
 
     let savePocketText = InspectorHandler.config.SAVE_POCKET_TEXT.replace('word', word);
+    let clearPocketText = InspectorHandler.config.CLEAR_POCKET_TEXT.replace('word', word);
+
     let savePocketButton = InspectorInterfaceHandler.genSavePocketButton({
       savePocketText: savePocketText,
-      onclick: function() {
-        alert('Not implemented yet!');
-      }
+      clearPocketText: clearPocketText,
+      savePocketFuntion: function() {
+        PocketHandler.saveNameWordGroup(nameWordGroup);
+      },
+      clearPocketFunction: function() {
+        PocketHandler.clearNameWordGroup(nameWordGroup);
+      },
+      alreadySaved: (nameWordGroup.pocketItem != undefined)
     }); 
-    
+
     let showInTranscriptText = InspectorHandler.config.SHOW_IN_TRANSCRIPT_TEXT.replace('word', word);
     let showInTranscriptButton = InspectorInterfaceHandler.genShowInTranscriptButton({
       showInTranscriptText: showInTranscriptText,
@@ -142,10 +285,12 @@ class InspectorHandler {
     }); 
 
     let copyLinesText = InspectorHandler.config.COPY_LINES_TEXT.replace('word', word);
+    let copiedLinesText = InspectorHandler.config.COPIED_LINES_TEXT.replace('word', word);
     let copyLinesButton = InspectorInterfaceHandler.genCopyLinesButton({
       copyLinesText: copyLinesText,
+      copiedLinesText: copiedLinesText,
       onclick: function() {
-       InspectorHandler.copyLines(nameWordGroup);
+        InspectorHandler.copyLines(nameWordGroup);
       }
     });
 
@@ -215,12 +360,21 @@ const defaultConfig = {
   TABLE_SCROLL_OFFSET: 50,
 
   INSPECTOR_SAVE_POCKET_TEXT: 'Save "word" to pocket',
+  INSPECTOR_CLEAR_POCKET_TEXT: 'Clear "word" from pocket',
   INSPECTOR_SHOW_IN_TRANSCRIPT_TEXT: 'Show "word" in transcript',
   INSPECTOR_COPY_LINES_TEXT: 'Copy lines with "word"',
+  INSPECTOR_COPIED_LINES_TEXT: 'Copied lines with "word"',
   INSPECTOR_TITLE_CLASS: 'lul-title-text lul-mega-title-text-hover lul-margin',
   INSPECTOR_DEFINITION_HEIGHT: '100px',
   INSPECTOR_DEFINITION_WIDTH: '280px',
 
+  POCKET_COPY_TEXT: 'Copy items in pocket',
+  POCKET_CLEAR_TEXT: 'Clear all items from pocket',
+  POCKET_ITEM_CLASS_NAME: 'lul-light lul-dark-hover lul-margin',
+  POCKET_OPTIONS_CLASS_NAME: 'lul-dark lul-medium-hover',
+  POCKET_WRAPPER_BOX_CLASS_NAME: ' lul-y-scroll lul-margin',
+  POCKET_WRAPPER_BOX_HEIGHT: '180px',
+  POCKET_WRAPPER_BOX_WIDTH: '260px'
 };
 
 const VIDEOLINK = 'https://video.google.com/timedtext?v=';
@@ -1089,8 +1243,10 @@ class Grabber {
   static setInspectorConfig() {
     InspectorHandler.setConfig({
       SAVE_POCKET_TEXT: Grabber.config.INSPECTOR_SAVE_POCKET_TEXT,
+      CLEAR_POCKET_TEXT: Grabber.config.INSPECTOR_CLEAR_POCKET_TEXT,
       SHOW_IN_TRANSCRIPT_TEXT: Grabber.config.INSPECTOR_SHOW_IN_TRANSCRIPT_TEXT,
       COPY_LINES_TEXT: Grabber.config.INSPECTOR_COPY_LINES_TEXT,
+      COPIED_LINES_TEXT: Grabber.config.INSPECTOR_COPIED_LINES_TEXT,
       TITLE_CLASS: Grabber.config.INSPECTOR_TITLE_CLASS,
       DEFINITION_HEIGHT: Grabber.config.INSPECTOR_DEFINITION_HEIGHT,
       DEFINITION_WIDTH:  Grabber.config.INSPECTOR_DEFINITION_WIDTH,
@@ -1100,6 +1256,21 @@ class Grabber {
         TranscriptHandler.scrollToGroup(nameWordGroup, Grabber.config.TABLE_SCROLL_OFFSET);
       }
     });
+
+    PocketHandler.setConfig({
+      POCKET_PARENT:  get('pocket'),
+      INSPECTOR_FUNCTION: async function(nameWordGroup) {
+        set('inspector', await InspectorHandler.setWordGroup(nameWordGroup));
+      },
+      POCKET_COPY_TEXT: Grabber.config.POCKET_COPY_TEXT,
+      POCKET_CLEAR_TEXT: Grabber.config.POCKET_CLEAR_TEXT,
+      POCKET_ITEM_CLASS_NAME: Grabber.config.POCKET_ITEM_CLASS_NAME,
+      POCKET_OPTIONS_CLASS_NAME: Grabber.config.POCKET_OPTIONS_CLASS_NAME,
+      POCKET_WRAPPER_BOX_CLASS_NAME: Grabber.config.POCKET_WRAPPER_BOX_CLASS_NAME,
+      POCKET_WRAPPER_BOX_HEIGHT: Grabber.config.POCKET_WRAPPER_BOX_HEIGHT, 
+      POCKET_WRAPPER_BOX_WIDTH: Grabber.config.POCKET_WRAPPER_BOX_WIDTH, 
+    });
+    PocketHandler.initialize();
   }
 
   static setStatsTable() {

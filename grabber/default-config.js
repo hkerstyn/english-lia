@@ -37,10 +37,19 @@ export const defaultConfig = {
   TABLE_SCROLL_OFFSET: 50,
 
   INSPECTOR_SAVE_POCKET_TEXT: 'Save "word" to pocket',
+  INSPECTOR_CLEAR_POCKET_TEXT: 'Clear "word" from pocket',
   INSPECTOR_SHOW_IN_TRANSCRIPT_TEXT: 'Show "word" in transcript',
   INSPECTOR_COPY_LINES_TEXT: 'Copy lines with "word"',
+  INSPECTOR_COPIED_LINES_TEXT: 'Copied lines with "word"',
   INSPECTOR_TITLE_CLASS: 'lul-title-text lul-mega-title-text-hover lul-margin',
   INSPECTOR_DEFINITION_HEIGHT: '100px',
   INSPECTOR_DEFINITION_WIDTH: '280px',
 
+  POCKET_COPY_TEXT: 'Copy items in pocket',
+  POCKET_CLEAR_TEXT: 'Clear all items from pocket',
+  POCKET_ITEM_CLASS_NAME: 'lul-light lul-dark-hover lul-margin',
+  POCKET_OPTIONS_CLASS_NAME: 'lul-dark lul-medium-hover',
+  POCKET_WRAPPER_BOX_CLASS_NAME: ' lul-y-scroll lul-margin',
+  POCKET_WRAPPER_BOX_HEIGHT: '180px',
+  POCKET_WRAPPER_BOX_WIDTH: '260px'
 };
