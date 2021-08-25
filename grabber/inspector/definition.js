@@ -25,7 +25,14 @@ export class DefinitionHandler {
 
 
   static async getDefinitionArray(word) {
-    let definitionDocument = await getXMLDocFromLink(DEFINITION_LINK + word, 'text/html');
+    let definitionDocument;
+    try {
+     definitionDocument = await getXMLDocFromLink(DEFINITION_LINK + word, 'text/html');
+    }
+    catch {
+      return [];
+    }
+
     let rawDefinitionSpans = definitionDocument.getElementsByClassName('dtText');
 
     let definitionTextArray = [];
